@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NamedThreadFactory implements ThreadFactory {
 
   private static final AtomicInteger poolNumber = new AtomicInteger(1);
-  private final ThreadGroup group;
   private final AtomicInteger threadNumber = new AtomicInteger(1);
   private final String threadName;
   private final boolean daemon;
@@ -16,15 +15,13 @@ public class NamedThreadFactory implements ThreadFactory {
   }
 
   public NamedThreadFactory(String threadName, boolean daemon) {
-    SecurityManager s = System.getSecurityManager();
-    this.group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
     this.threadName = threadName + "-pl-" + poolNumber.getAndIncrement() + "-th-";
     this.daemon = daemon;
   }
 
   @Override
   public Thread newThread(Runnable r) {
-    Thread t = new Thread(group, r, threadName + threadNumber.getAndIncrement());
+    Thread t = new Thread(r, threadName + threadNumber.getAndIncrement());
     if (daemon) {
       t.setDaemon(true);
     } else {

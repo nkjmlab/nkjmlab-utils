@@ -1,21 +1,15 @@
 package org.nkjmlab.util.concurrent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
-public class ConcurrentUtils {
+public class ExecutorServiceUtils {
   private static org.apache.logging.log4j.Logger log =
       org.apache.logging.log4j.LogManager.getLogger();
-
-  public static List<String> getActiveThreadNames() {
-    Thread[] threads = new Thread[Thread.activeCount()];
-    Thread.enumerate(threads);
-    return Arrays.stream(threads).map((t) -> t.getName()).collect(Collectors.toList());
-  }
 
   public static boolean shutdownAndAwaitTermination(ExecutorService executorService, long timeout,
       TimeUnit unit) {
@@ -54,6 +48,17 @@ public class ConcurrentUtils {
     } else {
       return executorService.shutdownNow();
     }
+  }
+
+  public static ScheduledFuture<?> scheduleWithFixedDelay(ScheduledExecutorService srv,
+      Runnable command, long initialDelay, long delay, TimeUnit unit) {
+    return srv.scheduleWithFixedDelay(() -> {
+      try {
+        command.run();
+      } catch (Throwable e) {
+        log.error(e, e);
+      }
+    }, initialDelay, delay, unit);
   }
 
 }

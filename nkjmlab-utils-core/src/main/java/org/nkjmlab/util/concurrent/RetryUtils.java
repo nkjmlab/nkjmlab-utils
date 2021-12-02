@@ -4,7 +4,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
-import org.nkjmlab.util.lang.ThreadUtils;
 
 public class RetryUtils {
   private static org.apache.logging.log4j.Logger log =

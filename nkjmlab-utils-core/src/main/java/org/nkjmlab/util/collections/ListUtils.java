@@ -21,16 +21,6 @@ public class ListUtils {
     return result;
   }
 
-  public static void main(String[] args) {
-    List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-    System.out.println(partition(list, 1));
-    System.out.println(partition(list, 2));
-    System.out.println(partition(list, 3));
-    System.out.println(partition(list, 4));
-    System.out.println(partition(list, 5));
-    System.out.println(partition(list, 20));
-  }
-
   public static int getPartisionSize(int sizeOfList, int numOfPartision) {
     if (sizeOfList % numOfPartision == 0) {
       return sizeOfList / numOfPartision;

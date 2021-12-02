@@ -317,6 +317,7 @@ public class FileUtils {
 
   public static void forEachFileInDirInParallel(File dir, Consumer<File> consumer) {
     try {
+
       ForkJoinPoolUtils.submitWith(() -> Arrays.stream(dir.listFiles()).parallel().forEach(file -> {
         consumer.accept(file);
       })).get();

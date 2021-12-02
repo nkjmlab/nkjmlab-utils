@@ -26,19 +26,6 @@ public class StringUtils {
     return String.join(delimiter, sElements);
   }
 
-
-  public static void main(String[] args) {
-    System.out.println(getStringList("A", "Z"));
-    System.out.println(getStringList("A", "z"));
-    System.out.println(getStringList("A", 2));
-    System.out.println(getStringList("A", 26));
-    System.out.println(getStringList("a", "z"));
-    System.out.println(getStringList("あ", "ん"));
-    System.out.println(getStringList("ア", "ン"));
-
-  }
-
-
   /**
    * https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
    *
