@@ -2,6 +2,7 @@ package org.nkjmlab.util.java.logging;
 
 import java.util.Arrays;
 import org.apache.logging.log4j.Level;
+import org.nkjmlab.util.java.lang.StringUtils;
 
 public class Log4jLogger implements Logger {
 
@@ -28,13 +29,13 @@ public class Log4jLogger implements Logger {
   @Override
   public void debug(String format, Object... params) {
     this.logger.printf(Level.DEBUG,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + format, params);
+        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + StringUtils.format(format, params));
   }
 
   @Override
   public void error(String format, Object... params) {
     this.logger.printf(Level.ERROR,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + format, params);
+        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + StringUtils.format(format, params));
   }
 
   @Override
@@ -45,18 +46,19 @@ public class Log4jLogger implements Logger {
   @Override
   public void info(String format, Object... params) {
     this.logger.printf(Level.INFO,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + format, params);
+        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + StringUtils.format(format, params));
   }
 
   @Override
   public void trace(String format, Object... params) {
-    this.logger.trace(format, params);
+    this.logger.trace(StringUtils.format(format, params));
   }
 
   @Override
   public void warn(String format, Object... params) {
     this.logger.printf(Level.WARN,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + format, params);
+        "%n  " + getCaller(new Throwable().getStackTrace()) + " "
+            + StringUtils.format(format, params));
   }
 
   @Override

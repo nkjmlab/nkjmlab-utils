@@ -123,10 +123,10 @@ public class H2Server {
       String... options) {
 
     if (isActive(tcpPort)) {
-      log.info("H2 TCP server has been already activated at http://localhost:{}.", tcpPort);
+      log.info("H2 TCP server has been already activated at http://localhost:{}", tcpPort);
     }
     if (isActive(webPort)) {
-      log.info("H2 Web console server has been already activated at http://localhost:{}.", webPort);
+      log.info("H2 Web console server has been already activated at http://localhost:{}", webPort);
     }
 
     if (isActive(tcpPort) && isActive(webPort)) {
