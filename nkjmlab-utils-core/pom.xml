@@ -2,9 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.nkjmlab</groupId>
   <artifactId>nkjmlab-utils-core</artifactId>
-  <name>nkjmlab-utils-core</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <url>https://github.com/nkjmlab</url>
   <licenses>
     <license>

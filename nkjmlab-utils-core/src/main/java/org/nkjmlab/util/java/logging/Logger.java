@@ -20,7 +20,10 @@ public interface Logger {
 
   void error(String format, Object... params);
 
+  void warn(Throwable message, Throwable throwable);
+
   void error(Throwable message, Throwable throwable);
+
 
 
   public static void systemErrorPrintln(int depth, String label, String msg, Object... params) {

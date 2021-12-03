@@ -117,12 +117,22 @@ public class H2DataSourceFactory {
     databaseDirectory.mkdirs();
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static Builder builder(File dbDir, String dbName, String username, String password) {
+    return new Builder(dbDir, dbName, username, password);
+  }
+
 
   public static class Builder {
     private File databaseDirectory = new File(System.getProperty("java.io.tmpdir"));
     private String databaseName = "annondb";
     private String username = "";
     private String password = "";
+
+    public Builder() {}
 
 
     /**
@@ -193,5 +203,7 @@ public class H2DataSourceFactory {
         .toArray(String[]::new);
 
   }
+
+
 
 }
