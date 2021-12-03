@@ -3,7 +3,6 @@ package org.nkjmlab.util.java.math;
 import static org.assertj.core.api.Assertions.*;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.nkjmlab.util.java.math.Roulette;
 
 class RouletteTest {
 

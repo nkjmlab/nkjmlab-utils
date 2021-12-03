@@ -5,8 +5,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class ListUtilsTest {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
 
   @Test
   void test() {

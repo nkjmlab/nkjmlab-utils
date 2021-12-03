@@ -42,7 +42,9 @@ public class JacksonMapper implements JsonMapper {
       return null;
     }
     if (ClassUtils.isAssignable(fromValue.getClass(), toValueType)) {
-      return (T) fromValue;
+      @SuppressWarnings("unchecked")
+      T fromValue2 = (T) fromValue;
+      return fromValue2;
     }
     return mapper.convertValue(fromValue, toValueType);
   }
@@ -193,7 +195,8 @@ public class JacksonMapper implements JsonMapper {
     if (hint instanceof JavaType) {
       return toObject(json, (JavaType) hint);
     } else if (hint instanceof TypeReference) {
-      return toObject(json, (TypeReference) hint);
+      TypeReference<?> hint2 = (TypeReference<?>) hint;
+      return toObject(json, hint2);
     } else if (hint instanceof Class<?>) {
       return toObject(json, (Class<?>) hint);
     } else {

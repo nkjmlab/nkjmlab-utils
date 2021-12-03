@@ -3,13 +3,10 @@ package org.nkjmlab.util.java.math;
 import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.nkjmlab.util.java.math.CartesianProduct;
 import org.nkjmlab.util.java.math.CartesianProduct.CartesianProduct2;
 import org.nkjmlab.util.java.math.CartesianProduct.CartesianProduct3;
 
 class CartesianProductTest {
-  private static org.apache.logging.log4j.Logger log =
-      org.apache.logging.log4j.LogManager.getLogger();
 
   @Test
   void testOfProduct20() {
