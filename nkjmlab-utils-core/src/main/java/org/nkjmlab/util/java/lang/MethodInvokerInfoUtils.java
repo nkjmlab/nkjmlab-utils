@@ -40,7 +40,7 @@ public class MethodInvokerInfoUtils {
   /**
    * @param depth
    * @param prefix DEBUG, INFO, ERROR ....
-   * @param stackTraceElements TODO
+   * @param stackTraceElements
    * @return
    */
   public static String getInvokerSummary(int depth, String prefix,
