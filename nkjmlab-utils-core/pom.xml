@@ -2,6 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.nkjmlab</groupId>
   <artifactId>nkjmlab-utils-core</artifactId>
+  <name>${project.artifactId}</name>
   <description>Utilities for nkjmlab software</description>
   <version>0.1.1</version>
   <url>https://github.com/nkjmlab</url>
@@ -128,7 +129,7 @@
           <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.15</version>
+            <version>[1.4.18,)</version>
           </dependency>
         </dependencies>
       </plugin>
