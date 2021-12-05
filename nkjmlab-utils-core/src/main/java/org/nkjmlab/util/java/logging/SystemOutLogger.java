@@ -6,26 +6,19 @@ import org.nkjmlab.util.java.lang.ExceptionUtils;
 
 public class SystemOutLogger implements Logger {
 
-  public SystemOutLogger() {}
-
-  @Override
-  public void trace(String format, Object... params) {
-    systemOutPrintln(TRACE, format, params);
+  private static void systemErrorPrintln(Category category, String format, Object... params) {
+    Logger.systemErrorPrintln(4, category.name(), format, params);
   }
+
+  private static void systemOutPrintln(Category category, String format, Object... params) {
+    Logger.systemOutPrintln(4, category.name(), format, params);
+  }
+
+  public SystemOutLogger() {}
 
   @Override
   public void debug(String format, Object... params) {
     systemOutPrintln(DEBUG, format, params);
-  }
-
-  @Override
-  public void info(String format, Object... params) {
-    systemOutPrintln(INFO, format, params);
-  }
-
-  @Override
-  public void warn(String format, Object... params) {
-    systemErrorPrintln(WARN, format, params);
   }
 
   @Override
@@ -39,12 +32,25 @@ public class SystemOutLogger implements Logger {
         message + File.separator + ExceptionUtils.getMessageWithStackTrace(throwable));
   }
 
-  private static void systemErrorPrintln(Category category, String format, Object... params) {
-    Logger.systemErrorPrintln(4, category.name(), format, params);
+  @Override
+  public void info(String format, Object... params) {
+    systemOutPrintln(INFO, format, params);
   }
 
-  private static void systemOutPrintln(Category category, String format, Object... params) {
-    Logger.systemOutPrintln(4, category.name(), format, params);
+  @Override
+  public void trace(String format, Object... params) {
+    systemOutPrintln(TRACE, format, params);
+  }
+
+  @Override
+  public void warn(String format, Object... params) {
+    systemErrorPrintln(WARN, format, params);
+  }
+
+  @Override
+  public void warn(Throwable message, Throwable throwable) {
+    systemErrorPrintln(WARN,
+        message + File.separator + ExceptionUtils.getMessageWithStackTrace(throwable));
   }
 
 }

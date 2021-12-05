@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.h2.jdbcx.JdbcConnectionPool;
+import org.nkjmlab.util.java.json.FileDatabaseConfigJson;
 
 /**
  * <a href="http://www.h2database.com/html/cheatSheet.html">H2 Database Engine</a>
@@ -117,12 +118,28 @@ public class H2DataSourceFactory {
     databaseDirectory.mkdirs();
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static Builder builder(FileDatabaseConfigJson conf) {
+    return builder(conf.databaseDirectory, conf.databaseName, conf.username, conf.password);
+  }
+
+  public static Builder builder(File databaseDirectory, String databaseName, String username,
+      String password) {
+    return new Builder(databaseDirectory, databaseName, username, password);
+  }
+
+
 
   public static class Builder {
     private File databaseDirectory = new File(System.getProperty("java.io.tmpdir"));
     private String databaseName = "annondb";
     private String username = "";
     private String password = "";
+
+    public Builder() {}
 
 
     /**
@@ -134,7 +151,7 @@ public class H2DataSourceFactory {
      * @param username
      * @param password
      */
-    public Builder(File dbDir, String dbName, String username, String password) {
+    private Builder(File dbDir, String dbName, String username, String password) {
       this.databaseName = dbName;
       this.username = username;
       this.password = password;
@@ -172,6 +189,7 @@ public class H2DataSourceFactory {
     public H2DataSourceFactory build() {
       return new H2DataSourceFactory(databaseDirectory, databaseName, username, password);
     }
+
   }
 
   public static class Options {
@@ -193,5 +211,7 @@ public class H2DataSourceFactory {
         .toArray(String[]::new);
 
   }
+
+
 
 }
