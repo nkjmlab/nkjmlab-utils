@@ -22,12 +22,13 @@ public class OrangeSignalCsvUtils {
 
   public static CsvConfig createDefaultCsvConfig() {
     CsvConfig cfg = new CsvConfig(',', '"', '"');
-    cfg.setQuoteDisabled(false);// デフォルトでは無効となっている囲み文字を有効にします。
-    cfg.setEscapeDisabled(false); // デフォルトでは無効となっている(囲み文字中に囲み文字を使う場合の)エスケープ文字を有効にします。
-    cfg.setBreakString("\n"); // 項目値中の改行を \n で置換えます。
-    cfg.setIgnoreEmptyLines(true);// 空行を無視するようにします。
-    cfg.setIgnoreLeadingWhitespaces(true);// 項目値前のホワイトスペースを除去します。
-    cfg.setIgnoreTrailingWhitespaces(true);// 項目値後のホワイトスペースを除去します。
+    cfg.setQuoteDisabled(false);// Enables quote characters, which are disabled by default.
+    cfg.setEscapeDisabled(false); // Enables the escape character (to quote within quoted text),
+                                  // which is disabled by default
+    cfg.setBreakString("\n"); // Replaces the line feed in the item value with \n.
+    cfg.setIgnoreEmptyLines(true);// Ignore blank lines.
+    cfg.setIgnoreLeadingWhitespaces(true);// Removes whitespace before the item value.
+    cfg.setIgnoreTrailingWhitespaces(true);// Removes whitespace after the item value.
     return cfg;
   }
 
