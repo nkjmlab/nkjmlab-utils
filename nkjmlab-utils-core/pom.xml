@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-core</artifactId>
   <name>${project.artifactId}</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <url>https://github.com/nkjmlab</url>
   <licenses>
     <license>
@@ -62,6 +62,13 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>[3.12.0,)</version>
+      <optional>true</optional>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>[1.9.0,)</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -129,7 +136,7 @@
           <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>[1.4.18,)</version>
+            <version>1.4.15</version>
           </dependency>
         </dependencies>
       </plugin>

@@ -1,4 +1,4 @@
-package org.nkjmlab.util.json.jsonrpc;
+package org.nkjmlab.util.java.json.jsonrpc;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,27 +14,11 @@ import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
 import org.nkjmlab.util.java.io.IoStreamUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
-import org.nkjmlab.util.java.json.jsonrpc.JsonRpcResponse;
-import org.nkjmlab.util.java.json.jsonrpc.JsonRpcUtils;
-import org.nkjmlab.util.json.JacksonMapper;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonRpcClientFactory {
 
-  private static JsonMapper DEFAULT_MAPPER = createDefaultMapper();
 
-  private static JsonMapper createDefaultMapper() {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    return JacksonMapper.create(objectMapper);
-  }
-
-  public static <T> T create(Class<T> interfaceClass, URL url) {
-    return create(interfaceClass, url, DEFAULT_MAPPER);
-  }
-
-  public static <T> T create(Class<T> interfaceClass, URL url, JsonMapper mapper) {
+  public static <T> T create(JsonMapper mapper, Class<T> interfaceClass, URL url) {
     return create(interfaceClass, new JsonRpcInvocationHandler(url, mapper));
   }
 

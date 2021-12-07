@@ -1,4 +1,4 @@
-package org.nkjmlab.util.json;
+package org.nkjmlab.util.jackson;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,17 +13,32 @@ import org.apache.commons.lang3.ClassUtils;
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.json.JsonMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JacksonMapper implements JsonMapper {
-  private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
-  private static final JacksonMapper DEFAULT_MAPPER = new JacksonMapper(DEFAULT_OBJECT_MAPPER);
+
+  private static final JacksonMapper DEFAULT_MAPPER = new JacksonMapper(new ObjectMapper());
+  private static final JacksonMapper IGNORE_UNKNOWN_PROPERTIES_MAPPER =
+      createIgnoreUnknownPropertiesMapper();
+
 
   public static JacksonMapper create(ObjectMapper mapper) {
     return new JacksonMapper(mapper);
   }
+
+  private static JacksonMapper createIgnoreUnknownPropertiesMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    return JacksonMapper.create(objectMapper);
+  }
+
+  public static JsonMapper getIgnoreUnknownPropertiesMapper() {
+    return IGNORE_UNKNOWN_PROPERTIES_MAPPER;
+  }
+
 
   public static JacksonMapper getDefaultMapper() {
     return DEFAULT_MAPPER;
@@ -73,7 +88,7 @@ public class JacksonMapper implements JsonMapper {
 
   @Override
   public String toJson(Object obj, boolean prettyPrint) {
-    return Try.getOrThrow(() -> {
+    return Try.getOrElseThrow(() -> {
       if (prettyPrint) {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
       } else {
@@ -84,7 +99,7 @@ public class JacksonMapper implements JsonMapper {
 
   @Override
   public void toJsonAndWrite(Object obj, File out, boolean prettyPrint) {
-    Try.runOrThrow(() -> {
+    Try.runOrElseThrow(() -> {
       if (prettyPrint) {
         mapper.writerWithDefaultPrettyPrinter().writeValue(out, obj);
       } else {
@@ -95,7 +110,7 @@ public class JacksonMapper implements JsonMapper {
 
   @Override
   public void toJsonAndWrite(Object obj, OutputStream out, boolean prettyPrint) {
-    Try.runOrThrow(() -> {
+    Try.runOrElseThrow(() -> {
       if (prettyPrint) {
         mapper.writerWithDefaultPrettyPrinter().writeValue(out, obj);
       } else {
@@ -106,7 +121,7 @@ public class JacksonMapper implements JsonMapper {
 
   @Override
   public void toJsonAndWrite(Object obj, Writer out, boolean prettyPrint) {
-    Try.runOrThrow(() -> {
+    Try.runOrElseThrow(() -> {
       if (prettyPrint) {
         mapper.writerWithDefaultPrettyPrinter().writeValue(out, obj);
       } else {
@@ -159,34 +174,34 @@ public class JacksonMapper implements JsonMapper {
 
   @Override
   public <T> T toObject(File in, Class<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
 
   public <T> T toObject(File in, TypeReference<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
 
   @Override
   public <T> T toObject(InputStream in, Class<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
 
   public <T> T toObject(InputStream in, TypeReference<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
 
   @Override
   public <T> T toObject(Reader in, Class<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
 
   public <T> T toObject(Reader in, TypeReference<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
 
   @Override
   public <T> T toObject(String json, Class<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
   }
 
 
@@ -218,7 +233,7 @@ public class JacksonMapper implements JsonMapper {
   }
 
   public <T> T toObject(String json, TypeReference<T> clazz) {
-    return Try.getOrThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
+    return Try.getOrElseThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
   }
 
 
