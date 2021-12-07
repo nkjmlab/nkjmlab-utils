@@ -3,6 +3,7 @@ package org.nkjmlab.util.java.math;
 import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.nkjmlab.util.java.logging.LogManager;
 import org.nkjmlab.util.java.math.CartesianProduct.CartesianProduct2;
 import org.nkjmlab.util.java.math.CartesianProduct.CartesianProduct3;
 
@@ -13,6 +14,7 @@ class CartesianProductTest {
     CartesianProduct2<String, Integer> ret =
         CartesianProduct.of(List.of("a", "b", "c"), List.of(1, 2));
     assertThat(ret.toString()).isEqualTo("[(a . 1), (a . 2), (b . 1), (b . 2), (c . 1), (c . 2)]");
+    LogManager.getLogger().debug("{}", ret);
   }
 
   @Test

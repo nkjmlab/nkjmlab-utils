@@ -1,4 +1,4 @@
-package org.nkjmlab.util.json.jsonrpc;
+package org.nkjmlab.util.javax.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;

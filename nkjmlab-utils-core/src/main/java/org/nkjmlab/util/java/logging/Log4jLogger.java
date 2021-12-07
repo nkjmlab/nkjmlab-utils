@@ -1,20 +1,18 @@
 package org.nkjmlab.util.java.logging;
 
-import java.util.Arrays;
 import org.apache.logging.log4j.Level;
+import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
 import org.nkjmlab.util.java.lang.StringUtils;
 
 public class Log4jLogger implements Logger {
 
-  private static String getCaller(StackTraceElement[] stackTraceElements) {
-    String caller = Arrays.stream(stackTraceElements)
-        .filter(s -> !s.getClassName().startsWith("org.nkjmlab.util.java.logging")
-            && !s.getClassName().startsWith("java."))
-        .findFirst().map(se -> se.getClassName() + "." + se.getMethodName() + "(" + se.getFileName()
-            + ":" + se.getLineNumber() + ")")
-        .orElseGet(() -> "");
-    return caller;
+
+  private void printf(int depth, Level level, String format, Object... params) {
+    StackTraceElement[] se = new Throwable().getStackTrace();
+    logger.printf(level, "%n  " + MethodInvokerInfoUtils.getInvokerClassName(depth, se)
+        + MethodInvokerInfoUtils.getInvokerLine(depth, se) + StringUtils.format(format, params));
   }
+
 
   private org.apache.logging.log4j.Logger logger;
 
@@ -28,14 +26,12 @@ public class Log4jLogger implements Logger {
 
   @Override
   public void debug(String format, Object... params) {
-    this.logger.printf(Level.DEBUG,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + StringUtils.format(format, params));
+    printf(2, Level.DEBUG, format, params);
   }
 
   @Override
   public void error(String format, Object... params) {
-    this.logger.printf(Level.ERROR,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + StringUtils.format(format, params));
+    printf(2, Level.ERROR, format, params);
   }
 
   @Override
@@ -45,8 +41,7 @@ public class Log4jLogger implements Logger {
 
   @Override
   public void info(String format, Object... params) {
-    this.logger.printf(Level.INFO,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " " + StringUtils.format(format, params));
+    printf(2, Level.INFO, format, params);
   }
 
   @Override
@@ -56,9 +51,7 @@ public class Log4jLogger implements Logger {
 
   @Override
   public void warn(String format, Object... params) {
-    this.logger.printf(Level.WARN,
-        "%n  " + getCaller(new Throwable().getStackTrace()) + " "
-            + StringUtils.format(format, params));
+    printf(2, Level.WARN, format, params);
   }
 
   @Override

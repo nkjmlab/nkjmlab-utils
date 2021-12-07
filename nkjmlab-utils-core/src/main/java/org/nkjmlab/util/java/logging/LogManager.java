@@ -13,7 +13,7 @@ public class LogManager {
   }
 
   private static boolean isEnableLog4jApi() {
-    boolean ret = Try.getOrDefault(() -> {
+    boolean ret = Try.getOrElse(() -> {
       Class.forName("org.apache.logging.log4j.Logger");
       return true;
     }, false);
@@ -26,7 +26,7 @@ public class LogManager {
   }
 
   private static boolean isEnableLog4jCore() {
-    return Try.getOrDefault(() -> {
+    return Try.getOrElse(() -> {
       Class.forName("org.apache.logging.log4j.core.Logger");
       return true;
     }, false);

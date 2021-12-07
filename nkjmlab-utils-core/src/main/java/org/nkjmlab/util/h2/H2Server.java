@@ -66,7 +66,7 @@ public class H2Server {
 
 
   public static void openBrowser(DataSource dataSource, boolean keepAlive) {
-    Try.runOrThrow(() -> openBrowser(dataSource.getConnection(), keepAlive), Try::rethrow);
+    Try.runOrElseThrow(() -> openBrowser(dataSource.getConnection(), keepAlive), Try::rethrow);
   }
 
   public static void shutdownTcpServer() {

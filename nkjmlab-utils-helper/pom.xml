@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-helper</artifactId>
   <name>${project.artifactId}</name>
   <description>Helper Utilities for nkjmlab software</description>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <url>https://github.com/nkjmlab</url>
   <licenses>
     <license>
@@ -38,7 +38,7 @@
   </distributionManagement>
 
   <properties>
-    <nkjmlab-utils-core-version>0.1.1</nkjmlab-utils-core-version>
+    <nkjmlab-utils-version>0.1.2</nkjmlab-utils-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.nkjmlab</groupId>
       <artifactId>nkjmlab-utils-core</artifactId>
-      <version>${nkjmlab-utils-core-version}</version>
+      <version>${nkjmlab-utils-version}</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
     <dependency>
@@ -76,6 +76,13 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>[2.12.3,)</version>
+      <optional>true</optional>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.orangesignal/orangesignal-csv -->
+    <dependency>
+      <groupId>com.orangesignal</groupId>
+      <artifactId>orangesignal-csv</artifactId>
+      <version>2.2.1</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
@@ -136,7 +143,7 @@
           <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>[1.4.18,)</version>
+            <version>1.4.15</version>
           </dependency>
         </dependencies>
       </plugin>
