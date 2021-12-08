@@ -3,7 +3,7 @@ package org.nkjmlab.util.java.json;
 import java.io.File;
 
 /**
- * The class is a container for file database setting JSON.
+ * A container for file database setting JSON.
  *
  * @author nkjm
  *
