@@ -2,6 +2,7 @@ package org.nkjmlab.util.java.collections;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListUtils {
@@ -25,8 +26,11 @@ public class ListUtils {
     if (sizeOfList % numOfPartision == 0) {
       return sizeOfList / numOfPartision;
     }
-
     return (sizeOfList / numOfPartision) + 1;
+  }
+
+  public static <T extends Object> boolean areAllUnique(List<T> list) {
+    return list.stream().allMatch(new HashSet<>()::add);
   }
 
 
