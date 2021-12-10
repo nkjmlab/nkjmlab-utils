@@ -23,6 +23,10 @@ public class LocalDataSourceFactory {
   private final String username;
   private final String password;
   private final String databasePath;
+  private final String inMemoryModeJdbcUrl;
+  private final String serverModeJdbcUrl;
+  private final String embeddedModeJdbcUrl;
+  private final String mixedModeJdbcUrl;
 
 
   private LocalDataSourceFactory(File databaseDirectory, String databaseName, String username,
@@ -32,6 +36,10 @@ public class LocalDataSourceFactory {
     this.databaseName = databaseName;
     this.databaseDirectory = databaseDirectory;
     this.databasePath = createDatabasePath(databaseDirectory, databaseName);
+    this.inMemoryModeJdbcUrl = "jdbc:h2:mem:" + databaseName + ";DB_CLOSE_DELAY=-1";
+    this.serverModeJdbcUrl = "jdbc:h2:tcp://localhost/" + databasePath;
+    this.embeddedModeJdbcUrl = "jdbc:h2:file:" + databasePath;
+    this.mixedModeJdbcUrl = "jdbc:h2:" + databasePath + ";AUTO_SERVER=TRUE";
   }
 
   private String createDatabasePath(File databaseDirectory, String databaseName) {
@@ -48,19 +56,19 @@ public class LocalDataSourceFactory {
   }
 
   public String getInMemoryModeJdbcUrl(String... options) {
-    return "jdbc:h2:mem:" + databaseName + ";DB_CLOSE_DELAY=-1" + toUrlOption(options);
+    return inMemoryModeJdbcUrl + toUrlOption(options);
   }
 
   public String getServerModeJdbcUrl(String... options) {
-    return "jdbc:h2:tcp://localhost/" + databasePath + toUrlOption(options);
+    return serverModeJdbcUrl + toUrlOption(options);
   }
 
   public String getEmbeddedModeJdbcUrl(String... options) {
-    return "jdbc:h2:file:" + databasePath;
+    return embeddedModeJdbcUrl + toUrlOption(options);
   }
 
   public String getMixedModeJdbcUrl(String... options) {
-    return "jdbc:h2:" + databasePath + ";AUTO_SERVER=TRUE" + toUrlOption(options);
+    return mixedModeJdbcUrl + toUrlOption(options);
   }
 
   /**
@@ -137,6 +145,17 @@ public class LocalDataSourceFactory {
   public static Builder builder(File databaseDirectory, String databaseName, String username,
       String password) {
     return new Builder(databaseDirectory, databaseName, username, password);
+  }
+
+
+
+  @Override
+  public String toString() {
+    return "LocalDataSourceFactory [databaseDirectory=" + databaseDirectory + ", databaseName="
+        + databaseName + ", username=" + username + ", password=****" + ", databasePath="
+        + databasePath + ", inMemoryModeJdbcUrl=" + inMemoryModeJdbcUrl + ", serverModeJdbcUrl="
+        + serverModeJdbcUrl + ", embeddedModeJdbcUrl=" + embeddedModeJdbcUrl + ", mixedModeJdbcUrl="
+        + mixedModeJdbcUrl + "]";
   }
 
 

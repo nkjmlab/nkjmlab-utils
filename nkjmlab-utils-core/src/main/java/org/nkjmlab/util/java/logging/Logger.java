@@ -1,8 +1,8 @@
 package org.nkjmlab.util.java.logging;
 
+import static org.nkjmlab.util.java.lang.MessageUtils.*;
 import static org.nkjmlab.util.java.logging.Logger.Category.*;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
-import org.nkjmlab.util.java.lang.StringUtils;
 
 public interface Logger {
 
@@ -28,14 +28,14 @@ public interface Logger {
 
   public static void systemErrorPrintln(int depth, String label, String msg, Object... params) {
     System.err.println(
-        MethodInvokerInfoUtils.getInvokerSummary(depth, label, new Throwable().getStackTrace())
-            + " " + StringUtils.format(msg, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(depth, label, new Throwable().getStackTrace())
+            + " " + newMessage(msg, params));
   }
 
   public static void systemOutPrintln(int depth, String label, String msg, Object... params) {
     System.out.println(
-        MethodInvokerInfoUtils.getInvokerSummary(depth, label, new Throwable().getStackTrace())
-            + " " + StringUtils.format(msg, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(depth, label, new Throwable().getStackTrace())
+            + " " + newMessage(msg, params));
   }
 
   public static class Log {

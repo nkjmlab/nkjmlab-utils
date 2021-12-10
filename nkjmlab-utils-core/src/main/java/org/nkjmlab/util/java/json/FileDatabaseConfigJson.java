@@ -32,7 +32,14 @@ public class FileDatabaseConfigJson {
     public FileDatabaseConfigJson build() {
       return new FileDatabaseConfigJson(databaseDirectory, databaseName, username, password);
     }
-
   }
+
+  @Override
+  public String toString() {
+    return "FileDatabaseConfigJson [databaseDirectory=" + databaseDirectory + ", databaseName="
+        + databaseName + ", username=" + username + ", password=****]";
+  }
+
+
 
 }

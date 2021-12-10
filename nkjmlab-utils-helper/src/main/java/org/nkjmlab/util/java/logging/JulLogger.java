@@ -1,5 +1,6 @@
 package org.nkjmlab.util.java.logging;
 
+import static org.nkjmlab.util.java.lang.MessageUtils.*;
 import static org.nkjmlab.util.java.logging.Logger.Category.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
@@ -7,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
-import org.nkjmlab.util.java.lang.StringUtils;
 
 public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
 
@@ -41,52 +41,52 @@ public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
   @Override
   public void trace(String format, Object... params) {
     this.logger.finer(
-        MethodInvokerInfoUtils.getInvokerSummary(3, TRACE.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(format, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, TRACE.name(), new Throwable().getStackTrace())
+            + " " + newMessage(format, params));
   }
 
   @Override
   public void debug(String format, Object... params) {
     this.logger.fine(
-        MethodInvokerInfoUtils.getInvokerSummary(3, DEBUG.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(format, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, DEBUG.name(), new Throwable().getStackTrace())
+            + " " + newMessage(format, params));
   }
 
 
   @Override
   public void info(String format, Object... params) {
     this.logger.info(
-        MethodInvokerInfoUtils.getInvokerSummary(3, INFO.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(format, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, INFO.name(), new Throwable().getStackTrace())
+            + " " + newMessage(format, params));
   }
 
   @Override
   public void warn(String format, Object... params) {
     this.logger.warning(
-        MethodInvokerInfoUtils.getInvokerSummary(3, WARN.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(format, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, WARN.name(), new Throwable().getStackTrace())
+            + " " + newMessage(format, params));
   }
 
   @Override
   public void error(String format, Object... params) {
     this.logger.severe(
-        MethodInvokerInfoUtils.getInvokerSummary(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(format, params));
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
+            + " " + newMessage(format, params));
   }
 
   @Override
   public void error(Throwable message, Throwable throwable) {
     this.logger.severe(
-        MethodInvokerInfoUtils.getInvokerSummary(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(message != null ? message.toString()
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
+            + " " + newMessage(message != null ? message.toString()
                 : "" + throwable != null ? throwable.toString() : ""));
   }
 
   @Override
   public void warn(Throwable message, Throwable throwable) {
     this.logger.warning(
-        MethodInvokerInfoUtils.getInvokerSummary(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + StringUtils.format(message != null ? message.toString()
+        MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
+            + " " + newMessage(message != null ? message.toString()
                 : "" + throwable != null ? throwable.toString() : ""));
 
   }
