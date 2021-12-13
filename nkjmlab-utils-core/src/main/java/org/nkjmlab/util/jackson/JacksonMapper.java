@@ -19,11 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JacksonMapper implements JsonMapper {
 
-
   private static final JacksonMapper DEFAULT_MAPPER = new JacksonMapper(new ObjectMapper());
   private static final JacksonMapper IGNORE_UNKNOWN_PROPERTIES_MAPPER =
       createIgnoreUnknownPropertiesMapper();
-
 
   public static JacksonMapper create(ObjectMapper mapper) {
     return new JacksonMapper(mapper);

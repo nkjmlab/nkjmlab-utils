@@ -1,6 +1,6 @@
 package org.nkjmlab.util.java.logging;
 
-import static org.nkjmlab.util.java.lang.MessageUtils.*;
+import static org.nkjmlab.util.java.lang.ParameterizedStringUtils.*;
 import static org.nkjmlab.util.java.logging.Logger.Category.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
@@ -42,14 +42,14 @@ public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
   public void trace(String format, Object... params) {
     this.logger.finer(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, TRACE.name(), new Throwable().getStackTrace())
-            + " " + newMessage(format, params));
+            + " " + newString(format, params));
   }
 
   @Override
   public void debug(String format, Object... params) {
     this.logger.fine(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, DEBUG.name(), new Throwable().getStackTrace())
-            + " " + newMessage(format, params));
+            + " " + newString(format, params));
   }
 
 
@@ -57,28 +57,28 @@ public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
   public void info(String format, Object... params) {
     this.logger.info(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, INFO.name(), new Throwable().getStackTrace())
-            + " " + newMessage(format, params));
+            + " " + newString(format, params));
   }
 
   @Override
   public void warn(String format, Object... params) {
     this.logger.warning(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, WARN.name(), new Throwable().getStackTrace())
-            + " " + newMessage(format, params));
+            + " " + newString(format, params));
   }
 
   @Override
   public void error(String format, Object... params) {
     this.logger.severe(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + newMessage(format, params));
+            + " " + newString(format, params));
   }
 
   @Override
   public void error(Throwable message, Throwable throwable) {
     this.logger.severe(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + newMessage(message != null ? message.toString()
+            + " " + newString(message != null ? message.toString()
                 : "" + throwable != null ? throwable.toString() : ""));
   }
 
@@ -86,7 +86,7 @@ public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
   public void warn(Throwable message, Throwable throwable) {
     this.logger.warning(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + newMessage(message != null ? message.toString()
+            + " " + newString(message != null ? message.toString()
                 : "" + throwable != null ? throwable.toString() : ""));
 
   }
