@@ -58,7 +58,7 @@
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.11.3</version>
+      <version>1.14.3</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
@@ -79,7 +79,7 @@
     <dependency>
       <groupId>com.github.spullara.mustache.java</groupId>
       <artifactId>compiler</artifactId>
-      <version>0.9.6</version>
+      <version>0.9.10</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
