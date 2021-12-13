@@ -7,9 +7,9 @@ import java.util.zip.InflaterInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.nkjmlab.util.java.json.JsonMapper;
-import org.nkjmlab.util.java.json.jsonrpc.JsonRpcRequest;
-import org.nkjmlab.util.java.json.jsonrpc.JsonRpcResponse;
-import org.nkjmlab.util.java.json.jsonrpc.JsonRpcUtils;
+import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
+import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
+import org.nkjmlab.util.jsonrpc.JsonRpcUtils;
 
 public class JsonRpcService {
   private static final org.nkjmlab.util.java.logging.Logger log =

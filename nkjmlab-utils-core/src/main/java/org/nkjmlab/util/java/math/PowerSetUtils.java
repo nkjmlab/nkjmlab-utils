@@ -27,7 +27,7 @@ public class PowerSetUtils {
    * @param src
    * @return
    */
-  public static <T extends Object> List<List<T>> getPowerSet(List<T> src) {
+  public static <T> List<List<T>> getPowerSet(List<T> src) {
     return BitPatternUtils.getBitPatterns(src.size()).stream().map(pattern -> {
       List<T> ret = new ArrayList<>();
       for (int i = 0; i < pattern.size(); i++) {
@@ -40,7 +40,7 @@ public class PowerSetUtils {
     }).collect(Collectors.toList());
   }
 
-  public static <T extends Object> Set<Set<T>> getPowerSet(Set<T> src) {
+  public static <T> Set<Set<T>> getPowerSet(Set<T> src) {
     List<T> ret = new ArrayList<>(src);
     return BitPatternUtils.getBitPatterns(ret.size()).stream().map(pattern -> {
       Set<T> subset = new HashSet<>();

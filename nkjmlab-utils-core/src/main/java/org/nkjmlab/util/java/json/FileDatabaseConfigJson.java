@@ -3,7 +3,7 @@ package org.nkjmlab.util.java.json;
 import java.io.File;
 
 /**
- * The class is a container for file database setting JSON.
+ * A container for file database setting JSON.
  *
  * @author nkjm
  *
@@ -32,7 +32,14 @@ public class FileDatabaseConfigJson {
     public FileDatabaseConfigJson build() {
       return new FileDatabaseConfigJson(databaseDirectory, databaseName, username, password);
     }
-
   }
+
+  @Override
+  public String toString() {
+    return "FileDatabaseConfigJson [databaseDirectory=" + databaseDirectory + ", databaseName="
+        + databaseName + ", username=" + username + ", password=****]";
+  }
+
+
 
 }

@@ -3,8 +3,12 @@ package org.nkjmlab.util.java.math;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import org.nkjmlab.util.java.math.Tuple.Tuple1;
 import org.nkjmlab.util.java.math.Tuple.Tuple2;
 import org.nkjmlab.util.java.math.Tuple.Tuple3;
+import org.nkjmlab.util.java.math.Tuple.Tuple4;
+import org.nkjmlab.util.java.math.Tuple.Tuple5;
+import org.nkjmlab.util.java.math.Tuple.Tuple6;
 
 
 public class Cons {
@@ -85,6 +89,11 @@ public class Cons {
     public <T> T apply(Function<A, T> f) {
       return f.apply(car);
     }
+
+    public Tuple1<A> toTuple() {
+      return Tuple.of(car);
+    }
+
   }
 
   public static class Cons2<A, B> extends _Cons<A, Cons1<B>> {
@@ -136,6 +145,11 @@ public class Cons {
     public <T> T apply(Function<A, Function<B, Function<C, Function<D, T>>>> f) {
       return cdr.apply(f.apply(car));
     }
+
+    public Tuple4<A, B, C, D> toTuple() {
+      return Tuple.of(car, cdr.car, cdr.cdr.car, cdr.cdr.cdr.car);
+    }
+
   }
 
   public static class Cons5<A, B, C, D, E> extends _Cons<A, Cons4<B, C, D, E>> {
@@ -149,6 +163,10 @@ public class Cons {
 
     public <T> T apply(Function<A, Function<B, Function<C, Function<D, Function<E, T>>>>> f) {
       return cdr.apply(f.apply(car));
+    }
+
+    public Tuple5<A, B, C, D, E> toTuple() {
+      return Tuple.of(car, cdr.car, cdr.cdr.car, cdr.cdr.cdr.car, cdr.cdr.cdr.cdr.car);
     }
 
   }
@@ -166,6 +184,11 @@ public class Cons {
     public <T> T apply(
         Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, T>>>>>> f) {
       return cdr.apply(f.apply(car));
+    }
+
+    public Tuple6<A, B, C, D, E, F> toTuple() {
+      return Tuple.of(car, cdr.car, cdr.cdr.car, cdr.cdr.cdr.car, cdr.cdr.cdr.cdr.car,
+          cdr.cdr.cdr.cdr.cdr.car);
     }
 
   }

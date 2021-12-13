@@ -1,16 +1,18 @@
 package org.nkjmlab.util.java.logging;
 
+import static org.nkjmlab.util.java.lang.ParameterizedStringUtils.*;
 import org.apache.logging.log4j.Level;
+import org.nkjmlab.util.java.lang.ParameterizedStringUtils;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
-import org.nkjmlab.util.java.lang.StringUtils;
 
 public class Log4jLogger implements Logger {
 
 
   private void printf(int depth, Level level, String format, Object... params) {
     StackTraceElement[] se = new Throwable().getStackTrace();
-    logger.printf(level, "%n  " + MethodInvokerInfoUtils.getInvokerClassName(depth, se)
-        + MethodInvokerInfoUtils.getInvokerLine(depth, se) + StringUtils.format(format, params));
+
+    logger.printf(level,
+        "%n  " + MethodInvokerInfoUtils.getInvokerSummary(depth, se) + newString(format, params));
   }
 
 
@@ -18,6 +20,10 @@ public class Log4jLogger implements Logger {
 
   public Log4jLogger() {
     this(org.apache.logging.log4j.LogManager.getLogger());
+  }
+
+  public Log4jLogger(String name) {
+    this(org.apache.logging.log4j.LogManager.getLogger(name));
   }
 
   public Log4jLogger(org.apache.logging.log4j.Logger log) {
@@ -46,7 +52,7 @@ public class Log4jLogger implements Logger {
 
   @Override
   public void trace(String format, Object... params) {
-    this.logger.trace(StringUtils.format(format, params));
+    this.logger.trace(ParameterizedStringUtils.newString(format, params));
   }
 
   @Override

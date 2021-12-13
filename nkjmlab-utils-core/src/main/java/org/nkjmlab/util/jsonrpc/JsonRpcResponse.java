@@ -1,4 +1,4 @@
-package org.nkjmlab.util.java.json.jsonrpc;
+package org.nkjmlab.util.jsonrpc;
 
 public class JsonRpcResponse {
   private String id;

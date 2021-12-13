@@ -3,25 +3,32 @@ package org.nkjmlab.util.java.math;
 import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.nkjmlab.util.java.logging.LogManager;
 import org.nkjmlab.util.java.math.CartesianProduct.CartesianProduct2;
 import org.nkjmlab.util.java.math.CartesianProduct.CartesianProduct3;
+import org.nkjmlab.util.java.math.Tuple.Tuple2;
 
 class CartesianProductTest {
 
   @Test
-  void testOfProduct20() {
-    CartesianProduct2<String, Integer> ret =
-        CartesianProduct.of(List.of("a", "b", "c"), List.of(1, 2));
-    assertThat(ret.toString()).isEqualTo("[(a . 1), (a . 2), (b . 1), (b . 2), (c . 1), (c . 2)]");
-    LogManager.getLogger().debug("{}", ret);
+  void testOfProduct2() {
+    {
+      CartesianProduct2<String, Integer> ret =
+          CartesianProduct.of(List.of("a", "b", "c"), List.of(1, 2));
+      assertThat(ret.toString())
+          .isEqualTo("[(a . 1), (a . 2), (b . 1), (b . 2), (c . 1), (c . 2)]");
+    }
+    {
+      CartesianProduct2<String, Integer> ret =
+          CartesianProduct.of(List.of("a", "b"), List.of(1, 2));
+      assertThat(ret.toString()).isEqualTo("[(a . 1), (a . 2), (b . 1), (b . 2)]");
+    }
+    {
+      List<Tuple2<String, Integer>> ret =
+          CartesianProduct.of(List.of("a", "b"), List.of(1, 2)).getTuples();
+      assertThat(ret.toString()).isEqualTo("[(a, 1), (a, 2), (b, 1), (b, 2)]");
+    }
   }
 
-  @Test
-  void testOfProduct2() {
-    CartesianProduct2<String, Integer> ret = CartesianProduct.of(List.of("a", "b"), List.of(1, 2));
-    assertThat(ret.toString()).isEqualTo("[(a . 1), (a . 2), (b . 1), (b . 2)]");
-  }
 
 
   @Test

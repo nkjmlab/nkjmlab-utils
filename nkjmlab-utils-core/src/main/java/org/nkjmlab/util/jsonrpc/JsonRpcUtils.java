@@ -1,5 +1,5 @@
 
-package org.nkjmlab.util.java.json.jsonrpc;
+package org.nkjmlab.util.jsonrpc;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;

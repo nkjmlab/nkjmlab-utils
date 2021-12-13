@@ -34,7 +34,7 @@ public class RuntimeUtils {
 
   public static void addShutdownLog(Logger log, String msg, Object... params) {
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-      String message = "[SHUTDOWN HOOK]" + StringUtils.format(msg, params);
+      String message = "[SHUTDOWN HOOK]" + ParameterizedStringUtils.newString(msg, params);
       log.error(message);
       System.err.println(message); // This line is important for flash Logger I guess.
       // org.apache.logging.log4j.LogManager.shutdown();

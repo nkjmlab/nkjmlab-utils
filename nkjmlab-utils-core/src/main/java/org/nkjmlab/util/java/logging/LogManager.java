@@ -36,5 +36,9 @@ public class LogManager {
     return new Log4jLogger(log);
   }
 
+  public static Logger getLogger(String name) {
+    return new Log4jLogger(name);
+  }
+
 
 }
