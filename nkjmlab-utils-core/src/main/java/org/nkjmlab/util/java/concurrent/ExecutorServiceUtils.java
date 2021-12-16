@@ -8,8 +8,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ExecutorServiceUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static boolean shutdownAndAwaitTermination(ExecutorService executorService, long timeout,
       TimeUnit unit) {

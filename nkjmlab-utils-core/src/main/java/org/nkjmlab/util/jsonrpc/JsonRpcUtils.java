@@ -16,8 +16,8 @@ import org.nkjmlab.util.java.json.JsonMapper;
 
 
 public class JsonRpcUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   private static final AtomicInteger id = new AtomicInteger();
 

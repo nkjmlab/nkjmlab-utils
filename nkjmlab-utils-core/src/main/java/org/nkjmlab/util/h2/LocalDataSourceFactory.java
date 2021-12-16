@@ -10,8 +10,11 @@ import org.nkjmlab.util.java.json.FileDatabaseConfigJson;
 /**
  * A factory of local data source.
  *
- * <a href="http://www.h2database.com/html/cheatSheet.html">H2 Database Engine</a>
- * <a href="http://h2database.com/html/features.html#database_url">Database URL Overview</a>
+ * <ul>
+ * <li><a href="http://www.h2database.com/html/cheatSheet.html">H2 Database Engine</a></li>
+ * <li><a href="http://h2database.com/html/features.html#database_url">Database URL
+ * Overview</a></li>
+ * </ul>
  *
  * @author nkjm
  *
@@ -142,6 +145,17 @@ public class LocalDataSourceFactory {
     return builder(conf.databaseDirectory, conf.databaseName, conf.username, conf.password);
   }
 
+  /**
+   * Initializes a newly created {@link LocalDataSourceFactory.Builder} object; you can get
+   * {{@code LocalDataSourceFactory} object via {@link #build()} method. "~/" or "~\" in the
+   * database directory path will be expanded.
+   *
+   * @param databaseDirectory the directory including the database file.
+   * @param databaseName the name of database.
+   * @param username
+   * @param password
+   */
+
   public static Builder builder(File databaseDirectory, String databaseName, String username,
       String password) {
     return new Builder(databaseDirectory, databaseName, username, password);
@@ -169,16 +183,6 @@ public class LocalDataSourceFactory {
     public Builder() {}
 
 
-    /**
-     * Initializes a newly created {@link LocalDataSourceFactory.Builder} object; you can get
-     * {{@code LocalDataSourceFactory} object via {@link #build()} method. "~/" or "~\" in the
-     * database directory path will be expanded.
-     *
-     * @param databaseDirectory the directory including the database file.
-     * @param databaseName the name of database.
-     * @param username
-     * @param password
-     */
     private Builder(File databaseDirectory, String dbName, String username, String password) {
       this.databaseName = dbName;
       this.username = username;
@@ -222,6 +226,11 @@ public class LocalDataSourceFactory {
       return this;
     }
 
+    /**
+     * Builds a {@link LocalDataSourceFactory} instance.
+     *
+     * @return
+     */
     public LocalDataSourceFactory build() {
       return new LocalDataSourceFactory(databaseDirectory, databaseName, username, password);
     }

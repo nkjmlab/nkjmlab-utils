@@ -9,8 +9,8 @@ import java.util.Optional;
 import org.nkjmlab.util.java.function.Try;
 
 public class ProcessUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static boolean isWindowsOs() {
     return System.getProperty("os.name").toLowerCase().indexOf("windows") > -1;

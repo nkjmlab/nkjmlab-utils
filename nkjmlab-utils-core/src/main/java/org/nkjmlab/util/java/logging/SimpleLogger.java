@@ -1,10 +1,10 @@
 package org.nkjmlab.util.java.logging;
 
 import static org.nkjmlab.util.java.lang.ParameterizedStringUtils.*;
-import static org.nkjmlab.util.java.logging.Logger.Category.*;
+import static org.nkjmlab.util.java.logging.SimpleLogger.Category.*;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
 
-public interface Logger {
+public interface SimpleLogger {
 
   public enum Category {
     TRACE, DEBUG, INFO, WARN, ERROR,
@@ -60,11 +60,11 @@ public interface Logger {
     }
 
     private static void systemErrorPrintln(Category category, String format, Object... params) {
-      Logger.systemErrorPrintln(4, category.name(), format, params);
+      SimpleLogger.systemErrorPrintln(4, category.name(), format, params);
     }
 
     private static void systemOutPrintln(Category category, String format, Object... params) {
-      Logger.systemOutPrintln(4, category.name(), format, params);
+      SimpleLogger.systemOutPrintln(4, category.name(), format, params);
     }
 
   }

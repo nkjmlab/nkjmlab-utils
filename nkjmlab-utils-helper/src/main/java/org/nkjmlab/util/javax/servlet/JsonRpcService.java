@@ -12,8 +12,8 @@ import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
 import org.nkjmlab.util.jsonrpc.JsonRpcUtils;
 
 public class JsonRpcService {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   private JsonMapper mapper;
 

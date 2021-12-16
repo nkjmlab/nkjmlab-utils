@@ -8,10 +8,6 @@ public class LogManager {
   }
   private static final boolean enableLog4jCore = isEnableLog4jCore();
 
-  public static Logger getLogger() {
-    return enableLog4jCore ? new Log4jLogger() : NopLogger.INSTANCE;
-  }
-
   private static boolean isEnableLog4jApi() {
     boolean ret = Try.getOrElse(() -> {
       Class.forName("org.apache.logging.log4j.Logger");
@@ -32,11 +28,15 @@ public class LogManager {
     }, false);
   }
 
-  public static Logger getLogger(org.apache.logging.log4j.Logger log) {
+  public static SimpleLogger createLogger() {
+    return enableLog4jCore ? new Log4jLogger() : NopLogger.INSTANCE;
+  }
+
+  public static SimpleLogger createLogger(org.apache.logging.log4j.Logger log) {
     return new Log4jLogger(log);
   }
 
-  public static Logger getLogger(String name) {
+  public static SimpleLogger createLogger(String name) {
     return new Log4jLogger(name);
   }
 

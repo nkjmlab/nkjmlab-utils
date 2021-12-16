@@ -1,6 +1,6 @@
 package org.nkjmlab.util.java.logging;
 
-public class NopLogger implements Logger {
+public class NopLogger implements SimpleLogger {
 
   public static final NopLogger INSTANCE = new NopLogger();
 

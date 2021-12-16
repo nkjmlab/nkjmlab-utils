@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SystemUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static void useSystemProxies() {
     System.setProperty("java.net.useSystemProxies", "true");
