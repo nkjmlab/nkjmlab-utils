@@ -8,6 +8,20 @@ public class MethodInvokerInfoUtils {
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
 
+  /**
+   * Example.
+   *
+   * <pre>
+   * MethodInvokerInfoUtils.getInvokerClassName(0, new Throwable().getStackTrace());
+   *
+   * called in org.nkjmlab.util.h2.H2Server generates
+   *
+   * "org.nkjmlab.util.h2.H2Server"
+   *
+   * @param depth
+   * @param stackTraceElements
+   * @return
+   */
   public static String getInvokerClassName(int depth, StackTraceElement[] stackTraceElements) {
     StackTraceElement e = getStackTraceElement(depth, stackTraceElements);
     return e.getClassName() != null ? e.getClassName() : "";
@@ -57,6 +71,20 @@ public class MethodInvokerInfoUtils {
         + Thread.currentThread().getName() + "] " + getInvokerSummary(depth, stackTraceElements);
   }
 
+  /**
+   * *
+   *
+   * <pre>
+   * MethodInvokerInfoUtils.getInvokerSummary(0, new Throwable().getStackTrace())
+   *
+   * called in org.nkjmlab.util.h2.H2Server generates
+   *
+   * "org.nkjmlab.util.h2.H2Server.shutdownTcpServer(H2Server.java:87)"
+   *
+   * @param depth
+   * @param stackTraceElements
+   * @return
+   */
   public static String getInvokerSummary(int depth, StackTraceElement[] stackTraceElements) {
     StackTraceElement e = getStackTraceElement(depth, stackTraceElements);
     return getInvokerClassNameAndMethodName(e) + "(" + getInvokerFileNameAndLineNumber(e) + ") ";

@@ -46,7 +46,7 @@ public class BasicThreadFactory implements ThreadFactory {
     th.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
       @Override
       public void uncaughtException(Thread t, Throwable e) {
-        org.nkjmlab.util.java.logging.LogManager.getLogger(t.getName()).error(e, e);
+        org.nkjmlab.util.java.logging.LogManager.createLogger(t.getName()).error(e, e);
       }
     });
 

@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
  *
  */
 public class ReflectionMethodInvoker {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static boolean isDefined(Object obj, String name, Object... args) {
     if (getApplicableMethods(obj.getClass(), name, toTypes(args)).isEmpty()) {

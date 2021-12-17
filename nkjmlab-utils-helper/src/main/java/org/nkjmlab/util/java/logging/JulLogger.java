@@ -1,7 +1,7 @@
 package org.nkjmlab.util.java.logging;
 
 import static org.nkjmlab.util.java.lang.ParameterizedStringUtils.*;
-import static org.nkjmlab.util.java.logging.Logger.Category.*;
+import static org.nkjmlab.util.java.logging.SimpleLogger.Category.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
@@ -9,7 +9,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
 
-public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
+public class JulLogger implements org.nkjmlab.util.java.logging.SimpleLogger {
 
   private static final java.util.logging.Logger defaultLogger = createDefaultLogger();
 
@@ -34,7 +34,7 @@ public class JulLogger implements org.nkjmlab.util.java.logging.Logger {
     this.logger = logger;
   }
 
-  public static org.nkjmlab.util.java.logging.Logger getLogger() {
+  public static org.nkjmlab.util.java.logging.SimpleLogger getLogger() {
     return new JulLogger(defaultLogger);
   }
 

@@ -11,8 +11,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class IoStreamUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static String readAsString(InputStream is, Charset charset) throws IOException {
     InputStreamReader reader = new InputStreamReader(is, charset);

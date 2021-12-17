@@ -1,11 +1,11 @@
 package org.nkjmlab.util.java.lang;
 
 import java.io.IOException;
-import org.nkjmlab.util.java.logging.Logger;
+import org.nkjmlab.util.java.logging.SimpleLogger;
 
 public class RuntimeUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static String getMemoryUsege() {
     final Runtime runtime = Runtime.getRuntime();
@@ -32,7 +32,7 @@ public class RuntimeUtils {
     }
   }
 
-  public static void addShutdownLog(Logger log, String msg, Object... params) {
+  public static void addShutdownLog(SimpleLogger log, String msg, Object... params) {
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
       String message = "[SHUTDOWN HOOK]" + ParameterizedStringUtils.newString(msg, params);
       log.error(message);

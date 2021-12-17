@@ -1,17 +1,17 @@
 package org.nkjmlab.util.java.logging;
 
-import static org.nkjmlab.util.java.logging.Logger.Category.*;
+import static org.nkjmlab.util.java.logging.SimpleLogger.Category.*;
 import java.io.File;
 import org.nkjmlab.util.java.lang.ExceptionUtils;
 
-public class SystemOutLogger implements Logger {
+public class SystemOutLogger implements SimpleLogger {
 
   private static void systemErrorPrintln(Category category, String format, Object... params) {
-    Logger.systemErrorPrintln(4, category.name(), format, params);
+    SimpleLogger.systemErrorPrintln(4, category.name(), format, params);
   }
 
   private static void systemOutPrintln(Category category, String format, Object... params) {
-    Logger.systemOutPrintln(4, category.name(), format, params);
+    SimpleLogger.systemOutPrintln(4, category.name(), format, params);
   }
 
   public SystemOutLogger() {}

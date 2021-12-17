@@ -6,8 +6,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
 public class RetryUtils {
-  private static final org.nkjmlab.util.java.logging.Logger log =
-      org.nkjmlab.util.java.logging.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static void retry(Runnable action, int maxRetry, long interval, TimeUnit unit) {
     retry(action, () -> true, maxRetry, interval, unit);
