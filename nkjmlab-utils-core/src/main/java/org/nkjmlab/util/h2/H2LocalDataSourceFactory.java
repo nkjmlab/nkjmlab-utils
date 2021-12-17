@@ -8,7 +8,7 @@ import org.nkjmlab.util.java.io.SystemFileUtils;
 import org.nkjmlab.util.java.json.FileDatabaseConfigJson;
 
 /**
- * A factory of local data source.
+ * A factory of local data source with h2 database.
  *
  * <ul>
  * <li><a href="http://www.h2database.com/html/cheatSheet.html">H2 Database Engine</a></li>
@@ -19,7 +19,7 @@ import org.nkjmlab.util.java.json.FileDatabaseConfigJson;
  * @author nkjm
  *
  */
-public class LocalDataSourceFactory {
+public class H2LocalDataSourceFactory {
 
   private final File databaseDirectory;
   private final String databaseName;
@@ -32,7 +32,7 @@ public class LocalDataSourceFactory {
   private final String mixedModeJdbcUrl;
 
 
-  private LocalDataSourceFactory(File databaseDirectory, String databaseName, String username,
+  private H2LocalDataSourceFactory(File databaseDirectory, String databaseName, String username,
       String password) {
     this.username = username;
     this.password = password;
@@ -58,6 +58,23 @@ public class LocalDataSourceFactory {
     return ";" + String.join(";", options);
   }
 
+  public String getInMemoryModeJdbcUrl() {
+    return getInMemoryModeJdbcUrl(new String[0]);
+  }
+
+  public String getServerModeJdbcUrl() {
+    return getServerModeJdbcUrl(new String[0]);
+  }
+
+  public String getEmbeddedModeJdbcUrl() {
+    return getEmbeddedModeJdbcUrl(new String[0]);
+  }
+
+  public String getMixedModeJdbcUrl() {
+    return getMixedModeJdbcUrl(new String[0]);
+  }
+
+
   public String getInMemoryModeJdbcUrl(String... options) {
     return inMemoryModeJdbcUrl + toUrlOption(options);
   }
@@ -72,6 +89,42 @@ public class LocalDataSourceFactory {
 
   public String getMixedModeJdbcUrl(String... options) {
     return mixedModeJdbcUrl + toUrlOption(options);
+  }
+
+  /**
+   * Creates a new sever mode connection pool for H2 databases
+   *
+   * @return
+   */
+  public JdbcConnectionPool createInMemoryModeDataSource() {
+    return JdbcConnectionPool.create(getInMemoryModeJdbcUrl(), getUsername(), getPassword());
+  }
+
+  /**
+   * Creates a new sever mode connection pool for H2 databases
+   *
+   * @return
+   */
+  public JdbcConnectionPool createServerModeDataSource() {
+    return JdbcConnectionPool.create(getServerModeJdbcUrl(), getUsername(), getPassword());
+  }
+
+  /**
+   * Creates a new embedded mode connection pool for H2 databases
+   *
+   * @return
+   */
+  public JdbcConnectionPool createEmbeddedModeDataSource() {
+    return JdbcConnectionPool.create(getEmbeddedModeJdbcUrl(), getUsername(), getPassword());
+  }
+
+  /**
+   * Creates a new mixed mode connection pool for H2 databases
+   *
+   * @return
+   */
+  public JdbcConnectionPool createMixedModeDataSource() {
+    return JdbcConnectionPool.create(getMixedModeJdbcUrl(), getUsername(), getPassword());
   }
 
   /**
@@ -146,7 +199,7 @@ public class LocalDataSourceFactory {
   }
 
   /**
-   * Initializes a newly created {@link LocalDataSourceFactory.Builder} object; you can get
+   * Initializes a newly created {@link H2LocalDataSourceFactory.Builder} object; you can get
    * {{@code LocalDataSourceFactory} object via {@link #build()} method. "~/" or "~\" in the
    * database directory path will be expanded.
    *
@@ -227,12 +280,12 @@ public class LocalDataSourceFactory {
     }
 
     /**
-     * Builds a {@link LocalDataSourceFactory} instance.
+     * Builds a {@link H2LocalDataSourceFactory} instance.
      *
      * @return
      */
-    public LocalDataSourceFactory build() {
-      return new LocalDataSourceFactory(databaseDirectory, databaseName, username, password);
+    public H2LocalDataSourceFactory build() {
+      return new H2LocalDataSourceFactory(databaseDirectory, databaseName, username, password);
     }
 
   }
