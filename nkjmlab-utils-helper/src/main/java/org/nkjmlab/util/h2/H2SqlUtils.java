@@ -1,10 +1,11 @@
 package org.nkjmlab.util.h2;
 
+import static java.lang.String.*;
 import static org.nkjmlab.sorm4j.sql.SelectSql.*;
 import java.io.File;
 import java.nio.charset.Charset;
 
-public class H2StatementUtils {
+public class H2SqlUtils {
 
 
   /**
@@ -47,6 +48,16 @@ public class H2StatementUtils {
         + "," + literal(csvOptions) + ")";
     return csvStmt;
 
+  }
+
+  public static String getRenameTableSql(String fromTableName, String toTableName) {
+    return "ALTER TABLE " + fromTableName + " RENAME TO " + toTableName;
+  }
+
+
+  public static String getCreateIndexOnSql(String tableName, String... columns) {
+    return "create index if not exists " + "index_" + tableName + "_" + join("_", columns) + " on "
+        + tableName + "(" + String.join(", ", columns) + ")";
   }
 
 
