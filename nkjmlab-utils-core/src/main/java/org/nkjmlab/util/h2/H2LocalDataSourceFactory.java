@@ -200,8 +200,8 @@ public class H2LocalDataSourceFactory {
 
   /**
    * Initializes a newly created {@link H2LocalDataSourceFactory.Builder} object; you can get
-   * {{@code LocalDataSourceFactory} object via {@link #build()} method. "~/" or "~\" in the
-   * database directory path will be expanded.
+   * {{@code LocalDataSourceFactory} object via build method. "~/" or "~\" in the database directory
+   * path will be expanded.
    *
    * @param databaseDirectory the directory including the database file.
    * @param databaseName the name of database.

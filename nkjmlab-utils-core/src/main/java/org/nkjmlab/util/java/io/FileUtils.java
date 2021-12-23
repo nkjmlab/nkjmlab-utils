@@ -72,7 +72,7 @@ public class FileUtils {
   /**
    * Getting a file reader of {@code file}
    *
-   * @param fileName
+   * @param file
    * @return
    */
   public static FileReader newFileReader(File file) {
@@ -96,7 +96,7 @@ public class FileUtils {
   /**
    * Getting a file writer of {@code file}
    *
-   * @param fileName
+   * @param file
    * @return
    */
   public static FileWriter newFileWriter(File file) {
