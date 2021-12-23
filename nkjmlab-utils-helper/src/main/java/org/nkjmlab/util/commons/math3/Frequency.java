@@ -69,6 +69,7 @@ public class Frequency<T extends Comparable<T>> {
     return new Frequency<>(String.class);
   }
 
+  @SuppressWarnings("unchecked")
   public List<Entry<T, Long>> entrySet() {
     Map<T, Long> map = new HashMap<>();
     List<Entry<Comparable<?>, Long>> list = IteratorUtils.toList(freq.entrySetIterator());

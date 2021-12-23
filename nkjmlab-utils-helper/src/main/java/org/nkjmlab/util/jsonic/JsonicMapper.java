@@ -210,13 +210,5 @@ public class JsonicMapper implements JsonMapper {
     }
   }
 
-  private static void format(int depth, Object res, Appendable ap) {
-    try {
-      new JSON(depth).format(res, ap);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
 
 }
