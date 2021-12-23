@@ -10,6 +10,7 @@ import org.apache.commons.io.input.CloseShieldInputStream;
 
 public class MailUtils {
 
+  @SuppressWarnings("deprecation")
   public static String promptToInputPassword(String loginId, String host) {
     System.out.print("$ password for " + loginId + "@" + host + " >");
     try (Scanner s = new Scanner(new CloseShieldInputStream(System.in))) {
@@ -18,6 +19,7 @@ public class MailUtils {
     }
   }
 
+  @SuppressWarnings("deprecation")
   public static boolean promptYesOrNo(String message) {
     System.out.print(message);
     try (Scanner s = new Scanner(new CloseShieldInputStream(System.in))) {

@@ -223,11 +223,6 @@ public class H2ServerUtils {
     shutdownTcpServer(props, Long.MAX_VALUE, TimeUnit.SECONDS);
   }
 
-  /**
-   *
-   * @param tcpPassword is a password of tcpPassword Of H2 Console server. It is not password of
-   *        Database administrator.
-   */
   public static void shutdownTcpServer(H2TcpServerProperties props, long timeout, TimeUnit unit) {
     if (!isActive(props.port)) {
       log.info("H2 TCP server is not active.");
