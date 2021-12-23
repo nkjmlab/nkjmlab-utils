@@ -85,7 +85,13 @@ public class ExcelUtils {
     }
   }
 
-  // セルの数式を計算し、Stringとして取得する例
+  /**
+   * Example of calculating a formula in a cell and getting it as a String
+   *
+   * @param cell
+   * @return
+   */
+
   public static String getStringFormulaValue(Cell cell) {
     Workbook book = cell.getSheet().getWorkbook();
     CreationHelper helper = book.getCreationHelper();
@@ -104,7 +110,12 @@ public class ExcelUtils {
     }
   }
 
-  // セルにキャッシュされている値をStringとして取得する例
+  /**
+   * Example of getting the value cached in a cell as a String
+   *
+   * @param cell
+   * @return
+   */
   public static String getStringCachedFormulaValue(Cell cell) {
     switch (cell.getCachedFormulaResultType()) {
       case STRING:
@@ -119,7 +130,12 @@ public class ExcelUtils {
     }
   }
 
-  // 結合セルの値をStringとして取得する例
+  /**
+   * Example of getting the value of a combined cell as a String
+   *
+   * @param cell
+   * @return
+   */
   public static String getStringRangeValue(Cell cell) {
     int rowIndex = cell.getRowIndex();
     int columnIndex = cell.getColumnIndex();
