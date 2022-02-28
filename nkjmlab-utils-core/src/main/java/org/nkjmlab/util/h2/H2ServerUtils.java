@@ -90,6 +90,10 @@ public class H2ServerUtils {
   }
   public static class H2TcpServerProperties extends H2ServerProperties {
 
+    private static final H2TcpServerProperties DEFAULT_PROPERTIES = builder().build();
+    private static final H2TcpServerProperties DEFAULT_PROPERTIES_WITH_IF_NOT_EXISTS =
+        builder().setOptions(H2ServerProperties.Options.IF_NOT_EXISTS).build();
+
     public H2TcpServerProperties(String name, int port, String password, String argsWithoutPassword,
         String[] args) {
       super(name, port, password, argsWithoutPassword, args);
@@ -119,6 +123,15 @@ public class H2ServerUtils {
             args.toArray(String[]::new));
       }
     }
+
+    public static H2TcpServerProperties getDefaultProperties() {
+      return DEFAULT_PROPERTIES;
+    }
+
+    public static H2TcpServerProperties getPropertiesWithIfNotExists() {
+      return DEFAULT_PROPERTIES_WITH_IF_NOT_EXISTS;
+    }
+
   }
 
   public static class H2WebConsoleServerProperties extends H2ServerProperties {
@@ -165,14 +178,7 @@ public class H2ServerUtils {
   }
 
 
-  /**
-   * Creates a new Web console server thread. If webDaemon is true, the Web console server shutdown
-   * after the main thread finishes.
-   *
-   * @param webDaemon
-   * @return
-   */
-  public static WebServer startWebConsoleServerThread(boolean webDaemon) {
+  private static WebServer startWebConsoleServerThread(boolean webDaemon) {
     try {
       Server server =
           Server.createWebServer(webDaemon ? new String[] {"-webPort", "0", "-webDaemon"}
@@ -189,30 +195,39 @@ public class H2ServerUtils {
   /**
    * Open a new browser tab or window.
    *
+   * @param conn
+   * @param keepAlive is false, the Web console server shutdown after the main thread finishes.
+   *
    * @see #startWebConsoleServerThread(boolean)
    *
-   * @param webServer
-   * @param conn
+   * @return
    */
-  public static void openBrowser(WebServer webServer, Connection conn) {
+
+  public static WebServer openBrowser(Connection conn, boolean keepAlive) {
     try {
+      boolean webDaemon = !keepAlive;
+      WebServer webServer = startWebConsoleServerThread(webDaemon);
       webServer.addSession(conn);
       String url = webServer.addSession(conn);
       Server.openBrowser(url);
       log.info("Database open on browser = {}", url);
+      return webServer;
     } catch (Exception e) {
       log.error(e, e);
+      return null;
     }
   }
 
   /**
    * Open a new browser tab or window.
    *
-   * @param webServer
    * @param dataSource
+   * @param keepAlive is false, the Web console server shutdown after the main thread finishes.
+   *
+   * @see #startWebConsoleServerThread(boolean)
    */
-  public static void openBrowser(WebServer webServer, DataSource dataSource) {
-    Try.runOrElseThrow(() -> openBrowser(webServer, dataSource.getConnection()), Try::rethrow);
+  public static void openBrowser(DataSource dataSource, boolean keepAlive) {
+    Try.runOrElseThrow(() -> openBrowser(dataSource.getConnection(), keepAlive), Try::rethrow);
   }
 
 

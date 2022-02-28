@@ -70,7 +70,7 @@ public class CsvUtils {
 
   public static void readAndConsumeCsvRecord(CSVFormat format, File srcFile, Charset charset,
       Consumer<CSVRecord> consumer) {
-    try (Reader in = new FileReader(srcFile)) {
+    try (Reader in = new FileReader(srcFile, charset)) {
       Iterable<CSVRecord> records = format.parse(in);
       for (CSVRecord record : records) {
         consumer.accept(record);
@@ -80,8 +80,20 @@ public class CsvUtils {
     }
   }
 
+  /**
+   * *
+   *
+   * <pre>
+   * List<CSVRecord> list = CsvUtils.readCsvRecordList(CSVFormat.DEFAULT, new
+   * File("2022-01-19.csv"), StandardCharsets.UTF_8);
+   *
+   * @param format
+   * @param srcFile
+   * @param charset
+   * @return
+   */
   public static List<CSVRecord> readCsvRecordList(CSVFormat format, File srcFile, Charset charset) {
-    try (Reader in = new FileReader(srcFile)) {
+    try (Reader in = new FileReader(srcFile, charset)) {
       Iterable<CSVRecord> records = format.parse(in);
       return StreamSupport.stream(records.spliterator(), false).collect(Collectors.toList());
     } catch (IOException e) {

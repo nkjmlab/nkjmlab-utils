@@ -22,6 +22,7 @@ import org.nkjmlab.sorm4j.internal.util.ParameterizedStringUtils;
 import org.nkjmlab.sorm4j.internal.util.Try;
 import org.nkjmlab.util.java.time.DateTimeUtils;
 
+@SuppressWarnings("deprecation")
 public class ExcelUtils {
 
   /**
