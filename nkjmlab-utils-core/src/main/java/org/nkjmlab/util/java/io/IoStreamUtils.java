@@ -9,10 +9,9 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.nkjmlab.sorm4j.internal.util.Try;
 
 public class IoStreamUtils {
-  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
-      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static String readAsString(InputStream is, Charset charset) throws IOException {
     InputStreamReader reader = new InputStreamReader(is, charset);
@@ -39,9 +38,8 @@ public class IoStreamUtils {
       w.flush();
       String results = os.toString(StandardCharsets.UTF_8);
       return results;
-    } catch (Exception e) {
-      log.error(e, e);
-      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw Try.rethrow(e);
     }
 
   }

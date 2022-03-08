@@ -2,18 +2,20 @@ package org.nkjmlab.util.javax.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.io.IoStreamUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
+import org.nkjmlab.util.jsonrpc.JsonRpcError;
 import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
 import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
 import org.nkjmlab.util.jsonrpc.JsonRpcUtils;
 
 public class JsonRpcService {
-  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
-      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   private JsonMapper mapper;
 
@@ -21,45 +23,55 @@ public class JsonRpcService {
     this.mapper = mapper;
   }
 
-  public JsonRpcResponse callJsonRpc(Object service, JsonRpcRequest jreq) {
-    return JsonRpcUtils.callJsonRpc(mapper, service, jreq);
+
+  public JsonRpcResponse callHttpJsonRpc(Object target, HttpServletRequest request,
+      HttpServletResponse response) {
+    return callHttpJsonRpc(target, toJsonRpcRequest(request), response);
   }
 
-  public JsonRpcResponse callHttpJsonRpc(Object service, HttpServletRequest req,
-      HttpServletResponse res) {
-    JsonRpcRequest jreq = toJsonRpcRequest(mapper, req);
-    return callHttpJsonRpc(service, jreq, res);
-  }
+  public JsonRpcResponse callHttpJsonRpc(Object target, JsonRpcRequest request,
+      HttpServletResponse response) {
 
-  public JsonRpcResponse callHttpJsonRpc(Object service, JsonRpcRequest jreq,
-      HttpServletResponse res) {
+    response.setContentType("application/json;charset=UTF-8");
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    response.setHeader("Access-Control-Allow-Methods", "*");
+    response.setHeader("Access-Control-Allow-Headers", "*");
 
-    setContentTypeToJson(res);
-    setAccessControlAllowOriginToWildCard(res);
-    setAccessControlAllowMethodsToWildCard(res);
-    setAccessControlAllowHeadersToWildCard(res);
-
-    JsonRpcResponse result = JsonRpcUtils.callJsonRpc(mapper, service, jreq);
+    JsonRpcResponse result = JsonRpcUtils.callJsonRpc(mapper, target, request);
     if (result.hasError()) {
-      res.setStatus(500);
+      response.setStatus(500);
     } else {
-      res.setStatus(200);
+      response.setStatus(200);
     }
     return result;
+    // return toJsonRpcErrorResponse(
+    // e.getMessage() != null ? e.getMessage() : e.getCause().getMessage(), e, request);
+
   }
 
-  public static JsonRpcRequest toJsonRpcRequest(JsonMapper mapper, HttpServletRequest req) {
+  private static JsonRpcResponse toJsonRpcErrorResponse(String faultString, Throwable t,
+      JsonRpcRequest jreq) {
+    JsonRpcResponse jres = new JsonRpcResponse();
+    jres.setId(jreq.getId());
+    jres.setError(JsonRpcError.createRpcFault("Server.userException", faultString, t));
+    return jres;
+  }
+
+
+  public JsonRpcRequest toJsonRpcRequest(HttpServletRequest request) {
     try {
-      return JsonRpcUtils.toJsonRpcRequest(mapper, getInputStream(req));
-    } catch (Throwable e) {
-      log.error(e, e);
-      throw new RuntimeException(e);
+      String str = IoStreamUtils.readAsString(getInputStream(request), StandardCharsets.UTF_8);
+      JsonRpcRequest jreq = mapper.toObject(str, JsonRpcRequest.class);
+      return jreq;
+    } catch (IOException e) {
+      throw Try.rethrow(e);
     }
   }
 
-  private static InputStream getInputStream(HttpServletRequest req) throws IOException {
-    InputStream is = req.getInputStream();
-    String contentEncoding = req.getHeader("Content-Encoding");
+
+  private static InputStream getInputStream(HttpServletRequest request) throws IOException {
+    InputStream is = request.getInputStream();
+    String contentEncoding = request.getHeader("Content-Encoding");
 
     if (contentEncoding == null) {
       return is;
@@ -71,24 +83,6 @@ public class JsonRpcService {
     } else {
       return is;
     }
-  }
-
-  public static void setContentTypeToJson(HttpServletResponse res) {
-    res.setContentType("application/json;charset=UTF-8");
-  }
-
-  public static void setAccessControlAllowOriginToWildCard(HttpServletResponse res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-  }
-
-  public static void setAccessControlAllowMethodsToWildCard(HttpServletResponse res) {
-    res.setHeader("Access-Control-Allow-Methods", "*");
-
-  }
-
-  public static void setAccessControlAllowHeadersToWildCard(HttpServletResponse res) {
-    res.setHeader("Access-Control-Allow-Headers", "*");
-
   }
 
 }
