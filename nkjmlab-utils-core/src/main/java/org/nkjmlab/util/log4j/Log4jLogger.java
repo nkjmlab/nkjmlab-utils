@@ -1,9 +1,10 @@
-package org.nkjmlab.util.java.logging;
+package org.nkjmlab.util.log4j;
 
 import static org.nkjmlab.util.java.lang.ParameterizedStringUtils.*;
 import org.apache.logging.log4j.Level;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
 import org.nkjmlab.util.java.lang.ParameterizedStringUtils;
+import org.nkjmlab.util.java.logging.SimpleLogger;
 
 public class Log4jLogger implements SimpleLogger {
 

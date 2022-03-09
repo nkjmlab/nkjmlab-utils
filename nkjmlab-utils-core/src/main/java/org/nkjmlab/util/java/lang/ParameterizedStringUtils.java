@@ -42,7 +42,7 @@ public class ParameterizedStringUtils {
    * @see #newString(String, Object...)
    */
   public static String newStringWithPlaceHolder(String msg, String placeholder, Object... params) {
-    if (params == null || params.length == 0) {
+    if (msg == null || msg.length() == 0 || params == null || params.length == 0) {
       return msg;
     }
     return newString(msg, placeholder, params.length, index -> {

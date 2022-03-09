@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
@@ -41,6 +42,16 @@ public class IoStreamUtils {
     } catch (IOException e) {
       throw Try.rethrow(e);
     }
-
   }
+
+  public static void writeString(OutputStream os, String string, String encodingName) {
+    try (OutputStreamWriter writer = new OutputStreamWriter(os, encodingName)) {
+      writer.write(string);
+      writer.flush();
+    } catch (Exception e) {
+      throw Try.rethrow(e);
+    }
+  }
+
+
 }

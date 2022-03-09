@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.nkjmlab.sorm4j.internal.util.Try;
 import org.nkjmlab.util.java.io.IoStreamUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
-import org.nkjmlab.util.jsonrpc.JsonRpcError;
 import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
 import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
 import org.nkjmlab.util.jsonrpc.JsonRpcUtils;
@@ -49,13 +48,13 @@ public class JsonRpcService {
 
   }
 
-  private static JsonRpcResponse toJsonRpcErrorResponse(String faultString, Throwable t,
-      JsonRpcRequest jreq) {
-    JsonRpcResponse jres = new JsonRpcResponse();
-    jres.setId(jreq.getId());
-    jres.setError(JsonRpcError.createRpcFault("Server.userException", faultString, t));
-    return jres;
-  }
+  // private static JsonRpcResponse toJsonRpcErrorResponse(String faultString, Throwable t,
+  // JsonRpcRequest jreq) {
+  // JsonRpcResponse jres = new JsonRpcResponse();
+  // jres.setId(jreq.getId());
+  // jres.setError(JsonRpcError.createRpcFault("Server.userException", faultString, t));
+  // return jres;
+  // }
 
 
   public JsonRpcRequest toJsonRpcRequest(HttpServletRequest request) {

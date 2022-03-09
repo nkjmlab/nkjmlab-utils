@@ -14,8 +14,9 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
 
 public class Log4jConfigurator {
-  private static final org.apache.logging.log4j.Logger log =
-      org.apache.logging.log4j.LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
+      org.nkjmlab.util.java.logging.LogManager.createLogger();
+
   private static volatile boolean override = true;
 
   public static void setOverride(boolean override) {

@@ -11,11 +11,11 @@
   </parent>
   <dependencyManagement>
     <dependencies>
-      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>2.17.1</version>
+        <artifactId>log4j-core</artifactId>
+        <version>2.17.2</version>
         <optional>true</optional>
       </dependency>
       <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
@@ -53,6 +53,21 @@
         <version>2.13.0</version>
         <optional>true</optional>
       </dependency>
+      <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf</artifactId>
+        <version>3.0.14.RELEASE</version>
+        <optional>true</optional>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <scope>provided</scope>
+        <optional>true</optional>
+      </dependency>
       <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -67,20 +82,13 @@
         <version>3.21.0</version>
         <scope>test</scope>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>2.17.1</version>
-        <scope>test</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
+      <artifactId>log4j-core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
@@ -101,6 +109,14 @@
     <dependency>
       <groupId>org.nkjmlab</groupId>
       <artifactId>sorm4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
     </dependency>
   </dependencies>
 </project>
