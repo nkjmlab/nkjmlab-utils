@@ -145,7 +145,7 @@ public class ExcelUtils {
     for (int i = 0; i < size; i++) {
       CellRangeAddress range = sheet.getMergedRegion(i);
       if (range.isInRange(rowIndex, columnIndex)) {
-        Cell firstCell = getCell(sheet, range.getFirstRow(), range.getFirstColumn()); // 左上のセルを取得
+        Cell firstCell = getCell(sheet, range.getFirstRow(), range.getFirstColumn()); // Get upper left cell
         return getStringValue(firstCell);
       }
     }

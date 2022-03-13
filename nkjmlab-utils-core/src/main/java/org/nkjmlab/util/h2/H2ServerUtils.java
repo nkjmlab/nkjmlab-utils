@@ -319,11 +319,13 @@ public class H2ServerUtils {
   }
 
 
-  public static void startDefaultServerProcessAndWaitFor() {
+  public static void startDefaultTcpServerProcessAndWaitFor() {
     startServerProcessAndWaitFor(H2TcpServerProperties.builder().build());
-    startServerProcessAndWaitFor(H2WebConsoleServerProperties.builder().build());
   }
 
+  public static void startDefaultWebConsoleServerProcessAndWaitFor() {
+    startServerProcessAndWaitFor(H2WebConsoleServerProperties.builder().build());
+  }
 
 
 }

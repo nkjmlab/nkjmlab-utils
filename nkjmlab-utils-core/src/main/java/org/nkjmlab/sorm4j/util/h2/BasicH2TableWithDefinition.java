@@ -4,7 +4,7 @@ import org.nkjmlab.sorm4j.Sorm;
 import org.nkjmlab.sorm4j.util.table_def.BasicTableWithDefinition;
 import org.nkjmlab.sorm4j.util.table_def.TableDefinition;
 
-public class BasicH2TableWithDifinition<T> extends BasicTableWithDefinition<T>
+public class BasicH2TableWithDefinition<T> extends BasicTableWithDefinition<T>
     implements H2TableWithDefinition<T> {
 
 
@@ -15,11 +15,11 @@ public class BasicH2TableWithDifinition<T> extends BasicTableWithDefinition<T>
    * @param valueType
    * @param tableDifinition
    */
-  public BasicH2TableWithDifinition(Sorm sorm, Class<T> valueType, TableDefinition tableDifinition) {
+  public BasicH2TableWithDefinition(Sorm sorm, Class<T> valueType, TableDefinition tableDifinition) {
     super(sorm, valueType, tableDifinition);
   }
 
-  public BasicH2TableWithDifinition(Sorm sorm, Class<T> valueType) {
+  public BasicH2TableWithDefinition(Sorm sorm, Class<T> valueType) {
     this(sorm, valueType, TableDefinition.builder(valueType).build());
   }
 

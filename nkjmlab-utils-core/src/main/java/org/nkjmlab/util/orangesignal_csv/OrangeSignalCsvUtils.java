@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.nkjmlab.sorm4j.internal.util.Try;
 import com.orangesignal.csv.Csv;
 import com.orangesignal.csv.CsvConfig;
 import com.orangesignal.csv.handlers.ColumnNameMapListHandler;
@@ -47,7 +48,7 @@ public class OrangeSignalCsvUtils {
     try {
       return readStringArrayList(csvConf, new FileInputStream(file));
     } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -59,7 +60,7 @@ public class OrangeSignalCsvUtils {
     try {
       return Csv.load(reader, csvConf, new StringArrayListHandler());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -71,7 +72,7 @@ public class OrangeSignalCsvUtils {
     try {
       return readColumnNameMapList(csvConf, new FileInputStream(file));
     } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -83,7 +84,7 @@ public class OrangeSignalCsvUtils {
     try {
       return Csv.load(reader, csvConf, new ColumnNameMapListHandler());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -91,7 +92,7 @@ public class OrangeSignalCsvUtils {
     try {
       return readColumnNameMapList(createDefaultCsvConfig(), new FileReader(file));
     } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -123,7 +124,7 @@ public class OrangeSignalCsvUtils {
     try {
       return new CsvEntityManager(csvConf).load(clazz).from(reader);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -132,7 +133,7 @@ public class OrangeSignalCsvUtils {
         new InputStreamReader(OrangeSignalCsvUtils.class.getResourceAsStream(resourceName))) {
       return readList(csvConf, clazz, reader);
     } catch (IOException e) {
-      throw new IllegalArgumentException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -146,7 +147,7 @@ public class OrangeSignalCsvUtils {
           .collect(Collectors.toList());
       return lines;
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -164,7 +165,7 @@ public class OrangeSignalCsvUtils {
           .collect(Collectors.toList());
       return lines;
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
