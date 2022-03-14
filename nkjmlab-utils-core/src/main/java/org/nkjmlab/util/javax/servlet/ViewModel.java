@@ -3,10 +3,10 @@ package org.nkjmlab.util.javax.servlet;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.nkjmlab.util.java.io.FileUtils;
 
@@ -14,6 +14,7 @@ public class ViewModel {
 
   private static final String MODIFIED_DATES = "MODIFIED_DATES";
   private static final String LOCALE = "LOCALE";
+  private static final String FILE_PATH = "FILE_PATH";
   private final Map<String, Object> map;
 
   public ViewModel(Map<String, Object> map) {
@@ -29,13 +30,19 @@ public class ViewModel {
     return map.toString();
   }
 
-  @SuppressWarnings("unchecked")
+
   public Map<String, Long> getModifiedDates() {
-    return (Map<String, Long>) map.get(MODIFIED_DATES);
+    @SuppressWarnings("unchecked")
+    Map<String, Long> ret = (Map<String, Long>) map.get(MODIFIED_DATES);
+    return ret;
   }
 
   public Locale getLocale() {
     return (Locale) map.get(LOCALE);
+  }
+
+  public String getFilePath() {
+    return (String) map.get(FILE_PATH);
   }
 
   public static Builder builder() {
@@ -47,7 +54,7 @@ public class ViewModel {
     private Map<String, Long> fileModifiedDate = Collections.emptyMap();
     private Locale locale = Locale.getDefault();
 
-    private final Map<String, Object> map = new HashMap<>();
+    private final Map<String, Object> map = new TreeMap<>();
 
     private Builder() {}
 
@@ -67,6 +74,11 @@ public class ViewModel {
       return this;
     }
 
+    public Builder setFilePath(String filePath) {
+      map.put(FILE_PATH, filePath);
+      return this;
+    }
+
     public ViewModel build() {
       map.putAll(fileModifiedDate);
       map.put(LOCALE, locale);
@@ -77,7 +89,9 @@ public class ViewModel {
     public void put(String key, Object value) {
       map.put(key, value);
     }
+
   }
+
 
 
 }

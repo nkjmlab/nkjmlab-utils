@@ -46,6 +46,10 @@ public class StringUtils {
     return upperAlphabets.get(order);
   }
 
+  public static int toUpperAlphabetOrder(String upperAlphabet) {
+    return upperAlphabets.indexOf(upperAlphabet);
+  }
+
   public static String toLowerAlphabet(int order) {
     return lowerAlphabets.get(order);
   }

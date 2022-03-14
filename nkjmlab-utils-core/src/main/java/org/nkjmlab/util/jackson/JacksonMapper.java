@@ -16,21 +16,37 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class JacksonMapper implements JsonMapper {
 
-  private static final JacksonMapper DEFAULT_MAPPER = new JacksonMapper(new ObjectMapper());
+  private static final JacksonMapper DEFAULT_MAPPER = new JacksonMapper(createDefaultMapper());
   private static final JacksonMapper IGNORE_UNKNOWN_PROPERTIES_MAPPER =
-      createIgnoreUnknownPropertiesMapper();
+      new JacksonMapper(createIgnoreUnknownPropertiesMapper());
 
   public static JacksonMapper create(ObjectMapper mapper) {
     return new JacksonMapper(mapper);
   }
 
-  private static JacksonMapper createIgnoreUnknownPropertiesMapper() {
-    ObjectMapper objectMapper = new ObjectMapper();
+  private static ObjectMapper createIgnoreUnknownPropertiesMapper() {
+    ObjectMapper objectMapper = createDefaultMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    return JacksonMapper.create(objectMapper);
+    return objectMapper;
+  }
+
+  public static ObjectMapper createDefaultMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    if (isJavaTimeModuleEnable()) {
+      objectMapper.registerModule(new JavaTimeModule());
+    }
+    return objectMapper;
+  }
+
+  private static boolean isJavaTimeModuleEnable() {
+    return Try.getOrElse(() -> {
+      Class.forName("com.fasterxml.jackson.datatype.jsr310.JavaTimeModule");
+      return true;
+    }, false);
   }
 
   public static JsonMapper getIgnoreUnknownPropertiesMapper() {

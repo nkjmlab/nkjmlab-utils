@@ -21,18 +21,6 @@ import org.nkjmlab.util.java.function.Try;
 
 public class FileUtils {
 
-  public static Stream<String> lines(Path path) {
-    return lines(path, StandardCharsets.UTF_8);
-  }
-
-  public static Stream<String> lines(Path path, Charset cs) {
-    try {
-      return Files.lines(path, cs);
-    } catch (IOException e) {
-      throw Try.rethrow(e);
-    }
-  }
-
   public static List<File> listFiles(File dir) {
     return listFiles(dir, Integer.MAX_VALUE, p -> true);
   }

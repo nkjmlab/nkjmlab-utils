@@ -2,7 +2,7 @@
 <!DOCTYPE configuration>
 <configuration status="OFF">
     <Properties>
-        <property name="log_level">DEBUG</property>
+        <property name="log_level">TRACE</property>
         <property name="log_pattern">${log_pattern_noloc}</property>
 
         <property name="log_pattern_loc">

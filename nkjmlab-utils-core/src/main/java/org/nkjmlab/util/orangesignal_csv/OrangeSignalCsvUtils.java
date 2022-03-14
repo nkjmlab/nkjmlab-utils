@@ -9,9 +9,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.nkjmlab.sorm4j.internal.util.Try;
 import com.orangesignal.csv.Csv;
 import com.orangesignal.csv.CsvConfig;
 import com.orangesignal.csv.handlers.ColumnNameMapListHandler;
@@ -46,7 +48,7 @@ public class OrangeSignalCsvUtils {
     try {
       return readStringArrayList(csvConf, new FileInputStream(file));
     } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -58,7 +60,7 @@ public class OrangeSignalCsvUtils {
     try {
       return Csv.load(reader, csvConf, new StringArrayListHandler());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -70,7 +72,7 @@ public class OrangeSignalCsvUtils {
     try {
       return readColumnNameMapList(csvConf, new FileInputStream(file));
     } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -82,7 +84,7 @@ public class OrangeSignalCsvUtils {
     try {
       return Csv.load(reader, csvConf, new ColumnNameMapListHandler());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -90,7 +92,7 @@ public class OrangeSignalCsvUtils {
     try {
       return readColumnNameMapList(createDefaultCsvConfig(), new FileReader(file));
     } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -122,7 +124,7 @@ public class OrangeSignalCsvUtils {
     try {
       return new CsvEntityManager(csvConf).load(clazz).from(reader);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -131,7 +133,7 @@ public class OrangeSignalCsvUtils {
         new InputStreamReader(OrangeSignalCsvUtils.class.getResourceAsStream(resourceName))) {
       return readList(csvConf, clazz, reader);
     } catch (IOException e) {
-      throw new IllegalArgumentException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -145,7 +147,7 @@ public class OrangeSignalCsvUtils {
           .collect(Collectors.toList());
       return lines;
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -163,7 +165,7 @@ public class OrangeSignalCsvUtils {
           .collect(Collectors.toList());
       return lines;
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -184,4 +186,68 @@ public class OrangeSignalCsvUtils {
   public static List<Row> readAllRows(final File file, CsvConfig cfg) {
     return readRows(file, StandardCharsets.UTF_8.toString(), cfg, 0, Integer.MAX_VALUE);
   }
+
+  public static final class Row {
+
+    private final List<String> cells;
+
+    public Row(String[] line) {
+      this.cells = Arrays.asList(line);
+    }
+
+    public Row(List<String> line) {
+      this.cells = line;
+    }
+
+    public String get(int index) {
+      try {
+        return cells.get(index).trim();
+      } catch (Exception e) {
+        return null;
+      }
+    }
+
+    public Integer getAsInteger(int index) {
+      try {
+        return Integer.valueOf(get(index));
+      } catch (Exception e) {
+        return null;
+      }
+    }
+
+    public Double getAsDouble(int index) {
+      try {
+        return Double.valueOf(get(index));
+      } catch (Exception e) {
+        return null;
+      }
+    }
+
+    public boolean isHeadCellEquals(String str) {
+      return get(0).equals(str);
+    }
+
+    public Boolean getAsBoolean(int index) {
+      try {
+        return Boolean.valueOf(get(index));
+      } catch (Exception e) {
+        return null;
+      }
+    }
+
+    public Float getAsFloat(int index) {
+      try {
+        return Float.valueOf(get(index));
+      } catch (Exception e) {
+        return null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "Row [cells=" + cells + "]";
+    }
+
+  }
+
 }

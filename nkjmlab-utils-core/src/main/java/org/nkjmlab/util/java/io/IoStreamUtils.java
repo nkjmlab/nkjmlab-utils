@@ -4,15 +4,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.nkjmlab.sorm4j.internal.util.Try;
 
 public class IoStreamUtils {
-  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
-      org.nkjmlab.util.java.logging.LogManager.createLogger();
 
   public static String readAsString(InputStream is, Charset charset) throws IOException {
     InputStreamReader reader = new InputStreamReader(is, charset);
@@ -39,10 +39,19 @@ public class IoStreamUtils {
       w.flush();
       String results = os.toString(StandardCharsets.UTF_8);
       return results;
-    } catch (Exception e) {
-      log.error(e, e);
-      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw Try.rethrow(e);
     }
-
   }
+
+  public static void writeString(OutputStream os, String string, String encodingName) {
+    try (OutputStreamWriter writer = new OutputStreamWriter(os, encodingName)) {
+      writer.write(string);
+      writer.flush();
+    } catch (Exception e) {
+      throw Try.rethrow(e);
+    }
+  }
+
+
 }

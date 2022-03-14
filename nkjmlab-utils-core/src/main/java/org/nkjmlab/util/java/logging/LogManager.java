@@ -1,6 +1,7 @@
 package org.nkjmlab.util.java.logging;
 
 import org.nkjmlab.util.java.function.Try;
+import org.nkjmlab.util.log4j.Log4jLogger;
 
 public class LogManager {
   static {

@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-parent</artifactId>
   <name>nkjmlab-utils-parent</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.1.7</version>
+  <version>0.1.8</version>
   <packaging>pom</packaging>
   <url>https://github.com/nkjmlab</url>
   <licenses>
@@ -63,14 +63,14 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.21.0</version>
+      <version>3.22.0</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.17.0</version>
+      <version>2.17.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -96,6 +96,12 @@
       </resource>
     </resources>
     <plugins>
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+      </plugin>
       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

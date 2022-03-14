@@ -15,12 +15,10 @@ import org.nkjmlab.util.java.function.Try;
 
 public class BasicHttpClient {
 
-  private static final BasicHttpClient DEFAULT_HTTP_CLIENT =
-      new BasicHttpClient(HttpClient.newHttpClient());
 
 
-  public static BasicHttpClient getDefaultBasicHttpClient() {
-    return DEFAULT_HTTP_CLIENT;
+  public static BasicHttpClient newBasicHttpClient() {
+    return new BasicHttpClient(HttpClient.newHttpClient());
   }
 
   private HttpClient client;
@@ -42,7 +40,7 @@ public class BasicHttpClient {
     }
   }
 
-  public void download(URI uri, File outputFile) {
+  public File download(URI uri, File outputFile) {
     try (
         InputStream inputStream = new ByteArrayInputStream(
             getResponse(uri).body().getBytes(StandardCharsets.UTF_8.toString()));
@@ -52,6 +50,7 @@ public class BasicHttpClient {
       while ((n = inputStream.read(buffer)) != -1) {
         outputStream.write(buffer, 0, n);
       }
+      return outputFile;
     } catch (UnsupportedOperationException | IOException e) {
       throw Try.rethrow(e);
     }
