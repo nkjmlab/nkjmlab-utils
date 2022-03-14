@@ -9,56 +9,49 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import org.nkjmlab.sorm4j.internal.util.Try;
 
 public class ResourceUtils {
 
-  public static String toResourceName(File file) {
-    return toResourceName(file.getPath());
-  }
-
-  public static String toResourceName(String name) {
-    return name.replaceAll("\\\\", "/");
-  }
-
-  public static BufferedReader getResourceAsBufferedReader(Class<?> clazz, String resourceName) {
+  private static BufferedReader getResourceAsBufferedReader(Class<?> clazz, String resourceName) {
     return new BufferedReader(getResourceAsInputStreamReader(clazz, resourceName));
   }
 
-  public static InputStreamReader getResourceAsInputStreamReader(Class<?> clazz,
-      String resourceName) {
-    return new InputStreamReader(getResourceAsStream(clazz, resourceName));
+  public static File getResourceAsFile(Class<?> clazz, String file) {
+    return new File(getResourceAsUri(clazz, file));
   }
 
-  public static InputStream getResourceAsStream(Class<?> clazz, String resourceName) {
+  public static File getResourceAsFile(String file) {
+    return getResourceAsFile(ResourceUtils.class, file);
+  }
+
+  public static InputStream getResourceAsInputStream(Class<?> clazz, File file) {
+    return getResourceAsInputStream(clazz, toResourceName(file));
+  }
+
+  public static InputStream getResourceAsInputStream(Class<?> clazz, String resourceName) {
     return clazz.getResourceAsStream(resourceName);
   }
 
-  public static InputStream getResourceAsStream(Class<?> clazz, File file) {
-    return getResourceAsStream(clazz, toResourceName(file));
+  public static InputStream getResourceAsInputStream(String resourceName) {
+    return getResourceAsInputStream(ResourceUtils.class, resourceName);
   }
 
-  public static InputStream getResourceAsStream(String resourceName) {
-    return getResourceAsStream(ResourceUtils.class, resourceName);
+  private static InputStreamReader getResourceAsInputStreamReader(Class<?> clazz,
+      String resourceName) {
+    return new InputStreamReader(getResourceAsInputStream(clazz, resourceName));
   }
 
-  public static File getFile(Class<?> clazz, String file) {
-    return new File(getUri(clazz, file));
-  }
-
-  public static URI getUri(String file) {
-    return getUri(ResourceUtils.class, file);
-  }
-
-  public static File getFile(String file) {
-    return getFile(ResourceUtils.class, file);
-  }
-
-  public static URI getUri(Class<?> clazz, String file) {
+  public static URI getResourceAsUri(Class<?> clazz, String file) {
     try {
       return clazz.getResource(file).toURI();
     } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
+  }
+
+  public static URI getResourceAsUri(String file) {
+    return getResourceAsUri(ResourceUtils.class, file);
   }
 
   public static List<String> readAllLines(Class<?> clazz, String resourceName) {
@@ -69,10 +62,18 @@ public class ResourceUtils {
         lines.add(line);
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
     return lines;
 
+  }
+
+  private static String toResourceName(File file) {
+    return toResourceName(file.getPath());
+  }
+
+  private static String toResourceName(String name) {
+    return name.replaceAll("\\\\", "/");
   }
 
 }
