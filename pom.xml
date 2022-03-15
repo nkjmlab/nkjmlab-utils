@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-parent</artifactId>
   <name>nkjmlab-utils-parent</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.1.8</version>
+  <version>0.8.0</version>
   <packaging>pom</packaging>
   <url>https://github.com/nkjmlab</url>
   <licenses>
@@ -33,7 +33,7 @@
   </modules>
 
   <properties>
-    <nkjmlab-utils-version>${project.version}</nkjmlab-utils-version>
+    <sorm4j-version>1.4.7</sorm4j-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
@@ -42,11 +42,17 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- https://mvnrepository.com/artifact/org.nkjmlab/nkjmlab-utils-core -->
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.17.2</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
       <dependency>
         <groupId>org.nkjmlab</groupId>
-        <artifactId>nkjmlab-utils-core</artifactId>
-        <version>${nkjmlab-utils-version}</version>
+        <artifactId>sorm4j</artifactId>
+        <version>${sorm4j-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -70,7 +76,6 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.17.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
