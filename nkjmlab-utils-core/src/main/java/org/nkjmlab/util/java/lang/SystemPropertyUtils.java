@@ -3,7 +3,9 @@ package org.nkjmlab.util.java.lang;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SystemPropertyUtils {
 
@@ -45,6 +47,15 @@ public class SystemPropertyUtils {
   public static String findJavaCommand() {
     String javaHome = System.getProperty("java.home");
     return new File(new File(javaHome, "bin"), "java").getAbsolutePath();
+  }
+
+  public static Map<String, String> getJavaProperties() {
+    return Stream
+        .of("os.name", "os.version", "java.class.version", "java.specification.version",
+            "java.vm.name", "java.vm.version", "java.vm.vendor", "java.home", "java.class.path",
+            "user.name", "user.home", "user.dir")
+        .collect(Collectors.toMap(p -> p,
+            p -> ParameterizedStringUtils.newString("{}={}", p, System.getProperty(p))));
   }
 
 
