@@ -57,7 +57,7 @@ public final class Tuple {
 
     @Override
     public String toString() {
-      return "(" + getT1() + ")";
+      return "(" + (getT1() == null ? "null" : getT1()) + ")";
     }
 
     @Override
@@ -106,7 +106,8 @@ public final class Tuple {
 
     @Override
     public String toString() {
-      return "(" + getT1() + ", " + getT2() + ")";
+      return "(" + (getT1() == null ? "null" : getT1()) + ", "
+          + (getT2() == null ? "null" : getT2()) + ")";
     }
 
     @Override
@@ -161,7 +162,9 @@ public final class Tuple {
 
     @Override
     public String toString() {
-      return "(" + getT1() + ", " + getT2() + ", " + getT3() + ")";
+      return "(" + (getT1() == null ? "null" : getT1()) + ", "
+          + (getT2() == null ? "null" : getT2()) + ", " + (getT3() == null ? "null" : getT3())
+          + ")";
     }
 
 
@@ -228,7 +231,9 @@ public final class Tuple {
 
     @Override
     public String toString() {
-      return "(" + getT1() + ", " + getT2() + ", " + getT3() + ", " + getT4() + ")";
+      return "(" + (getT1() == null ? "null" : getT1()) + ", "
+          + (getT2() == null ? "null" : getT2()) + ", " + (getT3() == null ? "null" : getT3())
+          + ", " + (getT4() == null ? "null" : getT4()) + ")";
     }
 
   }
@@ -274,8 +279,10 @@ public final class Tuple {
 
     @Override
     public String toString() {
-      return "(" + getT1() + ", " + getT2() + ", " + getT3() + ", " + getT4() + ", " + getT5()
-          + ")";
+      return "(" + (getT1() == null ? "null" : getT1()) + ", "
+          + (getT2() == null ? "null" : getT2()) + ", " + (getT3() == null ? "null" : getT3())
+          + ", " + (getT4() == null ? "null" : getT4()) + ", "
+          + (getT5() == null ? "null" : getT5()) + ")";
     }
 
   }
@@ -319,8 +326,11 @@ public final class Tuple {
 
     @Override
     public String toString() {
-      return "(" + getT1() + ", " + getT2() + ", " + getT3() + ", " + getT4() + ", " + getT5()
-          + ", t6=" + getT6() + ")";
+      return "(" + (getT1() == null ? "null" : getT1()) + ", "
+          + (getT2() == null ? "null" : getT2()) + ", " + (getT3() == null ? "null" : getT3())
+          + ", " + (getT4() == null ? "null" : getT4()) + ", "
+          + (getT5() == null ? "null" : getT5()) + ", t6=" + (getT6() == null ? "null" : getT6())
+          + ")";
     }
 
   }
