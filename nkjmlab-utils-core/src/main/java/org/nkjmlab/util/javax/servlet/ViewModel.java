@@ -59,8 +59,8 @@ public class ViewModel {
     private Builder() {}
 
     public Builder setFileModifiedDate(File directory, int maxDepth, String... extentions) {
-      List<File> files = FileUtils.listFiles(directory, maxDepth,
-          p -> Arrays.stream(extentions).filter(ext -> p.endsWith(ext)).findAny().isPresent());
+      List<File> files = FileUtils.listFiles(directory, maxDepth, p -> Arrays.stream(extentions)
+          .filter(ext -> p.toString().endsWith(ext)).findAny().isPresent());
       this.fileModifiedDate = files.stream()
           .collect(Collectors.toMap(
               f -> f.getAbsolutePath().replace(directory.getAbsolutePath(), "").replace(".", "_")

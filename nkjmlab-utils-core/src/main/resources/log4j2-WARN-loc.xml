@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration status="OFF">
+    <Properties>
+        <property name="log_level">WARN</property>
+        <property name="log_pattern">${log_pattern_loc}</property>
+
+        <property name="log_pattern_loc">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %c.%M(%F:%L) %m%n
+        </property>
+        <property name="log_pattern_noloc">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %c{3.} %m%n
+        </property>
+        <property name="log_pattern_suppress">
+            %m%n
+        </property>
+    </Properties>
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_pattern}" />
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="DENY"
+                    onMismatch="ACCEPT" />
+            </Filters>
+        </Console>
+        <Console name="stderr" target="SYSTEM_ERR">
+            <PatternLayout pattern="${log_pattern}" />
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" />
+            </Filters>
+        </Console>
+        <Console name="stdout_suppress" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_pattern_suppress}" />
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="DENY"
+                    onMismatch="ACCEPT" />
+            </Filters>
+        </Console>
+        <Console name="stderr_suppress" target="SYSTEM_ERR">
+            <PatternLayout pattern="${log_pattern_suppress}" />
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" />
+            </Filters>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="${log_level}">
+            <AppenderRef ref="stdout" />
+            <AppenderRef ref="stderr" />
+        </Root>
+        <Logger name="org.nkjmlab.util.log4j" level="${log_level}" additivity="false">
+            <AppenderRef ref="stdout_suppress" />
+            <AppenderRef ref="stderr_suppress" />
+        </Logger>
+    </Loggers>
+</configuration>

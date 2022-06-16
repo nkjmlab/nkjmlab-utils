@@ -49,7 +49,7 @@ public class JacksonMapper implements JsonMapper {
     }, false);
   }
 
-  public static JsonMapper getIgnoreUnknownPropertiesMapper() {
+  public static JacksonMapper getIgnoreUnknownPropertiesMapper() {
     return IGNORE_UNKNOWN_PROPERTIES_MAPPER;
   }
 
