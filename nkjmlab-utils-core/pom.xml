@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.nkjmlab</groupId>
     <artifactId>nkjmlab-utils-parent</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.2</version>
   </parent>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
@@ -26,7 +26,7 @@
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>2.1.212</version>
+      <version>2.1.214</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -47,21 +47,22 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.13.2</version>
+      <version>2.13.3</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>2.13.2</version>
+      <version>2.13.3</version>
       <optional>true</optional>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
     <dependency>
       <groupId>org.thymeleaf</groupId>
       <artifactId>thymeleaf</artifactId>
-      <version>3.0.15.RELEASE</version>
+      <version>3.1.0.M2</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.orangesignal/orangesignal-csv -->

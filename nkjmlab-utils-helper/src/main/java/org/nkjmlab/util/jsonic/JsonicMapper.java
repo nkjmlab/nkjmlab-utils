@@ -27,6 +27,11 @@ public class JsonicMapper implements JsonMapper {
   }
 
   @Override
+  public <T> T toObject(byte[] in, Class<T> clazz) {
+    return decode(new String(in, StandardCharsets.UTF_8), clazz);
+  }
+
+  @Override
   public <T> T toObject(String json, Class<T> clazz) {
     return decode(json, clazz);
   }
@@ -209,6 +214,7 @@ public class JsonicMapper implements JsonMapper {
       throw new RuntimeException(e);
     }
   }
+
 
 
 }

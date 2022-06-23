@@ -196,6 +196,11 @@ public class JacksonMapper implements JsonMapper {
   }
 
   @Override
+  public <T> T toObject(byte[] in, Class<T> clazz) {
+    return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
+  }
+
+  @Override
   public <T> T toObject(InputStream in, Class<T> clazz) {
     return Try.getOrElseThrow(() -> mapper.readValue(in, clazz), e -> Try.rethrow(e));
   }
@@ -249,6 +254,7 @@ public class JacksonMapper implements JsonMapper {
   public <T> T toObject(String json, TypeReference<T> clazz) {
     return Try.getOrElseThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
   }
+
 
 
 }
