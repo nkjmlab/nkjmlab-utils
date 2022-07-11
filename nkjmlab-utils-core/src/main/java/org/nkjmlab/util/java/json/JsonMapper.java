@@ -103,6 +103,17 @@ public interface JsonMapper {
   <T> T toObject(File in, Class<T> clazz);
 
   /**
+   * From JSON byte[] to Object
+   *
+   * @param <T>
+   * @param in
+   * @param clazz
+   * @return
+   */
+  <T> T toObject(byte[] in, Class<T> clazz);
+
+
+  /**
    * From JSON InputStream to Object
    *
    * @param <T>

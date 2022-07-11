@@ -92,8 +92,13 @@ public class DateTimeUtils {
   }
 
   public static Date toDate(LocalDateTime localDateTime) {
-    return Date.from(toZonedDateTime(localDateTime).toInstant());
+    return Date.from(toInstant(localDateTime));
   }
+
+  public static Instant toInstant(LocalDateTime localDateTime) {
+    return toZonedDateTime(localDateTime).toInstant();
+  }
+
 
   public static ZonedDateTime toZonedDateTime(LocalDateTime localDateTime) {
     return localDateTime.atZone(ZoneId.systemDefault());
