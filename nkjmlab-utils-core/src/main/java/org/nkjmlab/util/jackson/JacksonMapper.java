@@ -16,28 +16,31 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class JacksonMapper implements JsonMapper {
 
-  private static final JacksonMapper DEFAULT_MAPPER = new JacksonMapper(createDefaultMapper());
+  private static final JacksonMapper DEFAULT_MAPPER =
+      new JacksonMapper(createDefaultObjectMapper());
   private static final JacksonMapper IGNORE_UNKNOWN_PROPERTIES_MAPPER =
-      new JacksonMapper(createIgnoreUnknownPropertiesMapper());
+      new JacksonMapper(createIgnoreUnknownPropertiesObjectMapper());
 
   public static JacksonMapper create(ObjectMapper mapper) {
     return new JacksonMapper(mapper);
   }
 
-  private static ObjectMapper createIgnoreUnknownPropertiesMapper() {
-    ObjectMapper objectMapper = createDefaultMapper();
+  private static ObjectMapper createIgnoreUnknownPropertiesObjectMapper() {
+    ObjectMapper objectMapper = createDefaultObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper;
   }
 
-  public static ObjectMapper createDefaultMapper() {
+  public static ObjectMapper createDefaultObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
     if (isJavaTimeModuleEnable()) {
       objectMapper.registerModule(new JavaTimeModule());
+      objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
     return objectMapper;
   }

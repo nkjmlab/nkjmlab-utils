@@ -15,13 +15,11 @@ import org.nkjmlab.util.java.function.Try;
 
 public class BasicHttpClient {
 
-
-
   public static BasicHttpClient newBasicHttpClient() {
     return new BasicHttpClient(HttpClient.newHttpClient());
   }
 
-  private HttpClient client;
+  private final HttpClient client;
 
   public BasicHttpClient(HttpClient client) {
     this.client = client;

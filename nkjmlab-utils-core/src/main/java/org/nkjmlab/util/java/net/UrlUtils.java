@@ -2,8 +2,8 @@ package org.nkjmlab.util.java.net;
 
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import org.nkjmlab.util.java.function.Try;
 
 public class UrlUtils {
 
@@ -11,7 +11,7 @@ public class UrlUtils {
     try {
       return new URL(url);
     } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(url);
+      throw Try.rethrow(e);
     }
   }
 
@@ -23,15 +23,7 @@ public class UrlUtils {
     try {
       return uri.toURL();
     } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(uri.toString());
-    }
-  }
-
-  public static URI toUri(String url) {
-    try {
-      return of(url).toURI();
-    } catch (URISyntaxException e) {
-      throw new IllegalArgumentException(url);
+      throw Try.rethrow(e);
     }
   }
 
