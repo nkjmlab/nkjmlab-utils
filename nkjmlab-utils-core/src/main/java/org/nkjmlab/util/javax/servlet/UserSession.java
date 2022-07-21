@@ -5,7 +5,7 @@ import javax.servlet.http.HttpSession;
 
 public class UserSession {
 
-  private static final String USER_ID = "userId";
+  private static final String USER_ID = "USER_ID";
 
   public static UserSession wrap(HttpSession session) {
     return new UserSession(session);
@@ -17,11 +17,11 @@ public class UserSession {
     this.session = session;
   }
 
-  public Object getAttribute(String key) {
-    return session.getAttribute(key);
+  public Optional<Object> getAttribute(String name) {
+    return Optional.ofNullable(session.getAttribute(name));
   }
 
-  public String getId() {
+  public String getSessionId() {
     return session.getId();
   }
 
@@ -30,23 +30,37 @@ public class UserSession {
   }
 
   public Optional<String> getUserId() {
-    return Optional.ofNullable(getAttribute(USER_ID)).map(o -> o.toString());
+    return getAttribute(USER_ID).map(o -> o.toString());
   }
 
+  /**
+   * @see {@link HttpSession#invalidate()}
+   *
+   */
   public void invalidate() {
     session.invalidate();
   }
 
   public boolean isLogined() {
-    return getAttribute(USER_ID) != null;
+    return getAttribute(USER_ID).isPresent();
   }
 
-  public void setAttribute(String key, Object value) {
-    session.setAttribute(key, value);
+  /**
+   * @see {@link HttpSession#setAttribute(String, Object)}
+   *
+   * @param name
+   * @param value
+   */
+  public void setAttribute(String name, Object value) {
+    session.setAttribute(name, value);
   }
 
-  public void setMaxInactiveInterval(int maxInterval) {
-    session.setMaxInactiveInterval(maxInterval);
+  /**
+   * @see {@link HttpSession#setMaxInactiveInterval(int)}
+   * @param interval
+   */
+  public void setMaxInactiveInterval(int interval) {
+    session.setMaxInactiveInterval(interval);
   }
 
   public void setUserId(String userId) {

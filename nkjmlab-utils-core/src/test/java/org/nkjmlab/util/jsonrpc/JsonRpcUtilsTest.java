@@ -9,22 +9,23 @@ class JsonRpcUtilsTest {
 
   @Test
   void testCallJsonRpc() {
-    JsonRpcRequest req = JsonRpcUtils.createRequest("getString", "hoge");
+    Object[] params = {"hoge"};
+    JsonRpcRequest req = new JsonRpcRequest("1", "getString", params);
     assertThat(req.getMethod()).isEqualTo("getString");
     assertThat(req.getParams()[0]).isEqualTo("hoge");
     JsonRpcResponse res =
-        JsonRpcUtils.callJsonRpc(JacksonMapper.getDefaultMapper(), new StubClass(), req);
+        new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
     assertThat(res.getResult()).isEqualTo("hoge");
   }
 
   @Test
   void testCallJsonRpcFail() {
 
-    assertThatThrownBy(() -> {
-      JsonRpcRequest req = JsonRpcUtils.createRequest("getStrin", "hoge");
-      JsonRpcUtils.callJsonRpc(JacksonMapper.getDefaultMapper(), new StubClass(), req);
-    }).isInstanceOfSatisfying(Exception.class,
-        e -> assertThat(e.getMessage()).contains("Invalid method"));
+    Object[] params = {"hoge"};
+    JsonRpcRequest req = new JsonRpcRequest("2", "getStrin", params);
+    JsonRpcResponse res =
+        new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
+    assertThat(res.getError()).isNotNull();
   }
 
 

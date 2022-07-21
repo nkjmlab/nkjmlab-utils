@@ -1,9 +1,13 @@
 package org.nkjmlab.util.h2;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.h2.jdbcx.JdbcConnectionPool;
+import org.nkjmlab.sorm4j.internal.util.Try;
 import org.nkjmlab.util.java.io.SystemFileUtils;
 import org.nkjmlab.util.java.json.FileDatabaseConfigJson;
 
@@ -39,7 +43,8 @@ public class H2LocalDataSourceFactory {
     this.databaseName = databaseName;
     this.databaseDirectory = databaseDirectory;
     this.databasePath = createDatabasePath(databaseDirectory, databaseName);
-    this.inMemoryModeJdbcUrl = "jdbc:h2:mem:" + databaseName + ";DB_CLOSE_DELAY=-1";
+    this.inMemoryModeJdbcUrl =
+        "jdbc:h2:mem:" + databaseName + ";DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE";
     this.serverModeJdbcUrl = "jdbc:h2:tcp://localhost/" + databasePath;
     this.embeddedModeJdbcUrl = "jdbc:h2:file:" + databasePath;
     this.mixedModeJdbcUrl = "jdbc:h2:" + databasePath + ";AUTO_SERVER=TRUE";
@@ -161,6 +166,18 @@ public class H2LocalDataSourceFactory {
    */
   public JdbcConnectionPool createMixedModeDataSource(String... options) {
     return JdbcConnectionPool.create(getMixedModeJdbcUrl(options), getUsername(), getPassword());
+  }
+
+  public boolean createNewFileDatabaseIfNotExists() {
+    if (new File(databasePath + ".mv.db").exists()) {
+      return true;
+    }
+    try (Connection con =
+        DriverManager.getConnection(getEmbeddedModeJdbcUrl(), getUsername(), getPassword())) {
+      return true;
+    } catch (SQLException e) {
+      throw Try.rethrow(e);
+    }
   }
 
   public String getUsername() {

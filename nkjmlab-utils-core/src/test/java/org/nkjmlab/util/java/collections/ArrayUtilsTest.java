@@ -8,9 +8,10 @@ class ArrayUtilsTest {
 
   @Test
   void testToStringWithType() {
+
     System.out.println("boolean=>" + new boolean[0]);
     System.out.println("byte=>" + new byte[0]);
-    System.out.println("char=>" + new char[0]);
+    System.out.println("char=>" + new char[0].toString());
     System.out.println("short=>" + new short[0]);
     System.out.println("int=>" + new int[0]);
     System.out.println("long=>" + new long[0]);
