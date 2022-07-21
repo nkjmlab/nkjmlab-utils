@@ -45,8 +45,8 @@ public class ViewModel {
     return (String) map.get(FILE_PATH);
   }
 
-  public static Builder builder() {
-    return new Builder();
+  public static ViewModel.Builder builder() {
+    return new ViewModel.Builder();
   }
 
   public static class Builder {
@@ -58,7 +58,8 @@ public class ViewModel {
 
     private Builder() {}
 
-    public Builder setFileModifiedDate(File directory, int maxDepth, String... extentions) {
+    public ViewModel.Builder setFileModifiedDate(File directory, int maxDepth,
+        String... extentions) {
       List<File> files = FileUtils.listFiles(directory, maxDepth, p -> Arrays.stream(extentions)
           .filter(ext -> p.toString().endsWith(ext)).findAny().isPresent());
       this.fileModifiedDate = files.stream()
@@ -69,12 +70,12 @@ public class ViewModel {
       return this;
     }
 
-    public Builder setLocale(Locale locale) {
+    public ViewModel.Builder setLocale(Locale locale) {
       this.locale = locale;
       return this;
     }
 
-    public Builder setFilePath(String filePath) {
+    public ViewModel.Builder setFilePath(String filePath) {
       map.put(FILE_PATH, filePath);
       return this;
     }
@@ -86,12 +87,10 @@ public class ViewModel {
       return model;
     }
 
-    public void put(String key, Object value) {
+    public ViewModel.Builder put(String key, Object value) {
       map.put(key, value);
+      return this;
     }
-
   }
-
-
 
 }

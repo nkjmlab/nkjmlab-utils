@@ -18,7 +18,6 @@ public class H2ServerUtils {
   private static final org.nkjmlab.util.java.logging.SimpleLogger log =
       org.nkjmlab.util.java.logging.LogManager.createLogger();
 
-
   public static class H2ServerProperties {
 
     public final String name;
@@ -42,7 +41,7 @@ public class H2ServerUtils {
 
     public static abstract class Builder<T extends H2ServerProperties> {
       protected String javaCommand = SystemPropertyUtils.findJavaCommand();
-      protected String h2ClassPath = SystemPropertyUtils.findOneClassPathElement("^h2-.*.jar$");
+      protected String h2ClassPath = SystemPropertyUtils.findClassPathElement("^h2-.*.jar$");
       protected final String name;
       protected int port;
       protected String password = "";

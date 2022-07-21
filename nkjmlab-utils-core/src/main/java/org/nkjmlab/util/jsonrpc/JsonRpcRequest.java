@@ -4,11 +4,20 @@ import java.util.Arrays;
 
 public class JsonRpcRequest {
 
+  private String jsonrpc;
   private String id;
   private String method;
-  private Object[] params = new Object[0];
-  public String callback;
-  public String headers;
+  private Object[] params;
+
+  public JsonRpcRequest() {
+    this(null, null, new Object[0]);
+  }
+
+  public JsonRpcRequest(String id, String method, Object[] params) {
+    this.id = id;
+    this.method = method;
+    this.params = params;
+  }
 
   public String getId() {
     return id;
@@ -38,10 +47,18 @@ public class JsonRpcRequest {
     this.params = params;
   }
 
+  public String getJsonrpc() {
+    return jsonrpc;
+  }
+
+  public void setJsonrpc(String jsonrpc) {
+    this.jsonrpc = jsonrpc;
+  }
+
   @Override
   public String toString() {
-    return "JsonRpcRequest [id=" + id + ", method=" + method + ", params=" + Arrays.toString(params)
-        + ", callback=" + callback + ", headers=" + headers + "]";
+    return "JsonRpcRequest [jsonrpc=" + jsonrpc + ", id=" + id + ", method=" + method + ", params="
+        + Arrays.toString(params) + "]";
   }
 
 

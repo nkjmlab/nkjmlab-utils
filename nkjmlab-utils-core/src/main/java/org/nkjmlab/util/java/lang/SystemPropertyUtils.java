@@ -32,16 +32,22 @@ public class SystemPropertyUtils {
     return System.getProperty("java.class.path").split(File.pathSeparator);
   }
 
-  public static String findOneClassPathElement(String regex) {
-    String[] classPathElements = getClassPathElements();
-    List<String> elements = Arrays.stream(classPathElements)
-        .filter(elem -> new File(elem).getName().matches(regex)).collect(Collectors.toList());
+  public static String findClassPathElement(String regex) {
+    List<String> elements = findClassPathElements(regex);
     if (elements.size() == 1) {
       return elements.get(0);
     } else {
-      throw new IllegalStateException(ParameterizedStringUtils
-          .newString("Jar should be one in class path ({})", Arrays.toString(classPathElements)));
+      throw new IllegalArgumentException(
+          ParameterizedStringUtils.newString("{} should be one in classpath. found {}, in {}",
+              regex, elements, getClassPathElements()));
     }
+  }
+
+  public static List<String> findClassPathElements(String regex) {
+    String[] classPathElements = getClassPathElements();
+    List<String> elements = Arrays.stream(classPathElements)
+        .filter(elem -> new File(elem).getName().matches(regex)).collect(Collectors.toList());
+    return elements;
   }
 
   public static String findJavaCommand() {
