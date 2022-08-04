@@ -3,6 +3,7 @@ package org.nkjmlab.util.h2;
 import static org.assertj.core.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.Test;
+import org.nkjmlab.sorm4j.util.h2.datasource.H2LocalDataSourceFactory;
 
 class LocalDataSourceFactoryTest {
 

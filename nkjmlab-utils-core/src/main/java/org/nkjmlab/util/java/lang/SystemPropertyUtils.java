@@ -37,9 +37,9 @@ public class SystemPropertyUtils {
     if (elements.size() == 1) {
       return elements.get(0);
     } else {
-      throw new IllegalArgumentException(
-          ParameterizedStringUtils.newString("{} should be one in classpath. found {}, in {}",
-              regex, elements, getClassPathElements()));
+      Object[] params = {regex, elements, getClassPathElements()};
+      throw new IllegalArgumentException(ParameterizedStringFormat.DEFAULT
+          .format("{} should be one in classpath. found {}, in {}", params));
     }
   }
 
@@ -61,7 +61,7 @@ public class SystemPropertyUtils {
             "java.vm.name", "java.vm.version", "java.vm.vendor", "java.home", "java.class.path",
             "user.name", "user.home", "user.dir")
         .collect(Collectors.toMap(p -> p,
-            p -> ParameterizedStringUtils.newString("{}={}", p, System.getProperty(p))));
+            p -> ParameterizedStringFormat.DEFAULT.format("{}={}", p, System.getProperty(p))));
   }
 
 

@@ -7,10 +7,14 @@ class ParameterizedStringUtilsTest {
 
   @Test
   void testNewStringStringObjectArray() {
-    assertThat(ParameterizedStringUtils.newString("{}", 1)).isEqualTo("1");
-    assertThat(ParameterizedStringUtils.newString("{}{}", 1)).isEqualTo("1{}");
-    assertThat(ParameterizedStringUtils.newString("{}", 1, 2)).isEqualTo("1");
-    assertThat(ParameterizedStringUtils.newString("My name is {}. My score is {}", "Alice", 100))
+    Object[] params = {1};
+    assertThat(ParameterizedStringFormat.DEFAULT.format("{}", params)).isEqualTo("1");
+    Object[] params1 = {1};
+    assertThat(ParameterizedStringFormat.DEFAULT.format("{}{}", params1)).isEqualTo("1{}");
+    Object[] params2 = {1, 2};
+    assertThat(ParameterizedStringFormat.DEFAULT.format("{}", params2)).isEqualTo("1");
+    Object[] params3 = {"Alice", 100};
+    assertThat(ParameterizedStringFormat.DEFAULT.format("My name is {}. My score is {}", params3))
         .isEqualTo("My name is Alice. My score is 100");
   }
 
