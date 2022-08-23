@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.nkjmlab.util.java.lang.ParameterizedStringUtils;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
 import org.nkjmlab.util.java.lang.SystemPropertyUtils;
 
 public class WebJarsUtils {
@@ -22,24 +22,24 @@ public class WebJarsUtils {
           if (m.find()) {
             return m.group(1);
           } else {
+            Object[] params = {regex, SystemPropertyUtils.getClassPathElements()};
             throw new IllegalStateException(
-                ParameterizedStringUtils.newString("{} should be one in classpath ({})", regex,
-                    SystemPropertyUtils.getClassPathElements()));
+                ParameterizedStringFormat.DEFAULT.format("{} should be one in classpath ({})", params));
           }
         }).collect(Collectors.toList());
 
     if (versions.size() == 0) {
-      throw new IllegalStateException(ParameterizedStringUtils.newString(
-          "{} should be one in classpath ({})", regex, SystemPropertyUtils.getClassPathElements()));
+      Object[] params = {regex, SystemPropertyUtils.getClassPathElements()};
+      throw new IllegalStateException(ParameterizedStringFormat.DEFAULT.format("{} should be one in classpath ({})", params));
     } else if (versions.size() == 1) {
       return versions.get(0);
     } else {
+      Object[] params = {regex, SystemPropertyUtils.getClassPathElements()};
       return versions.stream().filter(
           v -> v.toLowerCase().matches("([0-9]|\\.|-|beta|alpha|stable|release|stable|snapshot)*"))
           .findAny()
           .orElseThrow(() -> new IllegalStateException(
-              ParameterizedStringUtils.newString("{} should be one in classpath ({})", regex,
-                  SystemPropertyUtils.getClassPathElements())));
+              ParameterizedStringFormat.DEFAULT.format("{} should be one in classpath ({})", params)));
     }
   }
 

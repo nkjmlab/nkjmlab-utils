@@ -1,6 +1,5 @@
 package org.nkjmlab.util.java.logging;
 
-import static org.nkjmlab.util.java.lang.ParameterizedStringUtils.*;
 import static org.nkjmlab.util.java.logging.SimpleLogger.Category.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
@@ -8,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
 
 public class JulLogger implements org.nkjmlab.util.java.logging.SimpleLogger {
 
@@ -42,14 +42,14 @@ public class JulLogger implements org.nkjmlab.util.java.logging.SimpleLogger {
   public void trace(String format, Object... params) {
     this.logger.finer(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, TRACE.name(), new Throwable().getStackTrace())
-            + " " + newString(format, params));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) format, params));
   }
 
   @Override
   public void debug(String format, Object... params) {
     this.logger.fine(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, DEBUG.name(), new Throwable().getStackTrace())
-            + " " + newString(format, params));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) format, params));
   }
 
 
@@ -57,37 +57,39 @@ public class JulLogger implements org.nkjmlab.util.java.logging.SimpleLogger {
   public void info(String format, Object... params) {
     this.logger.info(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, INFO.name(), new Throwable().getStackTrace())
-            + " " + newString(format, params));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) format, params));
   }
 
   @Override
   public void warn(String format, Object... params) {
     this.logger.warning(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, WARN.name(), new Throwable().getStackTrace())
-            + " " + newString(format, params));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) format, params));
   }
 
   @Override
   public void error(String format, Object... params) {
     this.logger.severe(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + newString(format, params));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) format, params));
   }
 
   @Override
   public void error(Throwable message, Throwable throwable) {
+    Object[] params = {};
     this.logger.severe(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + newString(message != null ? message.toString()
-                : "" + throwable != null ? throwable.toString() : ""));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) (message != null ? message.toString()
+            : "" + throwable != null ? throwable.toString() : ""), params));
   }
 
   @Override
   public void warn(Throwable message, Throwable throwable) {
+    Object[] params = {};
     this.logger.warning(
         MethodInvokerInfoUtils.getInvokerLogMessage(3, ERROR.name(), new Throwable().getStackTrace())
-            + " " + newString(message != null ? message.toString()
-                : "" + throwable != null ? throwable.toString() : ""));
+            + " " + ParameterizedStringFormat.DEFAULT.format((String) (message != null ? message.toString()
+            : "" + throwable != null ? throwable.toString() : ""), params));
 
   }
 

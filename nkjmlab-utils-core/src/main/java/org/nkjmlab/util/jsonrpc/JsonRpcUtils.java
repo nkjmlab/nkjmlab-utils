@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.ClassUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
 
 
 public class JsonRpcUtils {
@@ -36,9 +37,9 @@ public class JsonRpcUtils {
       return true;
     }).findAny();
 
-    return om.orElseThrow(() -> new IllegalArgumentException("Invalid method call => "
-        + "methodName=[" + methodName + "], parameters=" + String.join("-",
-            Stream.of(params).map(o -> o.getClass().getCanonicalName()).toArray(String[]::new))));
+    return om.orElseThrow(() -> new IllegalArgumentException(
+        "Method not found => " + "methodName=[" + methodName + "], params=["
+            + ParameterizedStringFormat.LENGTH_16.convertToStringWithType(params) + "]"));
   }
 
 

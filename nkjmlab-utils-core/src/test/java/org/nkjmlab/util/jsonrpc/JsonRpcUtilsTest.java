@@ -21,10 +21,11 @@ class JsonRpcUtilsTest {
   @Test
   void testCallJsonRpcFail() {
 
-    Object[] params = {"hoge"};
+    Object[] params = {"hogehogehogehogehogehogehogehogehogehogehogehogehogehogehogehoge"};
     JsonRpcRequest req = new JsonRpcRequest("2", "getStrin", params);
     JsonRpcResponse res =
         new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
+    System.err.println(res.getError());
     assertThat(res.getError()).isNotNull();
   }
 

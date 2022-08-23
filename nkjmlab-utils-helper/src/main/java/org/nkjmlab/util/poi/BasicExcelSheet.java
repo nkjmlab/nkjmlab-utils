@@ -19,8 +19,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.nkjmlab.sorm4j.internal.util.ParameterizedStringUtils;
 import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
 import org.nkjmlab.util.java.stream.StreamUtils;
 import org.nkjmlab.util.java.time.DateTimeUtils;
 
@@ -175,7 +175,7 @@ public class BasicExcelSheet {
         return Boolean.toString(value.getBooleanValue());
       default:
         throw new IllegalArgumentException(
-            ParameterizedStringUtils.newString("{} is invalid", cell));
+            ParameterizedStringFormat.DEFAULT.format("{} is invalid", cell));
     }
   }
 
@@ -195,7 +195,7 @@ public class BasicExcelSheet {
         return Boolean.toString(cell.getBooleanCellValue());
       default:
         throw new IllegalArgumentException(
-            ParameterizedStringUtils.newString("{} is invalid", cell));
+            ParameterizedStringFormat.DEFAULT.format("{} is invalid", cell));
     }
   }
 

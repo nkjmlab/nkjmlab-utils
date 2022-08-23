@@ -1,6 +1,8 @@
 package org.nkjmlab.util.javax.mail;
 
+import java.util.Arrays;
 import java.util.Properties;
+import java.util.stream.Collectors;
 import javax.mail.Authenticator;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
@@ -9,6 +11,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.nkjmlab.sorm4j.internal.util.Try;
 
 public class MailSender {
   private final String loginId;
@@ -51,7 +54,7 @@ public class MailSender {
       mimeMessage.saveChanges();
       return mimeMessage;
     } catch (MessagingException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
@@ -59,10 +62,29 @@ public class MailSender {
     try {
       Transport.send(message);
     } catch (MessagingException e) {
-      throw new RuntimeException(e);
+      throw Try.rethrow(e);
     }
   }
 
+
+  public static String getMailHeader(MimeMessage message) {
+    try {
+      String from = "from: " + String.join(",",
+          Arrays.stream(message.getFrom()).map(a -> a.toString()).collect(Collectors.toList()));
+      String to = "to: " + String.join(",", Arrays.stream(message.getRecipients(RecipientType.TO))
+          .map(a -> a.toString()).collect(Collectors.toList()));
+      String cc = "cc: " + String.join(",", Arrays.stream(message.getRecipients(RecipientType.CC))
+          .map(a -> a.toString()).collect(Collectors.toList()));
+      String bcc =
+          "bcc: " + String.join(",", Arrays.stream(message.getRecipients(RecipientType.BCC))
+              .map(a -> a.toString()).collect(Collectors.toList()));
+      String subject = message.getSubject();
+
+      return String.join(System.lineSeparator(), from, to, cc, bcc, subject);
+    } catch (MessagingException e) {
+      throw Try.rethrow(e);
+    }
+  }
 
   private Session createSession() {
 
