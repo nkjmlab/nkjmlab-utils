@@ -4,11 +4,11 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.nkjmlab.util.java.io.FileUtils;
 
@@ -21,10 +21,6 @@ public class ViewModel implements Map<String, Object> {
 
   private ViewModel(Map<String, Object> map) {
     this.map = Collections.unmodifiableMap(map);
-  }
-
-  public Map<String, Object> getMap() {
-    return map;
   }
 
   @Override
@@ -117,7 +113,7 @@ public class ViewModel implements Map<String, Object> {
 
     private Locale locale = Locale.getDefault();
 
-    private final Map<String, Object> map = new TreeMap<>();
+    private final Map<String, Object> map = new LinkedHashMap<>();
 
     public ViewModel.Builder setFileModifiedDate(File directory, int maxDepth,
         String... extentions) {
