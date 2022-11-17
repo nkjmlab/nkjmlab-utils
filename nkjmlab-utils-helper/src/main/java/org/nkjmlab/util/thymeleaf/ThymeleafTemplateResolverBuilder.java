@@ -42,6 +42,12 @@ public class ThymeleafTemplateResolverBuilder {
     return this;
   }
 
+  /**
+   *
+   * @param cacheTtlMs if the value is less than 0 cache is not used.
+   * @return
+   */
+
   public ThymeleafTemplateResolverBuilder setCacheTtlMs(long cacheTtlMs) {
     this.cacheTtlMs = cacheTtlMs;
     return this;

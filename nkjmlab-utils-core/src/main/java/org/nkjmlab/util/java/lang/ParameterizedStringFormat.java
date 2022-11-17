@@ -22,6 +22,8 @@ public final class ParameterizedStringFormat {
       new ParameterizedStringFormat(DEFAULT_PLACEHOLDER, 256);
   public static final ParameterizedStringFormat LENGTH_512 =
       new ParameterizedStringFormat(DEFAULT_PLACEHOLDER, 512);
+  public static final ParameterizedStringFormat LENGTH_1024 =
+      new ParameterizedStringFormat(DEFAULT_PLACEHOLDER, 1024);
   public static final ParameterizedStringFormat NO_LENGTH_LIMIT =
       new ParameterizedStringFormat(DEFAULT_PLACEHOLDER, Integer.MAX_VALUE);
 

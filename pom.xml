@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-parent</artifactId>
   <name>nkjmlab-utils-parent</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.8.6</version>
+  <version>0.8.7</version>
   <packaging>pom</packaging>
   <url>https://github.com/nkjmlab</url>
   <licenses>
@@ -33,7 +33,7 @@
   </modules>
 
   <properties>
-    <sorm4j-version>1.4.10</sorm4j-version>
+    <sorm4j-version>1.4.11</sorm4j-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>

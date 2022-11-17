@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.nkjmlab</groupId>
     <artifactId>nkjmlab-utils-parent</artifactId>
-    <version>0.8.6</version>
+    <version>0.8.7</version>
   </parent>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
@@ -65,7 +65,17 @@
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+      <optional>true</optional>
+    </dependency>
+
   </dependencies>
+
   <build>
     <plugins>
       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->

@@ -29,8 +29,10 @@ public class JsonRpcCaller {
     try {
       Object jres = JsonRpcUtils.invokeMethod(target, method, request.getParams(), mapper);
       return new JsonRpcResponse(request.getId(), jres);
-    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+    } catch (IllegalAccessException | IllegalArgumentException e) {
       return new JsonRpcResponse(request.getId(), JsonRpcError.createInvalidParams(e));
+    } catch (InvocationTargetException e) {
+      return new JsonRpcResponse(request.getId(), JsonRpcError.createInvalidParams(e.getCause()));
     } catch (Throwable e) {
       return new JsonRpcResponse(request.getId(), JsonRpcError.createInternalError(e));
     }

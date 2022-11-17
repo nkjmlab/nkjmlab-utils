@@ -84,7 +84,7 @@ public class JsonRpcError {
    * @param e
    * @return
    */
-  public static JsonRpcError createInvalidParams(Exception e) {
+  public static JsonRpcError createInvalidParams(Throwable e) {
     return create(-32602, "Invalid params", e);
   }
 

@@ -1,4 +1,4 @@
-package org.nkjmlab.util.javax.servlet;
+package org.nkjmlab.util.jakarta.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;

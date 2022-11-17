@@ -1,4 +1,4 @@
-package org.nkjmlab.util.javax.servlet;
+package org.nkjmlab.util.java.web;
 
 import java.io.File;
 import java.util.Arrays;
@@ -108,6 +108,10 @@ public class ViewModel implements Map<String, Object> {
     return map.entrySet();
   }
 
+  public static ViewModel.Builder builder(Map<String, Object> map) {
+    return new Builder().putAll(map);
+  }
+
 
   public static class Builder {
 
@@ -127,6 +131,7 @@ public class ViewModel implements Map<String, Object> {
       map.putAll(fileModifiedDate);
       return this;
     }
+
 
     public ViewModel.Builder setLocale(Locale locale) {
       this.locale = locale;
@@ -148,6 +153,13 @@ public class ViewModel implements Map<String, Object> {
       map.put(key, value);
       return this;
     }
+
+    public Builder putAll(Map<String, Object> keysAndvalues) {
+      keysAndvalues.putAll(keysAndvalues);
+      return this;
+    }
   }
+
+
 
 }
