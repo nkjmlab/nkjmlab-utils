@@ -14,7 +14,7 @@ public class WebApplicationConfig {
   private final File userHomeDirectory;
   private final File backupDirectory;
   /**
-   * Key is jars name and value is version.
+   * Key is jar's name and, value is the version.
    */
   private final Map<String, String> webJars;
 
@@ -57,6 +57,8 @@ public class WebApplicationConfig {
     private File userHomeDirectory = SystemFileUtils.getUserHomeDirectory();
     private String backupDirectoryName = "webapp-bkup";
     private List<String> webJars = new ArrayList<>();
+
+    private Builder() {}
 
     public WebApplicationConfig.Builder addWebJar(String... webJars) {
       this.webJars.addAll(Arrays.asList(webJars));

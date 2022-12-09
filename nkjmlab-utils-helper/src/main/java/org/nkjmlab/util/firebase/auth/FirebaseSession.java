@@ -2,8 +2,8 @@ package org.nkjmlab.util.firebase.auth;
 
 
 import java.util.Optional;
-import javax.servlet.http.HttpSession;
 import org.nkjmlab.util.firebase.auth.FirebaseAccountsTable.FirebaseAccount;
+import jakarta.servlet.http.HttpSession;
 
 public class FirebaseSession {
 

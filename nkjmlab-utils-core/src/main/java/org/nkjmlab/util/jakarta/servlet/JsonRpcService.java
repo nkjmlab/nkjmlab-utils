@@ -61,6 +61,12 @@ public class JsonRpcService {
 
 
 
+  /**
+   * Convert {@link HttpServletRequest} to {@link JsonRpcRequest}
+   *
+   * @param request
+   * @return
+   */
   public JsonRpcRequest toJsonRpcRequest(HttpServletRequest request) {
     InputStream is = getInputStream(request);
     InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);

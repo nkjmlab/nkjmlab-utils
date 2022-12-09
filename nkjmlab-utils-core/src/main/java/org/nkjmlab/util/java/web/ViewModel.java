@@ -108,6 +108,12 @@ public class ViewModel implements Map<String, Object> {
     return map.entrySet();
   }
 
+  /**
+   * Creates {@link Builder} with initial parameters.
+   *
+   * @param map
+   * @return
+   */
   public static ViewModel.Builder builder(Map<String, Object> map) {
     return new Builder().putAll(map);
   }
@@ -155,7 +161,7 @@ public class ViewModel implements Map<String, Object> {
     }
 
     public Builder putAll(Map<String, Object> keysAndvalues) {
-      keysAndvalues.putAll(keysAndvalues);
+      map.putAll(keysAndvalues);
       return this;
     }
   }
