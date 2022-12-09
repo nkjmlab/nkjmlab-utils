@@ -2,6 +2,14 @@ package org.nkjmlab.util.jsonrpc;
 
 import java.util.Arrays;
 
+/**
+ * The class represents a JSON-RPC request object.
+ *
+ * @see <a href="https://www.jsonrpc.org/specification#request_object">JSON-RPC 2.0
+ *      Specification</a>
+ * @author nkjm
+ *
+ */
 public class JsonRpcRequest {
 
   private String jsonrpc;

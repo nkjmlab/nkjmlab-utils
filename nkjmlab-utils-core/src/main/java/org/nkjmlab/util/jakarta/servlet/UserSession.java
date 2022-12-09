@@ -1,7 +1,7 @@
-package org.nkjmlab.util.javax.servlet;
+package org.nkjmlab.util.jakarta.servlet;
 
 import java.util.Optional;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 public class UserSession {
 

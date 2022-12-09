@@ -18,5 +18,4 @@ public class StreamUtils {
     return stream(iterable.iterator());
   }
 
-
 }

@@ -1,4 +1,4 @@
-package org.nkjmlab.util.javax.servlet;
+package org.nkjmlab.util.jakarta.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,14 +7,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.nkjmlab.sorm4j.internal.util.Try;
 import org.nkjmlab.util.java.io.ReaderUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
 import org.nkjmlab.util.jsonrpc.JsonRpcCaller;
 import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
 import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class JsonRpcService {
 
@@ -61,6 +61,12 @@ public class JsonRpcService {
 
 
 
+  /**
+   * Convert {@link HttpServletRequest} to {@link JsonRpcRequest}
+   *
+   * @param request
+   * @return
+   */
   public JsonRpcRequest toJsonRpcRequest(HttpServletRequest request) {
     InputStream is = getInputStream(request);
     InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);

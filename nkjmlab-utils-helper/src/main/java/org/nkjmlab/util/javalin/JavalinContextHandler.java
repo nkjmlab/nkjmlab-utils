@@ -3,7 +3,7 @@ package org.nkjmlab.util.javalin;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import org.nkjmlab.util.java.net.UrlUtils;
-import org.nkjmlab.util.javax.servlet.ViewModel;
+import org.nkjmlab.util.java.web.ViewModel;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 

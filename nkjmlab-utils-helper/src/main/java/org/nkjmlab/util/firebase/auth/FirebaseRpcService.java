@@ -1,9 +1,9 @@
 package org.nkjmlab.util.firebase.auth;
 
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import org.nkjmlab.util.firebase.auth.FirebaseAccountsTable.FirebaseAccount;
 import com.google.firebase.auth.FirebaseToken;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class FirebaseRpcService implements FirebaseRpcServiceInterface {
   private static final org.apache.logging.log4j.Logger log =

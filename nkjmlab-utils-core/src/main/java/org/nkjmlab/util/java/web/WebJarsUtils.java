@@ -1,4 +1,4 @@
-package org.nkjmlab.util.javax.servlet;
+package org.nkjmlab.util.java.web;
 
 import java.io.File;
 import java.util.List;

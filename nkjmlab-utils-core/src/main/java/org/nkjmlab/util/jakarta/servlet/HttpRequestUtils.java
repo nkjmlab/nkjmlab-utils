@@ -1,7 +1,7 @@
-package org.nkjmlab.util.javax.servlet;
+package org.nkjmlab.util.jakarta.servlet;
 
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class HttpRequestUtils {
 

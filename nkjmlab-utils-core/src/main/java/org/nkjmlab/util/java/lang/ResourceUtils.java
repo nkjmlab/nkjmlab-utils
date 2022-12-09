@@ -17,16 +17,16 @@ public class ResourceUtils {
     return new BufferedReader(getResourceAsInputStreamReader(clazz, resourceName));
   }
 
-  public static File getResourceAsFile(Class<?> clazz, String file) {
-    return new File(getResourceAsUri(clazz, file));
+  public static File getResourceAsFile(Class<?> clazz, String resourceName) {
+    return new File(getResourceAsUri(clazz, resourceName));
   }
 
-  public static File getResourceAsFile(String file) {
-    return getResourceAsFile(ResourceUtils.class, file);
+  public static File getResourceAsFile(String resourceName) {
+    return getResourceAsFile(ResourceUtils.class, resourceName);
   }
 
-  public static InputStream getResourceAsInputStream(Class<?> clazz, File file) {
-    return getResourceAsInputStream(clazz, toResourceName(file));
+  public static InputStream getResourceAsInputStream(Class<?> clazz, File resourceFile) {
+    return getResourceAsInputStream(clazz, toResourceName(resourceFile));
   }
 
   public static InputStream getResourceAsInputStream(Class<?> clazz, String resourceName) {
@@ -42,9 +42,9 @@ public class ResourceUtils {
     return new InputStreamReader(getResourceAsInputStream(clazz, resourceName));
   }
 
-  public static URI getResourceAsUri(Class<?> clazz, String file) {
+  public static URI getResourceAsUri(Class<?> clazz, String resourceName) {
     try {
-      return clazz.getResource(file).toURI();
+      return clazz.getResource(resourceName).toURI();
     } catch (URISyntaxException e) {
       throw Try.rethrow(e);
     }
@@ -74,6 +74,10 @@ public class ResourceUtils {
 
   private static String toResourceName(String name) {
     return name.replaceAll("\\\\", "/");
+  }
+
+  public static File getResourceRootAsFile() {
+    return getResourceAsFile(ResourceUtils.class, "/");
   }
 
 }

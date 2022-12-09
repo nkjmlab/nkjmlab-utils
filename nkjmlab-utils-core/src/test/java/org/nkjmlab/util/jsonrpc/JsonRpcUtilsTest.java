@@ -25,7 +25,6 @@ class JsonRpcUtilsTest {
     JsonRpcRequest req = new JsonRpcRequest("2", "getStrin", params);
     JsonRpcResponse res =
         new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
-    System.err.println(res.getError());
     assertThat(res.getError()).isNotNull();
   }
 
