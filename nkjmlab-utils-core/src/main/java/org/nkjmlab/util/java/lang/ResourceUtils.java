@@ -9,13 +9,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.function.Try;
 
 public class ResourceUtils {
-
-  private static BufferedReader getResourceAsBufferedReader(Class<?> clazz, String resourceName) {
-    return new BufferedReader(getResourceAsInputStreamReader(clazz, resourceName));
-  }
 
   public static File getResourceAsFile(Class<?> clazz, String resourceName) {
     return new File(getResourceAsUri(clazz, resourceName));
@@ -25,22 +21,7 @@ public class ResourceUtils {
     return getResourceAsFile(ResourceUtils.class, resourceName);
   }
 
-  public static InputStream getResourceAsInputStream(Class<?> clazz, File resourceFile) {
-    return getResourceAsInputStream(clazz, toResourceName(resourceFile));
-  }
 
-  public static InputStream getResourceAsInputStream(Class<?> clazz, String resourceName) {
-    return clazz.getResourceAsStream(resourceName);
-  }
-
-  public static InputStream getResourceAsInputStream(String resourceName) {
-    return getResourceAsInputStream(ResourceUtils.class, resourceName);
-  }
-
-  private static InputStreamReader getResourceAsInputStreamReader(Class<?> clazz,
-      String resourceName) {
-    return new InputStreamReader(getResourceAsInputStream(clazz, resourceName));
-  }
 
   public static URI getResourceAsUri(Class<?> clazz, String resourceName) {
     try {
@@ -56,7 +37,9 @@ public class ResourceUtils {
 
   public static List<String> readAllLines(Class<?> clazz, String resourceName) {
     List<String> lines = new ArrayList<>();
-    try (BufferedReader br = getResourceAsBufferedReader(clazz, resourceName)) {
+    try (InputStream in = clazz.getResourceAsStream(resourceName);
+        InputStreamReader ir = new InputStreamReader(in);
+        BufferedReader br = new BufferedReader(ir)) {
       String line;
       while ((line = br.readLine()) != null) {
         lines.add(line);
@@ -68,7 +51,7 @@ public class ResourceUtils {
 
   }
 
-  private static String toResourceName(File file) {
+  public static String toResourceName(File file) {
     return toResourceName(file.getPath());
   }
 

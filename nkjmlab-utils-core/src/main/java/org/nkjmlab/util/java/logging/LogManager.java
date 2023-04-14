@@ -15,9 +15,9 @@ public class LogManager {
       return true;
     }, false);
     if (!ret) {
-      System.err.println("ERROR " + LogManager.class.getName()
+      System.err.println("WARNING " + LogManager.class.getName()
           + " could not find a logging implementation of log4j2. Please add log4j-core to the classpath. "
-          + NopLogger.class.getSimpleName() + " (No operation logger) is used...");
+          + "No operation logger (" + NopLogger.class.getSimpleName() + ")  will be used...");
     }
     return ret;
   }

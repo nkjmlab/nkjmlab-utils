@@ -2,7 +2,7 @@ package org.nkjmlab.util.log4j;
 
 import org.apache.logging.log4j.Level;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
-import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 import org.nkjmlab.util.java.logging.SimpleLogger;
 
 public class Log4jLogger implements SimpleLogger {
@@ -11,7 +11,7 @@ public class Log4jLogger implements SimpleLogger {
   private void printf(int depth, Level level, String format, Object... params) {
     StackTraceElement[] se = new Throwable().getStackTrace();
     logger.printf(level,
-        "=> " + MethodInvokerInfoUtils.getInvokerSummary(depth, se) + ParameterizedStringFormat.DEFAULT.format(format, params));
+        "=> " + MethodInvokerInfoUtils.getInvokerSummary(depth, se) + ParameterizedStringFormatter.DEFAULT.format(format, params));
   }
 
 

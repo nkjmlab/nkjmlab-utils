@@ -2,7 +2,7 @@ package org.nkjmlab.util.java.logging;
 
 import static org.nkjmlab.util.java.logging.SimpleLogger.Category.*;
 import org.nkjmlab.util.java.lang.MethodInvokerInfoUtils;
-import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
 public interface SimpleLogger {
 
@@ -29,13 +29,13 @@ public interface SimpleLogger {
   public static void systemErrorPrintln(int depth, String label, String msg, Object... params) {
     System.err.println(
         MethodInvokerInfoUtils.getInvokerLogMessage(depth, label, new Throwable().getStackTrace())
-            + " " + ParameterizedStringFormat.DEFAULT.format(msg, params));
+            + " " + ParameterizedStringFormatter.DEFAULT.format(msg, params));
   }
 
   public static void systemOutPrintln(int depth, String label, String msg, Object... params) {
     System.out.println(
         MethodInvokerInfoUtils.getInvokerLogMessage(depth, label, new Throwable().getStackTrace())
-            + " " + ParameterizedStringFormat.DEFAULT.format(msg, params));
+            + " " + ParameterizedStringFormatter.DEFAULT.format(msg, params));
   }
 
   public static class Log {

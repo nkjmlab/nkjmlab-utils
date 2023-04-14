@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.ReaderUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
 import org.nkjmlab.util.jsonrpc.JsonRpcCaller;

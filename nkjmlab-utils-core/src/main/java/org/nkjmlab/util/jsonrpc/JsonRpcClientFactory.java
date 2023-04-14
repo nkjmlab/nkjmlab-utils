@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.ReaderUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
 

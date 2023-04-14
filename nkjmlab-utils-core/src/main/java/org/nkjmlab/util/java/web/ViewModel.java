@@ -134,7 +134,7 @@ public class ViewModel implements Map<String, Object> {
               f -> f.getAbsolutePath().replace(directory.getAbsolutePath(), "").replace(".", "_")
                   .replace("-", "_").replace(File.separator, "_").replaceFirst("_", ""),
               f -> f.lastModified()));
-      map.putAll(fileModifiedDate);
+      map.put(MODIFIED_DATES, fileModifiedDate);
       return this;
     }
 

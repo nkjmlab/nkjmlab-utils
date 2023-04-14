@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-parent</artifactId>
   <name>nkjmlab-utils-parent</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.9.0</version>
+  <version>0.9.1</version>
   <packaging>pom</packaging>
   <url>https://github.com/nkjmlab</url>
   <licenses>
@@ -33,7 +33,7 @@
   </modules>
 
   <properties>
-    <sorm4j-version>1.4.11</sorm4j-version>
+    <sorm4j-version>1.4.12</sorm4j-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
@@ -101,6 +101,21 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.15.0</version>
+        <configuration>
+          <ruleSet>
+            <ignoreVersions>
+              <ignoreVersion>
+                <type>regex</type>
+                <version>.+-(alpha|beta|SNAPSHOT|M|rc)\d*$</version>
+              </ignoreVersion>
+            </ignoreVersions>
+          </ruleSet>
+        </configuration>
+      </plugin>
       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

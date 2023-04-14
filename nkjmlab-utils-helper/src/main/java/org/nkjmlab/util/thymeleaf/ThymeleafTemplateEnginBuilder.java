@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
 
 public class ThymeleafTemplateEnginBuilder {
 
-  private final ThymeleafTemplateResolverBuilder templateResolverBuilder =
+  private ThymeleafTemplateResolverBuilder templateResolverBuilder =
       ThymeleafTemplateResolverBuilder.builder();
 
   private final List<IDialect> dialects = new ArrayList<>();
-
 
   public static ThymeleafTemplateEnginBuilder builder() {
     return new ThymeleafTemplateEnginBuilder();
@@ -32,11 +32,10 @@ public class ThymeleafTemplateEnginBuilder {
     return this;
   }
 
-  public TemplateEngine build() {
-    TemplateEngine engine = new TemplateEngine();
-    engine.setTemplateResolver(templateResolverBuilder.build());
-    dialects.forEach(d -> engine.addDialect(d));
-    return engine;
+  public ThymeleafTemplateEnginBuilder setTemplateResolver(
+      AbstractConfigurableTemplateResolver templateResolver) {
+    templateResolverBuilder.setTemplateResolver(templateResolver);
+    return this;
   }
 
   public ThymeleafTemplateEnginBuilder addDialect(IDialect dialect) {
@@ -44,6 +43,11 @@ public class ThymeleafTemplateEnginBuilder {
     return this;
   }
 
-
+  public TemplateEngine build() {
+    TemplateEngine engine = new TemplateEngine();
+    engine.setTemplateResolver(templateResolverBuilder.build());
+    dialects.forEach(d -> engine.addDialect(d));
+    return engine;
+  }
 
 }
