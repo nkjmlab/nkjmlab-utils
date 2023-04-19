@@ -3,6 +3,7 @@ package org.nkjmlab.util.java.collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class LruCache<K, V> extends LinkedHashMap<K, V> {
 
   private final int maxSize;

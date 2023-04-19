@@ -6,8 +6,6 @@ import com.google.firebase.auth.FirebaseToken;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class FirebaseRpcService implements FirebaseRpcServiceInterface {
-  private static final org.apache.logging.log4j.Logger log =
-      org.apache.logging.log4j.LogManager.getLogger();
 
   private final BasicFirebaseService firebaseService;
   private final FirebaseAccountsTable firebaseAccountsTable;

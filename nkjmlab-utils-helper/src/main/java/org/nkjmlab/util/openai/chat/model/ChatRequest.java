@@ -2,11 +2,10 @@ package org.nkjmlab.util.openai.chat.model;
 
 import java.util.Arrays;
 import java.util.List;
-import org.nkjmlab.util.openai.chat.model.ChatRequest.ChatMessage;
 
 public record ChatRequest(String model, Float temperature, Float top_p, Integer n,
     Integer max_tokens, Float presence_penalty, Float frequency_penalty, String user,
-    List<ChatMessage> messages) {
+    List<ChatRequest.ChatMessage> messages) {
 
   public static Builder builder() {
     return new Builder();
@@ -47,7 +46,7 @@ public record ChatRequest(String model, Float temperature, Float top_p, Integer 
    * @author nkjm
    *
    */
-  public enum Model {
+  public static enum Model {
     GPT_3_5_TURBO("gpt-3.5-turbo"), GPT_3_5_TURBO_0301("gpt-3.5-turbo-0301");
 
     private final String value;
@@ -66,7 +65,6 @@ public record ChatRequest(String model, Float temperature, Float top_p, Integer 
     }
 
   }
-
   /**
    * <a href="https://platform.openai.com/docs/guides/chat/introduction">Chat completion - OpenAI
    * API</a>
@@ -74,9 +72,9 @@ public record ChatRequest(String model, Float temperature, Float top_p, Integer 
    * @author nkjm
    *
    */
-  public record ChatMessage(String role, String content) {
+  public static record ChatMessage(String role, String content) {
 
-    public static ChatMessage of(Role role, String text) {
+    public static ChatMessage of(ChatMessage.Role role, String text) {
       return new ChatMessage(role.getValue(), text);
     }
 
@@ -87,7 +85,7 @@ public record ChatRequest(String model, Float temperature, Float top_p, Integer 
      * @author nkjm
      *
      */
-    public enum Role {
+    public static enum Role {
       USER("user"), SYSTEM("system"), ASSISTANT("assistant");
 
       private final String value;
@@ -109,7 +107,6 @@ public record ChatRequest(String model, Float temperature, Float top_p, Integer 
 
 
   }
-
 
 
 }

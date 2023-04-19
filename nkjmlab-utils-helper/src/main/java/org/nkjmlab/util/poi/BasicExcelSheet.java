@@ -19,7 +19,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 import org.nkjmlab.util.java.stream.StreamUtils;
 import org.nkjmlab.util.java.time.DateTimeUtils;
