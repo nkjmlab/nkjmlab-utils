@@ -33,7 +33,7 @@
   </modules>
 
   <properties>
-    <sorm4j-version>1.4.13</sorm4j-version>
+    <sorm4j-version>1.4.14</sorm4j-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
@@ -101,6 +101,7 @@
       </resource>
     </resources>
     <plugins>
+      <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/versions-maven-plugin -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
