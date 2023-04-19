@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.nkjmlab</groupId>
     <artifactId>nkjmlab-utils-parent</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
   </parent>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
@@ -80,6 +80,19 @@
           <release>11</release>
         </configuration>
       </plugin>
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>org.nkjmlab.util.core</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -89,6 +102,9 @@
           <additionalClasspathElements>
             <additionalClasspathElement>src/test/java/</additionalClasspathElement>
           </additionalClasspathElements>
+          <argLine>
+            ${argLine}
+          </argLine>
         </configuration>
       </plugin>
     </plugins>
