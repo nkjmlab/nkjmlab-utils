@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.ClassUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
-import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
 
 public class JsonRpcCaller {
@@ -80,7 +80,7 @@ public class JsonRpcCaller {
 
     return om.orElseThrow(() -> new IllegalArgumentException(
         "Method not found => " + "methodName=[" + methodName + "], params=["
-            + ParameterizedStringFormat.LENGTH_16.convertToStringWithType(params) + "]"));
+            + ParameterizedStringFormatter.LENGTH_16.formatParameterWithType(params) + "]"));
   }
 
 

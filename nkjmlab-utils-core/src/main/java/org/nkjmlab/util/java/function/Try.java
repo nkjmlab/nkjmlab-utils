@@ -309,6 +309,33 @@ public final class Try {
     }).run();
   }
 
+  /**
+   * Tries to apply a value or gets other value if an exception occurs.
+   *
+   * @param <T>
+   * @param <S>
+   * @param onTry
+   * @param arg
+   * @param other
+   * @return
+   */
+  public static <T, S> S applyOrElse(ThrowableFunction<T, S> onTry, T arg, S other) {
+    return createFunction(onTry, e -> {
+      return other;
+    }).apply(arg);
+  }
+
+  public static <T, X extends RuntimeException> void runOrElseRethrow(ThrowableRunnable onTry)
+      throws X {
+    runOrElseThrow(onTry, e -> Try.rethrow(e));
+  }
+
+  public static <T, X extends RuntimeException> T getOrElseRethrow(ThrowableSupplier<T> onTry)
+      throws X {
+    return getOrElseThrow(onTry, e -> Try.rethrow(e));
+  }
+
+
   private Try() {}
 
 

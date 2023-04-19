@@ -2,7 +2,7 @@ package org.nkjmlab.util.javalin;
 
 import org.nkjmlab.util.jakarta.servlet.JsonRpcService;
 import org.nkjmlab.util.java.json.JsonMapper;
-import org.nkjmlab.util.java.lang.ParameterizedStringFormat;
+import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
 import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
 import io.javalin.http.Context;
@@ -28,10 +28,10 @@ public class JavalinJsonRpcService extends JsonRpcService {
     JsonRpcRequest jreq = toJsonRpcRequest(ctx.req());
     JsonRpcResponse jres = callHttpJsonRpc(service, jreq, ctx.res());
     if (jres.hasError()) {
-      log.warn(ParameterizedStringFormat.LENGTH_512.format(
-          "[{}#{}], Req: id={}, method={}, Error: code={}, msg={}, detail = {}",
-          service.getClass().getName(), jreq.getMethod(), jreq.getId(), jres.getError().getCode(),
-          jres.getError().getMessage(), jres.getError().getData()));
+      log.warn(ParameterizedStringFormatter.LENGTH_512.format(
+          "[{}#{}], Req: id={}, Error: code={}, msg={}, detail = {}", service.getClass().getName(),
+          jreq.getMethod(), jreq.getId(), jres.getError().getCode(), jres.getError().getMessage(),
+          jres.getError().getData()));
     }
     String ret = toJsonString(jres);
     ctx.result(ret);

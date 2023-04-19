@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>nkjmlab-utils-helper</artifactId>
   <name>${project.artifactId}</name>
@@ -7,7 +9,7 @@
   <parent>
     <groupId>org.nkjmlab</groupId>
     <artifactId>nkjmlab-utils-parent</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.2</version>
   </parent>
 
   <dependencies>
@@ -29,6 +31,14 @@
       <artifactId>log4j-core</artifactId>
       <optional>true</optional>
     </dependency>
+    <!--
+    https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.14.2</version>
+      <optional>true</optional>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
     <dependency>
@@ -42,14 +52,14 @@
     <dependency>
       <groupId>io.javalin</groupId>
       <artifactId>javalin</artifactId>
-      <version>5.2.0</version>
+      <version>5.4.2</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/io.javalin/javalin-rendering -->
     <dependency>
       <groupId>io.javalin</groupId>
       <artifactId>javalin-rendering</artifactId>
-      <version>5.2.0</version>
+      <version>5.4.2</version>
       <optional>true</optional>
     </dependency>
 
@@ -87,10 +97,10 @@
 
     <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
     <dependency>
-        <groupId>jakarta.servlet</groupId>
-        <artifactId>jakarta.servlet-api</artifactId>
-        <version>6.0.0</version>
-        <scope>provided</scope>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
       <optional>true</optional>
     </dependency>
 
@@ -106,16 +116,30 @@
   </dependencies>
   <build>
     <plugins>
-      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+      <!--
+      https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.11.0</version>
         <configuration>
           <release>17</release>
         </configuration>
       </plugin>
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <additionalClasspathElements>
+            <additionalClasspathElement>src/test/java/</additionalClasspathElement>
+          </additionalClasspathElements>
+          <argLine>
+            ${argLine}
+          </argLine>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>

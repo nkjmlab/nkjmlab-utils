@@ -11,6 +11,7 @@ public class ThymeleafTemplateResolverBuilder {
   private String suffix = ".html";
   private long cacheTtlMs = -1;
   private TemplateMode templateMode = TemplateMode.HTML;
+  private AbstractConfigurableTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 
 
   public static ThymeleafTemplateResolverBuilder builder() {
@@ -18,7 +19,6 @@ public class ThymeleafTemplateResolverBuilder {
   }
 
   public AbstractConfigurableTemplateResolver build() {
-    AbstractConfigurableTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
     templateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
     templateResolver.setTemplateMode(templateMode);
     templateResolver.setPrefix(prefix);
@@ -55,6 +55,12 @@ public class ThymeleafTemplateResolverBuilder {
 
   public ThymeleafTemplateResolverBuilder setTemplateMode(TemplateMode templateMode) {
     this.templateMode = templateMode;
+    return this;
+  }
+
+  public ThymeleafTemplateResolverBuilder setTemplateResolver(
+      AbstractConfigurableTemplateResolver templateResolver) {
+    this.templateResolver = templateResolver;
     return this;
   }
 

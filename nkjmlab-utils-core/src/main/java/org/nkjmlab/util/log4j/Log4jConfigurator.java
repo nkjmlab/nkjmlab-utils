@@ -8,7 +8,7 @@ import java.net.URL;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.net.UrlUtils;
 
 public class Log4jConfigurator {
