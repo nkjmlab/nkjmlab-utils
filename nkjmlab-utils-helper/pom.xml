@@ -71,14 +71,6 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.orangesignal/orangesignal-csv -->
-    <dependency>
-      <groupId>com.orangesignal</groupId>
-      <artifactId>orangesignal-csv</artifactId>
-      <version>2.2.1</version>
-      <optional>true</optional>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
     <dependency>
       <groupId>org.apache.poi</groupId>

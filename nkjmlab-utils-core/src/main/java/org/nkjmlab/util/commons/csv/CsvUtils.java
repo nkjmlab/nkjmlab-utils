@@ -25,7 +25,7 @@ public class CsvUtils {
    * @param writer
    * @param csvLines
    */
-  public static void write(CSVFormat format, Writer writer, List<String[]> csvLines) {
+  public static void write(CSVFormat format, Appendable writer, List<String[]> csvLines) {
     try (CSVPrinter printer = format.print(writer)) {
       for (String[] line : csvLines) {
         printer.printRecord((Object[]) line);
@@ -94,11 +94,26 @@ public class CsvUtils {
    */
   public static List<CSVRecord> readCsvRecordList(CSVFormat format, File srcFile, Charset charset) {
     try (Reader in = new FileReader(srcFile, charset)) {
-      Iterable<CSVRecord> records = format.parse(in);
+      return readCsvRecordList(format, in);
+    } catch (IOException e) {
+      throw Try.rethrow(e);
+    }
+  }
+
+  /**
+   *
+   * @param format
+   * @param reader
+   * @return
+   */
+  public static List<CSVRecord> readCsvRecordList(CSVFormat format, Reader reader) {
+    try {
+      Iterable<CSVRecord> records = format.parse(reader);
       return StreamSupport.stream(records.spliterator(), false).collect(Collectors.toList());
     } catch (IOException e) {
       throw Try.rethrow(e);
     }
   }
+
 
 }
