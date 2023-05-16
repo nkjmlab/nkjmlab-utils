@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-parent</artifactId>
   <name>nkjmlab-utils-parent</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.9.2</version>
+  <version>0.9.3</version>
   <packaging>pom</packaging>
   <url>https://github.com/nkjmlab</url>
   <licenses>
@@ -111,7 +111,7 @@
             <ignoreVersions>
               <ignoreVersion>
                 <type>regex</type>
-                <version>.+-(alpha|beta|SNAPSHOT|M|rc)\d*$</version>
+                <version>.*(alpha|beta|SNAPSHOT|M|rc).*</version>
               </ignoreVersion>
             </ignoreVersions>
           </ruleSet>
