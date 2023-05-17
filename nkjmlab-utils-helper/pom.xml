@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.nkjmlab</groupId>
     <artifactId>nkjmlab-utils-parent</artifactId>
-    <version>0.9.2</version>
+    <version>0.9.3</version>
   </parent>
 
   <dependencies>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.14.2</version>
+      <version>2.15.0</version>
       <optional>true</optional>
     </dependency>
 
@@ -52,14 +52,14 @@
     <dependency>
       <groupId>io.javalin</groupId>
       <artifactId>javalin</artifactId>
-      <version>5.4.2</version>
+      <version>5.5.0</version>
       <optional>true</optional>
     </dependency>
     <!-- https://mvnrepository.com/artifact/io.javalin/javalin-rendering -->
     <dependency>
       <groupId>io.javalin</groupId>
       <artifactId>javalin-rendering</artifactId>
-      <version>5.4.2</version>
+      <version>5.5.0</version>
       <optional>true</optional>
     </dependency>
 
@@ -68,14 +68,6 @@
       <groupId>com.sun.mail</groupId>
       <artifactId>javax.mail</artifactId>
       <version>1.6.2</version>
-      <optional>true</optional>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/com.orangesignal/orangesignal-csv -->
-    <dependency>
-      <groupId>com.orangesignal</groupId>
-      <artifactId>orangesignal-csv</artifactId>
-      <version>2.2.1</version>
       <optional>true</optional>
     </dependency>
 
@@ -103,7 +95,13 @@
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-jakarta-client -->
+    <dependency>
+      <groupId>org.eclipse.jetty.websocket</groupId>
+      <artifactId>websocket-jakarta-client</artifactId>
+      <version>11.0.15</version>
+      <optional>true</optional>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
     <dependency>
@@ -112,6 +110,13 @@
       <version>2.1.214</version>
       <scope>test</scope>
     </dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j2-impl -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-slf4j2-impl</artifactId>
+	    <version>2.20.0</version>
+	    <scope>test</scope>
+	</dependency>
 
   </dependencies>
   <build>
