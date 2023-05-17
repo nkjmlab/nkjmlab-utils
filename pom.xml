@@ -22,8 +22,8 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git@github.com:yuu-nkjmb/nkjmlab-utils.git</connection>
-    <url>https://github.com/yuu-nkjm/nkjmlab-utils</url>
+    <connection>scm:git:git@github.com:nkjmlab/nkjmlab-utils.git</connection>
+    <url>https://github.com/nkjmlab/nkjmlab-utils</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -33,7 +33,7 @@
   </modules>
 
   <properties>
-    <sorm4j-version>1.4.14</sorm4j-version>
+    <sorm4j-version>1.4.15</sorm4j-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.9.2</version>
+      <version>5.9.3</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
@@ -111,7 +111,7 @@
             <ignoreVersions>
               <ignoreVersion>
                 <type>regex</type>
-                <version>.*(alpha|beta|SNAPSHOT|M|rc).*</version>
+                <version>(?i).*(alpha|beta|snapshot|pre|rc|M\d).*</version>
               </ignoreVersion>
             </ignoreVersions>
           </ruleSet>
@@ -162,7 +162,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -185,20 +185,13 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
+            <version>1.6.13</version>
             <extensions>true</extensions>
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
             </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.15</version>
-              </dependency>
-            </dependencies>
           </plugin>
         </plugins>
       </build>
@@ -217,10 +210,11 @@
       </distributionManagement>
       <build>
         <plugins>
+          <!-- https://maven.apache.org/plugins/maven-deploy-plugin/ -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-deploy-plugin</artifactId>
-            <version>3.0.0-M1</version>
+            <version>3.1.1</version>
           </plugin>
         </plugins>
       </build>
