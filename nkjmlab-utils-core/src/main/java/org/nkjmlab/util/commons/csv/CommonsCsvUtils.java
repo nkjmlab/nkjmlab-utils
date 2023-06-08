@@ -17,7 +17,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.nkjmlab.util.java.function.Try;
 
-public class CsvUtils {
+public class CommonsCsvUtils {
 
   /**
    *

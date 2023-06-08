@@ -1,4 +1,4 @@
-package org.nkjmlab.util.jakarta.servlet;
+package org.nkjmlab.util.jakarta.servlet.jsonrpc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,38 +16,34 @@ import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class JsonRpcService {
+public class JsonRpcServletService {
 
   private final JsonMapper mapper;
   private final JsonRpcCaller jsonRpcCaller;
-
   private final Map<String, String> responseHeaders;
+
   private static final Map<String, String> DEFAULT_RESPONSE_HEADERS =
       Map.of("Access-Control-Allow-Origin", "*", "Access-Control-Allow-Methods", "*",
           "Access-Control-Allow-Headers", "*");
 
-  public JsonRpcService(JsonMapper mapper) {
+  public JsonRpcServletService(JsonMapper mapper) {
     this(mapper, DEFAULT_RESPONSE_HEADERS);
   }
 
-  public JsonRpcService(JsonMapper mapper, Map<String, String> headers) {
+  public JsonRpcServletService(JsonMapper mapper, Map<String, String> responseHeaders) {
     this.mapper = mapper;
     this.jsonRpcCaller = new JsonRpcCaller(mapper);
-    this.responseHeaders = headers;
+    this.responseHeaders = responseHeaders;
   }
 
 
-  public JsonRpcResponse callHttpJsonRpc(Object target, HttpServletRequest request,
+  public JsonRpcServletResponse callHttpJsonRpc(Object target, HttpServletRequest request,
       HttpServletResponse response) {
     return callHttpJsonRpc(target, toJsonRpcRequest(request), response);
   }
 
-  public JsonRpcResponse callHttpJsonRpc(Object target, JsonRpcRequest jreq,
+  public JsonRpcServletResponse callHttpJsonRpc(Object target, JsonRpcRequest jreq,
       HttpServletResponse response) {
-
-    response.setContentType("application/json;charset=UTF-8");
-    responseHeaders.entrySet().stream()
-        .forEach(en -> response.setHeader(en.getKey(), en.getValue()));
 
     JsonRpcResponse jres = jsonRpcCaller.callJsonRpc(target, jreq);
 
@@ -56,10 +52,19 @@ public class JsonRpcService {
     } else {
       response.setStatus(200);
     }
-    return jres;
+
+    prepareResponse(response);
+
+    return new JsonRpcServletResponse(jres, toJsonString(jres), response);
   }
 
 
+
+  private void prepareResponse(HttpServletResponse response) {
+    response.setContentType("application/json;charset=UTF-8");
+    responseHeaders.entrySet().stream()
+        .forEach(en -> response.setHeader(en.getKey(), en.getValue()));
+  }
 
   /**
    * Convert {@link HttpServletRequest} to {@link JsonRpcRequest}

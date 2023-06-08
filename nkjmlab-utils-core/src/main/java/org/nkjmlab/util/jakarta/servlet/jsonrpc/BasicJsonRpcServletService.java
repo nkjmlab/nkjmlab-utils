@@ -1,40 +1,41 @@
-package org.nkjmlab.util.javalin;
+package org.nkjmlab.util.jakarta.servlet.jsonrpc;
 
-import org.nkjmlab.util.jakarta.servlet.JsonRpcService;
 import org.nkjmlab.util.java.json.JsonMapper;
 import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
 import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
-import io.javalin.http.Context;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-public class JavalinJsonRpcService extends JsonRpcService {
+public class BasicJsonRpcServletService extends JsonRpcServletService {
 
   private static final org.nkjmlab.util.java.logging.SimpleLogger log =
       org.nkjmlab.util.java.logging.LogManager.createLogger();
 
 
-  public JavalinJsonRpcService(JsonMapper mapper) {
+  public BasicJsonRpcServletService(JsonMapper mapper) {
     super(mapper);
   }
 
 
   /**
-   * Handle context with JSON RPC service.
+   * Handle request JSON RPC service.
    *
    * @param ctx
-   * @param service
+   * @return
    */
-  public void handle(Context ctx, Object service) {
-    JsonRpcRequest jreq = toJsonRpcRequest(ctx.req());
-    JsonRpcResponse jres = callHttpJsonRpc(service, jreq, ctx.res());
+  public JsonRpcServletResponse handle(Object service, HttpServletRequest req,
+      HttpServletResponse res) {
+    JsonRpcRequest jreq = toJsonRpcRequest(req);
+    JsonRpcServletResponse jrpcSrvletRes = callHttpJsonRpc(service, jreq, res);
+    JsonRpcResponse jres = jrpcSrvletRes.getJsonRpcResponse();
     if (jres.hasError()) {
       log.warn(ParameterizedStringFormatter.LENGTH_512.format(
           "[{}#{}], Req: id={}, Error: code={}, msg={}, detail = {}", service.getClass().getName(),
           jreq.getMethod(), jreq.getId(), jres.getError().getCode(), jres.getError().getMessage(),
           jres.getError().getData()));
     }
-    String ret = toJsonString(jres);
-    ctx.result(ret);
+    return jrpcSrvletRes;
   }
 
 }

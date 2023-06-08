@@ -4,8 +4,13 @@ import java.util.Optional;
 
 public abstract class AbstractFirebaseAuthService implements FirebaseAuthService {
 
-  private final FirebaseSigninSessionsTable signinSessionsTable = new FirebaseSigninSessionsTable();
+  private final FirebaseSigninSessionsTable signinSessionsTable;
 
+  public AbstractFirebaseAuthService() {
+    this.signinSessionsTable = new FirebaseSigninSessionsTable();
+    this.signinSessionsTable.createTableIfNotExists().createIndexesIfNotExists();
+
+  }
 
 
   @Override

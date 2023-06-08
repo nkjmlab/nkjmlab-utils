@@ -2,9 +2,9 @@ package org.nkjmlab.util.firebase.auth;
 
 public interface FirebaseAuthRpcService {
 
-  boolean isSignin();
+  boolean isSigninToFirebase();
 
-  FirebaseSigninSession signin(String idToken);
+  FirebaseSigninSession signinWithFirebase(String idToken);
 
   boolean signout();
 

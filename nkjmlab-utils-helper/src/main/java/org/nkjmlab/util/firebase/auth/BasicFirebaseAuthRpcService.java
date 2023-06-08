@@ -20,19 +20,19 @@ public class BasicFirebaseAuthRpcService implements FirebaseAuthRpcService {
   private final FirebaseAuthService firebaseAuthService;
   private final HttpServletRequest request;
 
-  public BasicFirebaseAuthRpcService(FirebaseAuthService firebaseAuthService,
+  private BasicFirebaseAuthRpcService(FirebaseAuthService firebaseAuthService,
       HttpServletRequest request) {
     this.firebaseAuthService = firebaseAuthService;
     this.request = request;
   }
 
   @Override
-  public boolean isSignin() {
+  public boolean isSigninToFirebase() {
     return firebaseAuthService.isSignin(request.getSession().getId());
   }
 
   @Override
-  public FirebaseSigninSession signin(String idToken) {
+  public FirebaseSigninSession signinWithFirebase(String idToken) {
     return firebaseAuthService.signin(request.getSession().getId(), idToken).orElse(null);
   }
 
