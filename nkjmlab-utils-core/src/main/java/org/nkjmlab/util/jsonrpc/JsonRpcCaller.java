@@ -12,6 +12,11 @@ import org.nkjmlab.util.java.json.JsonMapper;
 import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
 
+/**
+ *
+ * note: This class depends on {@link org.apache.commons.lang3.ClassUtils}.
+ *
+ */
 public class JsonRpcCaller {
 
   private final Map<String, Method> methodTable = new ConcurrentHashMap<>();

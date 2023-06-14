@@ -1,4 +1,4 @@
-package org.nkjmlab.util.java;
+package org.nkjmlab.util.java.util;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;

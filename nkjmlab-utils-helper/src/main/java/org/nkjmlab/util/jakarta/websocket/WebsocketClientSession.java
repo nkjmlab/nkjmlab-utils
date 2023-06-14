@@ -3,10 +3,9 @@ package org.nkjmlab.util.jakarta.websocket;
 import java.io.IOException;
 import java.net.URI;
 import java.util.function.BiConsumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.lang.StringFormatter;
+import org.nkjmlab.util.java.logging.LogManager;
 import org.nkjmlab.util.java.net.UriUtils;
 import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue.Consumer;
 import jakarta.websocket.CloseReason;
@@ -15,7 +14,7 @@ import jakarta.websocket.DeploymentException;
 import jakarta.websocket.Session;
 
 public class WebsocketClientSession {
-  private static final Logger log = LogManager.getLogger();
+  private static final org.nkjmlab.util.java.logging.SimpleLogger log = LogManager.createLogger();
 
   private final Session session;
 
@@ -36,7 +35,7 @@ public class WebsocketClientSession {
     try {
       session.close();
     } catch (IOException e) {
-      log.error(e);
+      log.error(e.getMessage());
     }
   }
 
