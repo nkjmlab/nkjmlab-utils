@@ -14,7 +14,7 @@ import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
 /**
  *
- * note: This class depend on {@link org.apache.commons.lang3.ClassUtils}.
+ * note: This class depends on {@link org.apache.commons.lang3.ClassUtils}.
  *
  */
 public class JsonRpcCaller {

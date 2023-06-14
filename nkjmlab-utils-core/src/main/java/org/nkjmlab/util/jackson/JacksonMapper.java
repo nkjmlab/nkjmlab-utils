@@ -19,6 +19,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+/**
+ *
+ * note: {@link #convertValue(Object, Class)} depends on
+ * {@link org.apache.commons.lang3.ClassUtils}.
+ *
+ */
 public class JacksonMapper implements JsonMapper {
 
   private static final JacksonMapper DEFAULT_MAPPER =
