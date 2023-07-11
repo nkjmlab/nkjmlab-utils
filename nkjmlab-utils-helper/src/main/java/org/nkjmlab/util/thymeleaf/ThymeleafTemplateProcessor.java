@@ -13,7 +13,7 @@ public class ThymeleafTemplateProcessor {
   }
 
   public ThymeleafTemplateProcessor() {
-    this(ThymeleafTemplateEnginBuilder.builder().build());
+    this(ThymeleafTemplateEngineBuilder.builder().build());
   }
 
   public String process(String pathToTemplate, Map<String, Object> model) {
