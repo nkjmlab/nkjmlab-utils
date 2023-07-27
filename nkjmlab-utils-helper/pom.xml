@@ -1,150 +1,141 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>nkjmlab-utils-helper</artifactId>
-  <name>${project.artifactId}</name>
-  <description>Helper Utilities for nkjmlab software</description>
-  <url>https://github.com/nkjmlab/nkjmlab-utils-helper</url>
-  <parent>
-    <groupId>org.nkjmlab</groupId>
-    <artifactId>nkjmlab-utils-parent</artifactId>
-    <version>0.9.6</version>
-  </parent>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>nkjmlab-utils-helper</artifactId>
+	<name>${project.artifactId}</name>
+	<description>Helper Utilities for nkjmlab software</description>
+	<url>https://github.com/nkjmlab/nkjmlab-utils-helper</url>
+	<parent>
+		<groupId>org.nkjmlab</groupId>
+		<artifactId>nkjmlab-utils-parent</artifactId>
+		<version>0.9.7</version>
+	</parent>
 
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.nkjmlab/nkjmlab-utils-core -->
-    <dependency>
-      <groupId>org.nkjmlab</groupId>
-      <artifactId>nkjmlab-utils-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
-    <dependency>
-      <groupId>org.nkjmlab</groupId>
-      <artifactId>sorm4j</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <!--
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.nkjmlab/nkjmlab-utils-core -->
+		<dependency>
+			<groupId>org.nkjmlab</groupId>
+			<artifactId>nkjmlab-utils-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
+		<dependency>
+			<groupId>org.nkjmlab</groupId>
+			<artifactId>sorm4j</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!--
     https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.15.2</version>
-      <optional>true</optional>
-    </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.15.2</version>
+			<optional>true</optional>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
-    <dependency>
-      <groupId>com.google.firebase</groupId>
-      <artifactId>firebase-admin</artifactId>
-      <version>9.1.1</version>
-      <optional>true</optional>
-    </dependency>
+		<!--
+		https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.2.0</version>
+			<optional>true</optional>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/io.javalin/javalin -->
-    <dependency>
-      <groupId>io.javalin</groupId>
-      <artifactId>javalin</artifactId>
-      <version>5.5.0</version>
-      <optional>true</optional>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/io.javalin/javalin-rendering -->
-    <dependency>
-      <groupId>io.javalin</groupId>
-      <artifactId>javalin-rendering</artifactId>
-      <version>5.5.0</version>
-      <optional>true</optional>
-    </dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+			<optional>true</optional>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
-    <dependency>
-      <groupId>com.sun.mail</groupId>
-      <artifactId>javax.mail</artifactId>
-      <version>1.6.2</version>
-      <optional>true</optional>
-    </dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.3</version>
+			<optional>true</optional>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml</artifactId>
-      <version>5.2.3</version>
-      <optional>true</optional>
-    </dependency>
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>3.1.1.RELEASE</version>
+			<optional>true</optional>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
-    <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf</artifactId>
-      <version>3.1.1.RELEASE</version>
-      <optional>true</optional>
-    </dependency>
+		<!--
+		https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-jakarta-client -->
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-jakarta-client</artifactId>
+			<version>11.0.15</version>
+			<optional>true</optional>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <version>6.0.0</version>
-      <scope>provided</scope>
-      <optional>true</optional>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-jakarta-client -->
-    <dependency>
-      <groupId>org.eclipse.jetty.websocket</groupId>
-      <artifactId>websocket-jakarta-client</artifactId>
-      <version>11.0.15</version>
-      <optional>true</optional>
-    </dependency>
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.2.220</version>
+			<scope>test</scope>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j2-impl -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j2-impl</artifactId>
+			<version>2.20.0</version>
+			<scope>test</scope>
+		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.1.214</version>
-      <scope>test</scope>
-    </dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j2-impl -->
-	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-slf4j2-impl</artifactId>
-	    <version>2.20.0</version>
-	    <scope>test</scope>
-	</dependency>
-
-  </dependencies>
-  <build>
-    <plugins>
-      <!--
-      https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
-        <configuration>
-          <release>17</release>
-        </configuration>
-      </plugin>
-      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <additionalClasspathElements>
-            <additionalClasspathElement>src/test/java/</additionalClasspathElement>
-          </additionalClasspathElements>
-          <argLine>
-            ${argLine}
-          </argLine>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	</dependencies>
+	<build>
+		<plugins>
+			<!--
+			https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<release>17</release>
+				</configuration>
+			</plugin>
+			<!--
+			https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<additionalClasspathElements>
+						<additionalClasspathElement>src/test/java/</additionalClasspathElement>
+					</additionalClasspathElements>
+					<argLine>
+						${argLine}
+					</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
