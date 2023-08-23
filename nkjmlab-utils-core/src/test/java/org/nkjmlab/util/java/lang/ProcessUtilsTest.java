@@ -11,7 +11,8 @@ class ProcessUtilsTest {
 
   @Test
   void test() {
-    // user やコマンドまでは取れるが，引数は取れない．
+    // The user and the command are included in the info but the arguments are not included in the
+    // info ．
     List<String> ret =
         ProcessHandle.allProcesses()
             .map(p -> p.info().toString())
