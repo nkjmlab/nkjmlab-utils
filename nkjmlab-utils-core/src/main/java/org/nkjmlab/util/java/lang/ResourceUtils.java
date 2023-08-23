@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.SystemFileUtils;
 
@@ -22,8 +23,8 @@ public class ResourceUtils {
     return readAllLinesFromResource(clazz, resourcePath, StandardCharsets.UTF_8);
   }
 
-  public static List<String> readAllLinesFromResource(Class<?> clazz, String resourcePath,
-      Charset cs) {
+  public static List<String> readAllLinesFromResource(
+      Class<?> clazz, String resourcePath, Charset cs) {
     try (InputStream in = clazz.getResourceAsStream(resourcePath);
         InputStreamReader ir = new InputStreamReader(in, cs);
         BufferedReader br = new BufferedReader(ir)) {
@@ -37,7 +38,6 @@ public class ResourceUtils {
       throw Try.rethrow(e);
     }
   }
-
 
   public static File copyResourceToTempDir(Class<?> clazz, String resourcePath) {
     byte[] bytes = readAllByteFromResource(clazz, resourcePath);
@@ -74,8 +74,6 @@ public class ResourceUtils {
     }
   }
 
-
-
   public static File getResourceAsFile(Class<?> clazz, String resourceName) {
     return new File(getResourceAsUri(clazz, resourceName));
   }
@@ -92,8 +90,8 @@ public class ResourceUtils {
     }
   }
 
-  public static URI getResourceAsUri(String file) {
-    return getResourceAsUri(ResourceUtils.class, file);
+  public static URI getResourceAsUri(String resourceName) {
+    return getResourceAsUri(ResourceUtils.class, resourceName);
   }
 
   public static String toResourceName(File file) {
@@ -107,5 +105,4 @@ public class ResourceUtils {
   public static File getResourceRootAsFile() {
     return getResourceAsFile(ResourceUtils.class, "/");
   }
-
 }
