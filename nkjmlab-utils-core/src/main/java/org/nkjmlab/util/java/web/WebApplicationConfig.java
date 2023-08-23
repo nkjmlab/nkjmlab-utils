@@ -1,25 +1,28 @@
 package org.nkjmlab.util.java.web;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import org.nkjmlab.util.java.io.SystemFileUtils;
 import org.nkjmlab.util.java.lang.ResourceUtils;
 
 public class WebApplicationConfig {
-  private final File appRootDirectory;
-  private final File webRootDirectory;
-  private final File userHomeDirectory;
-  private final File backupDirectory;
-  /**
-   * Key is jar's name and, value is the version.
-   */
+  private final Path appRootDirectory;
+  private final Path webRootDirectory;
+  private final Path userHomeDirectory;
+  private final Path backupDirectory;
+  /** Key is jar's name and, value is the version. */
   private final Map<String, String> webJars;
 
-  public WebApplicationConfig(File appRootDirectory, File webRootDirectory, File userHomeDirectory,
-      File backupDirectory, Map<String, String> webJars) {
+  public WebApplicationConfig(
+      Path appRootDirectory,
+      Path webRootDirectory,
+      Path userHomeDirectory,
+      Path backupDirectory,
+      Map<String, String> webJars) {
     this.appRootDirectory = appRootDirectory;
     this.webRootDirectory = webRootDirectory;
     this.userHomeDirectory = userHomeDirectory;
@@ -27,19 +30,19 @@ public class WebApplicationConfig {
     this.webJars = webJars;
   }
 
-  public File getAppRootDirectory() {
+  public Path getAppRootDirectory() {
     return appRootDirectory;
   }
 
-  public File getWebRootDirectory() {
+  public Path getWebRootDirectory() {
     return webRootDirectory;
   }
 
-  public File getUserHomeDirectory() {
+  public Path getUserHomeDirectory() {
     return userHomeDirectory;
   }
 
-  public File getBackupDirectory() {
+  public Path getBackupDirectory() {
     return backupDirectory;
   }
 
@@ -52,9 +55,9 @@ public class WebApplicationConfig {
   }
 
   public static class Builder {
-    private File appRootDirectory = ResourceUtils.getResourceAsFile("/");
+    private Path appRootDirectory = ResourceUtils.getResourceAsFile("/").toPath();
     private String webRootDirectoryName = "webroot";
-    private File userHomeDirectory = SystemFileUtils.getUserHomeDirectory();
+    private Path userHomeDirectory = SystemFileUtils.getUserHomeDirectory().toPath();
     private String backupDirectoryName = "webapp-bkup";
     private List<String> webJars = new ArrayList<>();
 
@@ -66,12 +69,12 @@ public class WebApplicationConfig {
     }
 
     public WebApplicationConfig build() {
-      File webRootDirectory = new File(appRootDirectory, webRootDirectoryName);
-      File backUpDirectory = new File(userHomeDirectory, backupDirectoryName);
+      Path webRootDirectory = appRootDirectory.resolve(webRootDirectoryName);
+      Path backUpDirectory = userHomeDirectory.resolve(backupDirectoryName);
       Map<String, String> webJars =
           WebJarsUtils.findWebJarVersionsFromClassPath(this.webJars.toArray(String[]::new));
-      return new WebApplicationConfig(appRootDirectory, webRootDirectory, userHomeDirectory,
-          backUpDirectory, webJars);
+      return new WebApplicationConfig(
+          appRootDirectory, webRootDirectory, userHomeDirectory, backUpDirectory, webJars);
     }
   }
 }
