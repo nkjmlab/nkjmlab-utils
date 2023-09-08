@@ -118,6 +118,33 @@ public class ViewModel implements Map<String, Object> {
     return new Builder().putAll(map);
   }
 
+  public static Map<String, Long> getFileModifiedDate(
+      Path directory, int maxDepth, String... extentions) {
+    List<Path> files =
+        FileUtils.listFiles(
+            directory,
+            maxDepth,
+            p ->
+                Arrays.stream(extentions)
+                    .filter(ext -> p.toString().endsWith(ext))
+                    .findAny()
+                    .isPresent());
+    Map<String, Long> fileModifiedDate =
+        files.stream()
+            .collect(
+                Collectors.toMap(
+                    f ->
+                        f.toAbsolutePath()
+                            .toString()
+                            .replace(directory.toAbsolutePath().toString(), "")
+                            .replace(".", "_")
+                            .replace("-", "_")
+                            .replace(File.separator, "_")
+                            .replaceFirst("_", ""),
+                    f -> f.toFile().lastModified()));
+    return fileModifiedDate;
+  }
+
   public static class Builder {
 
     private Locale locale = Locale.getDefault();
@@ -126,28 +153,11 @@ public class ViewModel implements Map<String, Object> {
 
     public ViewModel.Builder setFileModifiedDate(
         Path directory, int maxDepth, String... extentions) {
-      List<Path> files =
-          FileUtils.listFiles(
-              directory,
-              maxDepth,
-              p ->
-                  Arrays.stream(extentions)
-                      .filter(ext -> p.toString().endsWith(ext))
-                      .findAny()
-                      .isPresent());
-      Map<String, Long> fileModifiedDate =
-          files.stream()
-              .collect(
-                  Collectors.toMap(
-                      f ->
-                          f.toAbsolutePath()
-                              .toString()
-                              .replace(directory.toAbsolutePath().toString(), "")
-                              .replace(".", "_")
-                              .replace("-", "_")
-                              .replace(File.separator, "_")
-                              .replaceFirst("_", ""),
-                      f -> f.toFile().lastModified()));
+      setFileModifiedDate(getFileModifiedDate(directory, maxDepth, extentions));
+      return this;
+    }
+
+    public ViewModel.Builder setFileModifiedDate(Map<String, Long> fileModifiedDate) {
       map.put(MODIFIED_DATES, fileModifiedDate);
       return this;
     }
