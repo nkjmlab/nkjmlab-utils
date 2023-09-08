@@ -83,17 +83,6 @@ public class ProcessUtils {
   private record NetstatLine(
       String protocol, String localAddress, String externalAddress, String state, int pid) {}
 
-  private record LsofLine(
-      String command,
-      Integer pid,
-      String user,
-      String fd,
-      String type,
-      String device,
-      String size,
-      String node,
-      String name) {}
-
   /**
    * If the process binding the the given port, it will be stopped.
    *
