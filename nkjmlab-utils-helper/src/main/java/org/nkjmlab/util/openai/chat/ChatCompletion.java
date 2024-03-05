@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.openai.OpenAi4jException;
 import org.nkjmlab.util.openai.chat.model.ChatRequest;
 import org.nkjmlab.util.openai.chat.model.ChatRequest.ChatMessage;

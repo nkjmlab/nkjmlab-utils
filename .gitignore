@@ -6,3 +6,5 @@ target
 .project
 hs_err_pid*
 /nkjmlab-utils-helper/src/test/resources/conf/openai4j.properties
+/build/core-coveralls.bat
+/build/helper-coveralls.bat
