@@ -4,7 +4,7 @@
   <artifactId>nkjmlab-utils-parent</artifactId>
   <name>nkjmlab-utils-parent</name>
   <description>Utilities for nkjmlab software</description>
-  <version>0.10.5</version>
+  <version>0.10.6</version>
   <packaging>pom</packaging>
   <url>https://github.com/nkjmlab</url>
   <licenses>
@@ -33,7 +33,7 @@
   </modules>
 
   <properties>
-    <sorm4j-version>2.1.0</sorm4j-version>
+    <sorm4j-version>2.1.4</sorm4j-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
@@ -62,14 +62,14 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.10.1</version>
+      <version>5.10.2</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.25.1</version>
+      <version>3.25.3</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->

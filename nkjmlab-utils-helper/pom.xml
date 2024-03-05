@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.nkjmlab</groupId>
 		<artifactId>nkjmlab-utils-parent</artifactId>
-		<version>0.10.5</version>
+		<version>0.10.6</version>
 	</parent>
 
 	<dependencies>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-jakarta-client</artifactId>
-			<version>11.0.19</version>
+			<version>11.0.20</version>
 			<optional>true</optional>
 		</dependency>
 

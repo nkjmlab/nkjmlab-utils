@@ -59,7 +59,7 @@ public record ChatRequest(
   }
 
   /**
-   * <a href="https://platform.openai.com/docs/models/gpt-3-5">Models - OpenAI API</a>
+   * <a href="https://platform.openai.com/docs/models/">Models - OpenAI API</a>
    *
    * @author nkjm
    */
