@@ -11,12 +11,6 @@ import org.nkjmlab.util.java.lang.ClassUtils;
 
 public class ArrayUtils {
 
-  public static void main(String[] args) {
-    split(3, 1, 2, 3, 4).forEach(a -> System.out.println(Arrays.toString(a)));
-
-    System.out.println(Arrays.toString(addAll(new int[] {1, 2, 3}, new int[] {4, 5, 6})));
-  }
-
   public static <T> T[] add(T[] array, T elem) {
     final int arrayLength = Array.getLength(array);
     @SuppressWarnings("unchecked")
