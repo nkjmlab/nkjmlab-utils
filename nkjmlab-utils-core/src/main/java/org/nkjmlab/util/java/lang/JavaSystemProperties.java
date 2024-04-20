@@ -1,20 +1,24 @@
 package org.nkjmlab.util.java.lang;
 
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.nkjmlab.util.java.function.Try;
 
 public class JavaSystemProperties {
-  private final Map<JavaSystemProperty, String> properties;
+  private final EnumMap<JavaSystemProperty, String> properties;
 
-  private JavaSystemProperties(Map<JavaSystemProperty, String> properties) {
-    this.properties = properties;
+  private JavaSystemProperties(EnumMap<JavaSystemProperty, String> properties) {
+    this.properties = new EnumMap<>(properties);
   }
 
   public String get(JavaSystemProperty key) {
     return properties.get(key);
+  }
+
+  public EnumMap<JavaSystemProperty, String> getProperties() {
+    return properties;
   }
 
   @Override
@@ -75,10 +79,13 @@ public class JavaSystemProperties {
 
   public static JavaSystemProperties create() {
     return new JavaSystemProperties(
-        Stream.of(JavaSystemProperty.values())
-            .collect(
-                Collectors.toMap(
-                    p -> p,
-                    p -> Try.getOrElse(() -> System.getProperty(p.getPropertyName(), ""), ""))));
+        new EnumMap<>(
+            Stream.of(JavaSystemProperty.values())
+                .collect(
+                    Collectors.toMap(
+                        p -> p,
+                        p ->
+                            Try.getOrElse(
+                                () -> System.getProperty(p.getPropertyName(), ""), "")))));
   }
 }

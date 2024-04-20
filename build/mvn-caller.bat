@@ -12,7 +12,12 @@ set PATH=%JAVA_HOME%/bin;%PATH%
 java -version
 @echo off
 
+:loop
+if "%~1"=="" goto end
 call %~1
+shift
+goto loop
+:end
 
 @if errorlevel 1 pause
 endlocal
