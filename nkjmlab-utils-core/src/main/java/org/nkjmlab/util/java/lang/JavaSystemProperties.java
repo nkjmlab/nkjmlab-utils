@@ -79,7 +79,7 @@ public class JavaSystemProperties {
 
   public static JavaSystemProperties create() {
     return new JavaSystemProperties(
-        new EnumMap<>(
+        new EnumMap<JavaSystemProperty, String>(
             Stream.of(JavaSystemProperty.values())
                 .collect(
                     Collectors.toMap(
