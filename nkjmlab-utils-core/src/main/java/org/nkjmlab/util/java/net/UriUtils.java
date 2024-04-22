@@ -2,7 +2,9 @@ package org.nkjmlab.util.java.net;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
+
 import org.nkjmlab.util.java.function.Try;
 
 public class UriUtils {
@@ -19,4 +21,11 @@ public class UriUtils {
     }
   }
 
+  public static URI of(URL url) {
+    try {
+      return url.toURI();
+    } catch (URISyntaxException e) {
+      throw Try.rethrow(e);
+    }
+  }
 }

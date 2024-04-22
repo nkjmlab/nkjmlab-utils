@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class ListUtils {
+  private ListUtils() {}
+
   public static <T> List<List<T>> partition(List<T> list, int numOfPartition) {
     List<List<T>> result = new ArrayList<>();
     int partitionSize = getPartisionSize(list.size(), numOfPartition);
@@ -32,6 +34,4 @@ public class ListUtils {
   public static <T extends Object> boolean areAllUnique(List<T> list) {
     return list.stream().allMatch(new HashSet<>()::add);
   }
-
-
 }

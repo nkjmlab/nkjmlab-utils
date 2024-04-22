@@ -13,8 +13,10 @@ public class BasicThreadFactory implements ThreadFactory {
   private final UncaughtExceptionHandler uncaughtExceptionHandler;
   private final AtomicInteger threadNumber = new AtomicInteger(1);
 
-
-  private BasicThreadFactory(String threadNamePrefix, Boolean daemon, Integer priority,
+  private BasicThreadFactory(
+      String threadNamePrefix,
+      Boolean daemon,
+      Integer priority,
       UncaughtExceptionHandler uncaughtExceptionHandler) {
     this.threadNamePrefix = threadNamePrefix;
     this.daemon = daemon;
@@ -30,11 +32,9 @@ public class BasicThreadFactory implements ThreadFactory {
     return new Builder().setThreadNamePrefix(threadNamePrefix).setDaemon(daemon);
   }
 
-
   public static Builder builder(String threadNamePrefix) {
     return new Builder().setThreadNamePrefix(threadNamePrefix);
   }
-
 
   @Override
   public Thread newThread(Runnable runnable) {
@@ -80,9 +80,11 @@ public class BasicThreadFactory implements ThreadFactory {
 
     public BasicThreadFactory build() {
       return new BasicThreadFactory(threadNamePrefix, daemon, priority, uncaughtExceptionHandler);
+    }
 
+    public Builder setUncaughtExceptionHandler(UncaughtExceptionHandler handler) {
+      this.uncaughtExceptionHandler = handler;
+      return this;
     }
   }
-
-
 }

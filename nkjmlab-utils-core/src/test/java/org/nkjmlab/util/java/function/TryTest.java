@@ -1,12 +1,20 @@
 package org.nkjmlab.util.java.function;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
 import org.junit.jupiter.api.Test;
 import org.nkjmlab.util.java.function.Try.ThrowableSupplier;
 
@@ -14,31 +22,38 @@ class TryTest {
 
   @Test
   void testGetOrDefault() {
-    String s = Try.getOrElse(() -> {
-      throw new RuntimeException("error");
-    }, "test");
+    String s =
+        Try.getOrElse(
+            () -> {
+              throw new RuntimeException("error");
+            },
+            "test");
     assertThat(s).isEqualTo("test");
   }
 
   @Test
   void testCreateRunnable() {
     try {
-      Try.createRunnable(() -> {
-        throw new RuntimeException("try");
-      }, e -> {
-      }).run();
+      Try.createRunnable(
+              () -> {
+                throw new RuntimeException("try");
+              },
+              e -> {})
+          .run();
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-
   }
 
   @Test
   void testCreateSupplier() {
     try {
-      Try.createSupplier(() -> {
-        throw new RuntimeException("try");
-      }, e -> "").get();
+      Try.createSupplier(
+              () -> {
+                throw new RuntimeException("try");
+              },
+              e -> "")
+          .get();
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
@@ -47,109 +62,124 @@ class TryTest {
   @Test
   void testCreateSupplierWithThrow() {
     try {
-      Try.createSupplierWithThrow(() -> {
-        throw new RuntimeException("try");
-      }, Try::rethrow).get();
+      Try.createSupplierWithThrow(
+              () -> {
+                throw new RuntimeException("try");
+              },
+              Try::rethrow)
+          .get();
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-
   }
 
   @Test
   void testCreateConsumer() {
     try {
-      Try.createConsumer(con -> {
-        throw new RuntimeException("try");
-      }, e -> {
-      }).accept("a");
+      Try.createConsumer(
+              con -> {
+                throw new RuntimeException("try");
+              },
+              e -> {})
+          .accept("a");
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
   }
-
-
 
   @Test
   void testCreateConsumerWithThrow() {
     try {
-      Try.createConsumerWithThrow(con -> {
-        throw new RuntimeException("try");
-      }, Try::rethrow).accept("a");
+      Try.createConsumerWithThrow(
+              con -> {
+                throw new RuntimeException("try");
+              },
+              Try::rethrow)
+          .accept("a");
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-    Try.createConsumerWithThrow(con -> {
-    }, Try::rethrow).accept("a");
+    Try.createConsumerWithThrow(con -> {}, Try::rethrow).accept("a");
   }
-
 
   @Test
   void testCreateFunction() {
     try {
-      Try.createFunction(con -> {
-        throw new RuntimeException("try");
-      }, e -> "").apply("a");
+      Try.createFunction(
+              con -> {
+                throw new RuntimeException("try");
+              },
+              e -> "")
+          .apply("a");
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-
   }
 
   @Test
   void testCreateFunctionWithThrow() {
     try {
-      Try.createFunctionWithThrow(con -> {
-        throw new RuntimeException("try");
-      }, Try::rethrow).apply("a");
+      Try.createFunctionWithThrow(
+              con -> {
+                throw new RuntimeException("try");
+              },
+              Try::rethrow)
+          .apply("a");
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-
   }
 
   @Test
   void testGetOrNull() {
-    Try.getOrElseNull(() -> {
-      throw new RuntimeException("try");
-    });
+    Try.getOrElseNull(
+        () -> {
+          throw new RuntimeException("try");
+        });
   }
 
   @Test
   void testGetOrThrow() {
     try {
-      Try.getOrElseThrow(() -> {
-        throw new RuntimeException("try");
-      }, Try::rethrow);
+      Try.getOrElseThrow(
+          () -> {
+            throw new RuntimeException("try");
+          },
+          Try::rethrow);
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-    Try.getOrElseThrow(() -> {
-      return null;
-    }, Try::rethrow);
+    Try.getOrElseThrow(
+        () -> {
+          return null;
+        },
+        Try::rethrow);
   }
 
   @Test
   void testRunOrThrow() {
     try {
-      Try.runOrElseThrow(() -> {
-        throw new RuntimeException("try");
-      }, Try::rethrow);
+      Try.runOrElseThrow(
+          () -> {
+            throw new RuntimeException("try");
+          },
+          Try::rethrow);
     } catch (Exception e) {
       assertThat(e.getMessage()).contains("try");
     }
-    Try.runOrElseThrow(() -> {
-    }, Try::rethrow);
+    Try.runOrElseThrow(() -> {}, Try::rethrow);
   }
 
   @Test
   void testCreateBiConsumer() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createBiConsumer(null, e -> Try.rethrow(e)).accept(null, null));
 
     AtomicInteger i = new AtomicInteger(0);
-    BiConsumer<Integer, Integer> func = Try
-        .createBiConsumer((Integer a, Integer b) -> i.addAndGet(a + b), e -> System.err.println(e));
+    BiConsumer<Integer, Integer> func =
+        Try.createBiConsumer(
+            (Integer a, Integer b) -> i.addAndGet(a + b), e -> System.err.println(e));
 
     func.accept(1, 2);
     assertThat(i.get()).isEqualTo(3);
@@ -157,26 +187,33 @@ class TryTest {
 
   @Test
   void testCreateBiConsumerWithThrow() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createBiConsumerWithThrow(null, e -> Try.rethrow(e)).accept(null, null));
 
     AtomicInteger i = new AtomicInteger(0);
-    BiConsumer<Integer, Integer> func = Try.createBiConsumerWithThrow(
-        (Integer a, Integer b) -> i.addAndGet(a + b), e -> Try.rethrow(e));
+    BiConsumer<Integer, Integer> func =
+        Try.createBiConsumerWithThrow(
+            (Integer a, Integer b) -> i.addAndGet(a + b), e -> Try.rethrow(e));
 
     func.accept(1, 2);
     assertThat(i.get()).isEqualTo(3);
 
-    assertThrowsExactly(IllegalAccessError.class,
-        () -> Try.createBiConsumerWithThrow((Integer a, Integer b) -> {
-          throw new IllegalAccessError();
-        }, e -> Try.rethrow(e)).accept(1, 2));
-
+    assertThrowsExactly(
+        IllegalAccessError.class,
+        () ->
+            Try.createBiConsumerWithThrow(
+                    (Integer a, Integer b) -> {
+                      throw new IllegalAccessError();
+                    },
+                    e -> Try.rethrow(e))
+                .accept(1, 2));
   }
 
   @Test
   void testCreateConsumer1() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createConsumer(null, e -> Try.rethrow(e)).accept(null));
 
     AtomicInteger i = new AtomicInteger(0);
@@ -189,25 +226,36 @@ class TryTest {
 
   @Test
   void testCreateConsumerWithThrow1() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createConsumerWithThrow(null, e -> Try.rethrow(e)).accept(null));
 
     AtomicInteger i = new AtomicInteger(0);
-    Consumer<Integer> func = Try.createConsumerWithThrow((Integer a) -> {
-      i.addAndGet(a);
-    }, e -> Try.rethrow(e));
+    Consumer<Integer> func =
+        Try.createConsumerWithThrow(
+            (Integer a) -> {
+              i.addAndGet(a);
+            },
+            e -> Try.rethrow(e));
 
     func.accept(2);
     assertThat(i.get()).isEqualTo(2);
 
-    assertThrowsExactly(IllegalAccessError.class, () -> Try.createConsumerWithThrow((Integer a) -> {
-      throw new IllegalAccessError();
-    }, e -> Try.rethrow(e)).accept(2));
+    assertThrowsExactly(
+        IllegalAccessError.class,
+        () ->
+            Try.createConsumerWithThrow(
+                    (Integer a) -> {
+                      throw new IllegalAccessError();
+                    },
+                    e -> Try.rethrow(e))
+                .accept(2));
   }
 
   @Test
   void testCreateFunction1() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createFunction(null, e -> Try.rethrow(e)).apply(null));
 
     AtomicInteger i = new AtomicInteger(0);
@@ -219,7 +267,8 @@ class TryTest {
 
   @Test
   void testCreateFunctionWithThrow1() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createFunctionWithThrow(null, e -> Try.rethrow(e)).apply(null));
 
     AtomicInteger i = new AtomicInteger(0);
@@ -230,16 +279,21 @@ class TryTest {
 
     assertThat(i.get()).isEqualTo(2);
 
-    assertThrowsExactly(IllegalAccessError.class, () -> Try.createConsumerWithThrow((Integer a) -> {
-      throw new IllegalAccessError();
-    }, e -> Try.rethrow(e)).accept(2));
-
+    assertThrowsExactly(
+        IllegalAccessError.class,
+        () ->
+            Try.createConsumerWithThrow(
+                    (Integer a) -> {
+                      throw new IllegalAccessError();
+                    },
+                    e -> Try.rethrow(e))
+                .accept(2));
   }
 
   @Test
   void testCreateRunnable1() {
-    assertThrowsExactly(NullPointerException.class,
-        () -> Try.createRunnable(null, e -> Try.rethrow(e)).run());
+    assertThrowsExactly(
+        NullPointerException.class, () -> Try.createRunnable(null, e -> Try.rethrow(e)).run());
 
     AtomicInteger i = new AtomicInteger(0);
     Runnable func = Try.createRunnable(() -> i.incrementAndGet(), e -> System.err.println(e));
@@ -250,7 +304,8 @@ class TryTest {
 
   @Test
   void testCreateRunnableWithThrow() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createRunnableWithThrow(null, e -> Try.rethrow(e)).run());
 
     AtomicInteger i = new AtomicInteger(0);
@@ -259,15 +314,21 @@ class TryTest {
     func.run();
     assertThat(i.get()).isEqualTo(1);
 
-    assertThrowsExactly(IllegalAccessError.class, () -> Try.createRunnableWithThrow(() -> {
-      throw new IllegalAccessError();
-    }, e -> Try.rethrow(e)).run());
+    assertThrowsExactly(
+        IllegalAccessError.class,
+        () ->
+            Try.createRunnableWithThrow(
+                    () -> {
+                      throw new IllegalAccessError();
+                    },
+                    e -> Try.rethrow(e))
+                .run());
   }
 
   @Test
   void testCreateSupplier1() {
-    assertThrowsExactly(NullPointerException.class,
-        () -> Try.createSupplier(null, e -> Try.rethrow(e)).get());
+    assertThrowsExactly(
+        NullPointerException.class, () -> Try.createSupplier(null, e -> Try.rethrow(e)).get());
 
     AtomicInteger i = new AtomicInteger(0);
     Supplier<Integer> func = Try.createSupplier(() -> i.incrementAndGet(), e -> -1);
@@ -277,7 +338,8 @@ class TryTest {
 
   @Test
   void testCreateSupplierWithThrow1() {
-    assertThrowsExactly(NullPointerException.class,
+    assertThrowsExactly(
+        NullPointerException.class,
         () -> Try.createRunnableWithThrow(null, e -> Try.rethrow(e)).run());
 
     AtomicInteger i = new AtomicInteger(0);
@@ -286,9 +348,15 @@ class TryTest {
 
     assertThat(func.get()).isEqualTo(1);
 
-    assertThrowsExactly(IllegalAccessError.class, () -> Try.createSupplierWithThrow(() -> {
-      throw new IllegalAccessError();
-    }, e -> Try.rethrow(e)).get());
+    assertThrowsExactly(
+        IllegalAccessError.class,
+        () ->
+            Try.createSupplierWithThrow(
+                    () -> {
+                      throw new IllegalAccessError();
+                    },
+                    e -> Try.rethrow(e))
+                .get());
   }
 
   @Test
@@ -305,32 +373,157 @@ class TryTest {
 
   @Test
   void testGetOrElseThrow() {
-    assertThrowsExactly(NullPointerException.class,
-        () -> Try.getOrElseThrow(null, e -> Try.rethrow(e)));
+    assertThrowsExactly(
+        NullPointerException.class, () -> Try.getOrElseThrow(null, e -> Try.rethrow(e)));
     assertThat(Try.getOrElseThrow(() -> 2, e -> Try.rethrow(e))).isEqualTo(2);
   }
 
   @Test
   void testGetOrElseGet() {
-    assertThrowsExactly(NullPointerException.class,
-        () -> Try.getOrElseGet(null, e -> Try.rethrow(e)));
+    assertThrowsExactly(
+        NullPointerException.class, () -> Try.getOrElseGet(null, e -> Try.rethrow(e)));
     assertThat(Try.getOrElseGet(() -> 2, e -> 3)).isEqualTo(2);
   }
 
-
   @Test
   void testRunOrElseDo() {
-    assertThrowsExactly(NullPointerException.class,
-        () -> Try.runOrElseDo(null, e -> Try.rethrow(e)));
-    Try.runOrElseDo(() -> {
-    }, e -> Try.rethrow(e));
+    assertThrowsExactly(
+        NullPointerException.class, () -> Try.runOrElseDo(null, e -> Try.rethrow(e)));
+    Try.runOrElseDo(() -> {}, e -> Try.rethrow(e));
   }
 
   @Test
   void testRunOrElseThrow() {
-    assertThrowsExactly(NullPointerException.class,
-        () -> Try.runOrElseThrow(null, e -> Try.rethrow(e)));
-    Try.runOrElseThrow(() -> {
-    }, e -> Try.rethrow(e));
+    assertThrowsExactly(
+        NullPointerException.class, () -> Try.runOrElseThrow(null, e -> Try.rethrow(e)));
+    Try.runOrElseThrow(() -> {}, e -> Try.rethrow(e));
+  }
+
+  @Test
+  public void testCreateBiConsumer1() {
+    AtomicBoolean executed = new AtomicBoolean(false);
+    BiConsumer<Integer, Integer> biConsumer =
+        Try.createBiConsumer((x, y) -> executed.set(true), e -> fail());
+    biConsumer.accept(1, 2);
+    assertTrue(executed.get());
+  }
+
+  @Test
+  public void testCreateConsumer2() {
+    AtomicBoolean executed = new AtomicBoolean(false);
+    Consumer<Integer> consumer = Try.createConsumer(x -> executed.set(true), e -> fail());
+    consumer.accept(1);
+    assertTrue(executed.get());
+  }
+
+  @Test
+  public void testCreateFunction2() {
+    Function<Integer, Integer> function = Try.createFunction(x -> x * 2, e -> fail());
+    assertEquals(4, function.apply(2));
+  }
+
+  @Test
+  public void testCreateRunnable2() {
+    AtomicBoolean executed = new AtomicBoolean(false);
+    Runnable runnable = Try.createRunnable(() -> executed.set(true), e -> fail());
+    runnable.run();
+    assertTrue(executed.get());
+  }
+
+  @Test
+  public void testCreateSupplier2() {
+    Supplier<String> supplier = Try.createSupplier(() -> "test", e -> fail());
+    assertEquals("test", supplier.get());
+  }
+
+  @Test
+  public void testOrElse() {
+    Integer result = Try.getOrElse(() -> 1, 2);
+    assertEquals(1, result);
+  }
+
+  @Test
+  public void testOrElseGet() {
+    Integer result =
+        Try.getOrElseGet(
+            () -> {
+              throw new Exception("fail");
+            },
+            e -> 2);
+    assertEquals(2, result);
+  }
+
+  @Test
+  public void testOrElseThrow() {
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            Try.getOrElseThrow(
+                () -> {
+                  throw new Exception("fail");
+                },
+                RuntimeException::new));
+  }
+
+  @Test
+  public void testOrElseNull() {
+    assertNull(
+        Try.getOrElseNull(
+            () -> {
+              throw new Exception("fail");
+            }));
+  }
+
+  @Test
+  public void testRethrow() {
+    Exception e = new Exception("error");
+    assertThrows(Exception.class, () -> Try.rethrow(e));
+  }
+
+  @Test
+  public void testRunOrElseDo1() {
+    AtomicBoolean executed = new AtomicBoolean(false);
+    Try.runOrElseDo(() -> executed.set(true), e -> fail());
+    assertTrue(executed.get());
+  }
+
+  @Test
+  public void testRunOrElseThrow1() {
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            Try.runOrElseThrow(
+                () -> {
+                  throw new Exception("fail");
+                },
+                RuntimeException::new));
+  }
+
+  @Test
+  public void testApplyOrElse() {
+    Integer result = Try.applyOrElse(x -> x * 2, 1, 0);
+    assertEquals(2, result);
+  }
+
+  @Test
+  public void testRunOrElseRethrow() {
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            Try.runOrElseRethrow(
+                () -> {
+                  throw new RuntimeException("fail");
+                }));
+  }
+
+  @Test
+  public void testOrElseRethrow() {
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            Try.getOrElseRethrow(
+                () -> {
+                  throw new RuntimeException("fail");
+                }));
   }
 }

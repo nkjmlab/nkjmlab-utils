@@ -11,8 +11,10 @@ public class ExecutorServiceUtils {
   private static final org.nkjmlab.util.java.logging.SimpleLogger log =
       org.nkjmlab.util.java.logging.LogManager.createLogger();
 
-  public static boolean shutdownAndAwaitTermination(ExecutorService executorService, long timeout,
-      TimeUnit unit) {
+  private ExecutorServiceUtils() {}
+
+  public static boolean shutdownAndAwaitTermination(
+      ExecutorService executorService, long timeout, TimeUnit unit) {
     executorService.shutdown();
     try {
       log.info("Awaiting shutdown for {} ....", executorService);
@@ -41,8 +43,8 @@ public class ExecutorServiceUtils {
     }
   }
 
-  public static List<Runnable> shutdownNowAfterAwaiting(ExecutorService executorService,
-      long timeout, TimeUnit unit) {
+  public static List<Runnable> shutdownNowAfterAwaiting(
+      ExecutorService executorService, long timeout, TimeUnit unit) {
     if (shutdownAndAwaitTermination(executorService, timeout, unit)) {
       return new ArrayList<>();
     } else {
@@ -50,15 +52,22 @@ public class ExecutorServiceUtils {
     }
   }
 
-  public static ScheduledFuture<?> scheduleWithFixedDelay(ScheduledExecutorService srv,
-      Runnable command, long initialDelay, long delay, TimeUnit unit) {
-    return srv.scheduleWithFixedDelay(() -> {
-      try {
-        command.run();
-      } catch (Throwable e) {
-        log.error(e, e);
-      }
-    }, initialDelay, delay, unit);
+  public static ScheduledFuture<?> scheduleWithFixedDelay(
+      ScheduledExecutorService srv,
+      Runnable command,
+      long initialDelay,
+      long delay,
+      TimeUnit unit) {
+    return srv.scheduleWithFixedDelay(
+        () -> {
+          try {
+            command.run();
+          } catch (Throwable e) {
+            log.error(e, e);
+          }
+        },
+        initialDelay,
+        delay,
+        unit);
   }
-
 }
