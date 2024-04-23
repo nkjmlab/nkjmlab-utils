@@ -8,7 +8,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import org.nkjmlab.util.java.function.Try;
+
+import org.nkjmlab.sorm4j.internal.util.Try;
+
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -20,8 +22,8 @@ public class BasicFirebaseAuthHandler implements FirebaseAuthHandler {
   private final Set<String> acceptableEmails;
   private final FirebaseAuth firebaseAuth;
 
-  public BasicFirebaseAuthHandler(Collection<String> acceptableEmails,
-      ServiceAccountCredentials credentials) {
+  public BasicFirebaseAuthHandler(
+      Collection<String> acceptableEmails, ServiceAccountCredentials credentials) {
     FirebaseOptions options = FirebaseOptions.builder().setCredentials(credentials).build();
     FirebaseApp firebaseApp = FirebaseApp.initializeApp(options);
     this.firebaseAuth = FirebaseAuth.getInstance(firebaseApp);
@@ -50,8 +52,8 @@ public class BasicFirebaseAuthHandler implements FirebaseAuthHandler {
     }
   }
 
-  public static BasicFirebaseAuthHandler create(Collection<String> acceptableEmails,
-      File firebaseServiceAccountJson) {
+  public static BasicFirebaseAuthHandler create(
+      Collection<String> acceptableEmails, File firebaseServiceAccountJson) {
     try (InputStream serviceAccount = new FileInputStream(firebaseServiceAccountJson)) {
       ServiceAccountCredentials credentials = ServiceAccountCredentials.fromStream(serviceAccount);
       return new BasicFirebaseAuthHandler(acceptableEmails, credentials);

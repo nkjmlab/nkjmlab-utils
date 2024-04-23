@@ -8,8 +8,8 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.nkjmlab.util.java.function.Try;
 
 public class Log4jConfigurator {
-  private static final org.nkjmlab.util.java.logging.SimpleLogger log =
-      org.nkjmlab.util.java.logging.LogManager.createLogger();
+  private static final org.apache.logging.log4j.Logger log =
+      org.apache.logging.log4j.LogManager.getLogger();
 
   private static volatile boolean override = true;
 

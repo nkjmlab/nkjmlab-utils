@@ -1,6 +1,7 @@
 package org.nkjmlab.util.java.function;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -524,6 +525,58 @@ class TryTest {
             Try.getOrElseRethrow(
                 () -> {
                   throw new RuntimeException("fail");
+                }));
+  }
+
+  @Test
+  public void testApplyOrElseWithSuccess() {
+    int result = Try.applyOrElse(x -> x * 2, 5, 0);
+    assertEquals(10, result);
+  }
+
+  @Test
+  public void testApplyOrElseWithFailure() {
+    int result =
+        Try.applyOrElse(
+            x -> {
+              throw new Exception("fail");
+            },
+            5,
+            0);
+    assertEquals(0, result);
+  }
+
+  @Test
+  public void testRunOrElseRethrowWithSuccess() {
+    assertDoesNotThrow(
+        () -> Try.runOrElseRethrow(() -> System.out.println("Running successfully")));
+  }
+
+  @Test
+  public void testRunOrElseRethrowWithFailure() {
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            Try.runOrElseRethrow(
+                () -> {
+                  throw new RuntimeException("Failure during run");
+                }));
+  }
+
+  @Test
+  public void testOrElseRethrowWithSuccess() {
+    Integer result = Try.getOrElseRethrow(() -> 123);
+    assertEquals(123, result);
+  }
+
+  @Test
+  public void testOrElseRethrowWithFailure() {
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            Try.getOrElseRethrow(
+                () -> {
+                  throw new RuntimeException("Expected exception");
                 }));
   }
 }

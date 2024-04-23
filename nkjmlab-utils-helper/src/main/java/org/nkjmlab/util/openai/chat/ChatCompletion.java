@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 
-import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.openai.OpenAi4jException;
 import org.nkjmlab.util.openai.chat.model.ChatRequest;
 import org.nkjmlab.util.openai.chat.model.ChatRequest.ChatMessage;
@@ -116,7 +115,7 @@ public class ChatCompletion {
         }
         throw new RuntimeException("/openai4j.properties is invalid.");
       } catch (Exception e) {
-        throw Try.rethrow(e);
+        throw new RuntimeException(e);
       }
     }
 

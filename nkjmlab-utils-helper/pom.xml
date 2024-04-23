@@ -46,17 +46,27 @@
 
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.nkjmlab/nkjmlab-utils-core -->
-		<dependency>
-			<groupId>org.nkjmlab</groupId>
-			<artifactId>nkjmlab-utils-core</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.nkjmlab/sorm4j -->
 		<dependency>
 			<groupId>org.nkjmlab</groupId>
 			<artifactId>sorm4j</artifactId>
 			<version>2.1.5</version>
+			<optional>true</optional>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.23.1</version>
+			<optional>true</optional>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.23.1</version>
 			<optional>true</optional>
 		</dependency>
 		<!--
@@ -146,22 +156,6 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>2.2.224</version>
-			<scope>test</scope>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.23.1</version>
-			<scope>test</scope>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.23.1</version>
 			<scope>test</scope>
 		</dependency>
 
