@@ -1,15 +1,23 @@
 package org.nkjmlab.util.poi;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.List;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.junit.jupiter.api.Test;
-import org.nkjmlab.util.java.lang.ResourceUtils;
+import org.nkjmlab.sorm4j.internal.util.Try;
 
 class BasicExcelSheetTest {
   private static BasicExcelSheet excelSheet =
-      BasicExcelSheet.builder(ResourceUtils.getResourceAsFile("/test.xlsx"), "Sheet1").build();
+      BasicExcelSheet.builder(
+              new File(
+                  Try.getOrElse(
+                      () -> BasicExcelSheetTest.class.getResource("/test.xlsx").toURI(), null)),
+              "Sheet1")
+          .build();
 
   @Test
   void testGetCell() throws URISyntaxException {
@@ -19,5 +27,4 @@ class BasicExcelSheetTest {
     assertThat(cells.get(6).get(0).toString()).isEqualTo("merged cell1");
     assertThat(cells.get(6).get(1).toString()).isEqualTo("");
   }
-
 }

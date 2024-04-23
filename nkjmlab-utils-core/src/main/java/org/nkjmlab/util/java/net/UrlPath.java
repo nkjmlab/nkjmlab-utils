@@ -9,7 +9,6 @@ import java.util.List;
  * URL Path
  *
  * @author nkjm
- *
  */
 public class UrlPath {
 
@@ -17,10 +16,12 @@ public class UrlPath {
   private final List<String> elements;
 
   private UrlPath(String path) {
+    if (!path.startsWith("/")) {
+      throw new RuntimeException(String.format("path [{}] should be start with /", path));
+    }
     this.path = path;
-    String trim = path.startsWith("/") ? path.substring(1) : path;
+    String trim = path.substring(1);
     this.elements = Arrays.asList(trim.split("/"));
-
   }
 
   /**
@@ -41,13 +42,11 @@ public class UrlPath {
     return new UrlPath(path);
   }
 
-
   /**
    * Append "index.html" if the last character is "/".
    *
    * @return
    */
-
   public UrlPath appendDirectoryIndex() {
     return of(path.endsWith("/") ? path + "index.html" : path);
   }
@@ -104,6 +103,4 @@ public class UrlPath {
   public UrlPath removeStart(String str) {
     return of(path.replaceFirst("^" + str, ""));
   }
-
-
 }

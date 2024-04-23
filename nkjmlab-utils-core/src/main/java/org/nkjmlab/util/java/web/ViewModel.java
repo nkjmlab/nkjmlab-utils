@@ -1,6 +1,7 @@
 package org.nkjmlab.util.java.web;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.nkjmlab.util.java.io.FileUtils;
 
 public class ViewModel implements Map<String, Object> {
@@ -28,7 +30,6 @@ public class ViewModel implements Map<String, Object> {
     return map.toString();
   }
 
-
   public Map<String, Long> getModifiedDates() {
     @SuppressWarnings("unchecked")
     Map<String, Long> ret = (Map<String, Long>) map.get(MODIFIED_DATES);
@@ -46,7 +47,6 @@ public class ViewModel implements Map<String, Object> {
   public static ViewModel.Builder builder() {
     return new ViewModel.Builder();
   }
-
 
   @Override
   public int size() {
@@ -118,6 +118,32 @@ public class ViewModel implements Map<String, Object> {
     return new Builder().putAll(map);
   }
 
+  public static Map<String, Long> getFileModifiedDate(
+      Path directory, int maxDepth, String... extentions) {
+    List<Path> files =
+        FileUtils.listFiles(
+            directory,
+            maxDepth,
+            p ->
+                Arrays.stream(extentions)
+                    .filter(ext -> p.toString().endsWith(ext))
+                    .findAny()
+                    .isPresent());
+    Map<String, Long> fileModifiedDate =
+        files.stream()
+            .collect(
+                Collectors.toMap(
+                    f ->
+                        f.toAbsolutePath()
+                            .toString()
+                            .replace(directory.toAbsolutePath().toString(), "")
+                            .replace(".", "_")
+                            .replace("-", "_")
+                            .replace(File.separator, "_")
+                            .replaceFirst("_", ""),
+                    f -> f.toFile().lastModified()));
+    return fileModifiedDate;
+  }
 
   public static class Builder {
 
@@ -125,19 +151,16 @@ public class ViewModel implements Map<String, Object> {
 
     private final Map<String, Object> map = new LinkedHashMap<>();
 
-    public ViewModel.Builder setFileModifiedDate(File directory, int maxDepth,
-        String... extentions) {
-      List<File> files = FileUtils.listFiles(directory, maxDepth, p -> Arrays.stream(extentions)
-          .filter(ext -> p.toString().endsWith(ext)).findAny().isPresent());
-      Map<String, Long> fileModifiedDate = files.stream()
-          .collect(Collectors.toMap(
-              f -> f.getAbsolutePath().replace(directory.getAbsolutePath(), "").replace(".", "_")
-                  .replace("-", "_").replace(File.separator, "_").replaceFirst("_", ""),
-              f -> f.lastModified()));
-      map.put(MODIFIED_DATES, fileModifiedDate);
+    public ViewModel.Builder setFileModifiedDate(
+        Path directory, int maxDepth, String... extentions) {
+      setFileModifiedDate(getFileModifiedDate(directory, maxDepth, extentions));
       return this;
     }
 
+    public ViewModel.Builder setFileModifiedDate(Map<String, Long> fileModifiedDate) {
+      map.put(MODIFIED_DATES, fileModifiedDate);
+      return this;
+    }
 
     public ViewModel.Builder setLocale(Locale locale) {
       this.locale = locale;
@@ -165,7 +188,4 @@ public class ViewModel implements Map<String, Object> {
       return this;
     }
   }
-
-
-
 }

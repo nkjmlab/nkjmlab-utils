@@ -6,39 +6,39 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
 
-public class ThymeleafTemplateEnginBuilder {
+public class ThymeleafTemplateEngineBuilder {
 
-  private ThymeleafTemplateResolverBuilder templateResolverBuilder =
+  private final ThymeleafTemplateResolverBuilder templateResolverBuilder =
       ThymeleafTemplateResolverBuilder.builder();
 
   private final List<IDialect> dialects = new ArrayList<>();
 
-  public static ThymeleafTemplateEnginBuilder builder() {
-    return new ThymeleafTemplateEnginBuilder();
+  public static ThymeleafTemplateEngineBuilder builder() {
+    return new ThymeleafTemplateEngineBuilder();
   }
 
-  public ThymeleafTemplateEnginBuilder setPrefix(String prefix) {
+  public ThymeleafTemplateEngineBuilder setPrefix(String prefix) {
     templateResolverBuilder.setPrefix(prefix);
     return this;
   }
 
-  public ThymeleafTemplateEnginBuilder setSuffix(String suffix) {
+  public ThymeleafTemplateEngineBuilder setSuffix(String suffix) {
     templateResolverBuilder.setSuffix(suffix);
     return this;
   }
 
-  public ThymeleafTemplateEnginBuilder setTtlMs(long cacheTtlMs) {
+  public ThymeleafTemplateEngineBuilder setTtlMs(long cacheTtlMs) {
     templateResolverBuilder.setCacheTtlMs(cacheTtlMs);
     return this;
   }
 
-  public ThymeleafTemplateEnginBuilder setTemplateResolver(
+  public ThymeleafTemplateEngineBuilder setTemplateResolver(
       AbstractConfigurableTemplateResolver templateResolver) {
     templateResolverBuilder.setTemplateResolver(templateResolver);
     return this;
   }
 
-  public ThymeleafTemplateEnginBuilder addDialect(IDialect dialect) {
+  public ThymeleafTemplateEngineBuilder addDialect(IDialect dialect) {
     dialects.add(dialect);
     return this;
   }

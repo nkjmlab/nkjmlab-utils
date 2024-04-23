@@ -1,7 +1,10 @@
 package org.nkjmlab.util.java.net;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 class UrlPathTest {
@@ -9,8 +12,12 @@ class UrlPathTest {
   @Test
   void test() {
     {
-      UrlPath elems = UrlPath.of("").appendDirectoryIndex();
-      assertThat(elems.getElements()).isEqualTo(List.of(""));
+      assertThrows(
+          RuntimeException.class,
+          () -> {
+            UrlPath elems = UrlPath.of("").appendDirectoryIndex();
+            elems.getElements();
+          });
     }
     {
       UrlPath elems = UrlPath.of("/").appendDirectoryIndex();
@@ -35,5 +42,4 @@ class UrlPathTest {
       assertThat(elems.getElements()).isEqualTo(List.of("2", "exit-icu", "form", "mmse.html"));
     }
   }
-
 }

@@ -17,17 +17,18 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.nkjmlab.util.java.function.Try;
 
 public class FileUtils {
 
-  public static List<File> listFiles(File dir) {
+  public static List<Path> listFiles(Path dir) {
     return listFiles(dir, Integer.MAX_VALUE, p -> true);
   }
 
-  public static List<File> listFiles(File dir, int maxDepth, Predicate<Path> filter) {
-    try (Stream<Path> stream = Files.walk(dir.toPath(), maxDepth)) {
-      return stream.filter(p -> filter.test(p)).map(p -> p.toFile()).collect(Collectors.toList());
+  public static List<Path> listFiles(Path dir, int maxDepth, Predicate<Path> filter) {
+    try (Stream<Path> stream = Files.walk(dir, maxDepth)) {
+      return stream.filter(p -> filter.test(p)).map(p -> p).collect(Collectors.toList());
     } catch (IOException e) {
       throw Try.rethrow(e);
     }
@@ -144,8 +145,8 @@ public class FileUtils {
     }
   }
 
-  public static Path write(Path path, Iterable<? extends CharSequence> lines, Charset cs,
-      OpenOption... options) {
+  public static Path write(
+      Path path, Iterable<? extends CharSequence> lines, Charset cs, OpenOption... options) {
     try {
       return Files.write(path, lines, cs, options);
     } catch (IOException e) {
@@ -153,8 +154,8 @@ public class FileUtils {
     }
   }
 
-  public static Path write(Path path, Iterable<? extends CharSequence> lines,
-      OpenOption... options) {
+  public static Path write(
+      Path path, Iterable<? extends CharSequence> lines, OpenOption... options) {
     return write(path, lines, StandardCharsets.UTF_8, options);
   }
 
@@ -166,10 +167,7 @@ public class FileUtils {
     }
   }
 
-
   public static Path write(Path path, String line, OpenOption... options) {
     return write(path, Arrays.asList(line), StandardCharsets.UTF_8, options);
   }
-
-
 }

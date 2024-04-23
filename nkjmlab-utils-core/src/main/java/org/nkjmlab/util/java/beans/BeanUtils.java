@@ -2,7 +2,8 @@ package org.nkjmlab.util.java.beans;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import org.nkjmlab.sorm4j.internal.util.Try;
+
+import org.nkjmlab.util.java.function.Try;
 
 public class BeanUtils {
 

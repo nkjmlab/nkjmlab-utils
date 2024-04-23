@@ -6,6 +6,8 @@ import java.util.concurrent.ForkJoinTask;
 
 public class ForkJoinPoolUtils {
 
+  private ForkJoinPoolUtils() {}
+
   public static void executeWith(Runnable task) {
     executeWith(getAvailableProcessorsMinus(1), task);
   }
@@ -37,7 +39,6 @@ public class ForkJoinPoolUtils {
     pool.shutdown();
     return result;
   }
-
 
   public static int getAvailableProcessorsMinus(int threadsNum) {
     if (threadsNum < 0) {

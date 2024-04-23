@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -19,8 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.nkjmlab.util.java.function.Try;
-import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
+import org.nkjmlab.sorm4j.internal.util.ParameterizedStringFormatter;
 import org.nkjmlab.util.java.stream.StreamUtils;
 import org.nkjmlab.util.java.time.DateTimeUtils;
 
@@ -54,50 +54,63 @@ public class BasicExcelSheet {
   }
 
   public <T> T procSheet(Function<Sheet, T> sheetFunction) {
-    try (FileInputStream in = new FileInputStream(file); Workbook wb = WorkbookFactory.create(in)) {
+    try (FileInputStream in = new FileInputStream(file);
+        Workbook wb = WorkbookFactory.create(in)) {
       Sheet sheet = wb.getSheet(sheetName);
       return sheetFunction.apply(sheet);
     } catch (EncryptedDocumentException | IOException e) {
-      throw Try.rethrow(e);
+      throw new RuntimeException(e);
     }
   }
 
   /**
-   *
    * @param cellSeparatorAfterConverted
    * @param cellQuoteStringAfterConverted
    * @param nullStringAfterConverted
    * @return
    */
-  public List<String> readAllRows(String cellSeparatorAfterConverted,
-      String cellQuoteStringAfterConverted, String nullStringAfterConverted) {
-    return readAllCells().stream().map(row -> {
-      List<String> convertedCells = row.stream().map(cell -> {
-        String val = toStringValue(cell);
-        return cellQuoteStringAfterConverted
-            + ((val == null || val.equals("null")) ? nullStringAfterConverted : val)
-            + cellQuoteStringAfterConverted;
-      }).collect(Collectors.toList());
-      return String.join(cellSeparatorAfterConverted, convertedCells);
-    }).collect(Collectors.toList());
+  public List<String> readAllRows(
+      String cellSeparatorAfterConverted,
+      String cellQuoteStringAfterConverted,
+      String nullStringAfterConverted) {
+    return readAllCells().stream()
+        .map(
+            row -> {
+              List<String> convertedCells =
+                  row.stream()
+                      .map(
+                          cell -> {
+                            String val = toStringValue(cell);
+                            return cellQuoteStringAfterConverted
+                                + ((val == null || val.equals("null"))
+                                    ? nullStringAfterConverted
+                                    : val)
+                                + cellQuoteStringAfterConverted;
+                          })
+                      .collect(Collectors.toList());
+              return String.join(cellSeparatorAfterConverted, convertedCells);
+            })
+        .collect(Collectors.toList());
   }
 
-
   public List<List<Cell>> readAllCells() {
-    return procSheet(sheet -> StreamUtils.stream(sheet)
-        .map(row -> StreamUtils.stream(row).collect(Collectors.toList()))
-        .collect(Collectors.toList()));
+    return procSheet(
+        sheet ->
+            StreamUtils.stream(sheet)
+                .map(row -> StreamUtils.stream(row).collect(Collectors.toList()))
+                .collect(Collectors.toList()));
   }
 
   public Map<String, Integer> readFirstRowAsHeader() {
-    return procSheet(sheet -> {
-      Row r = sheet.getRow(0);
-      Map<String, Integer> columnNames = new HashMap<>();
-      for (int i = 0; i < r.getLastCellNum(); i++) {
-        columnNames.put(r.getCell(i).toString(), i);
-      }
-      return columnNames;
-    });
+    return procSheet(
+        sheet -> {
+          Row r = sheet.getRow(0);
+          Map<String, Integer> columnNames = new HashMap<>();
+          for (int i = 0; i < r.getLastCellNum(); i++) {
+            columnNames.put(r.getCell(i).toString(), i);
+          }
+          return columnNames;
+        });
   }
 
   public Cell readCell(int rowIndex, int columnIndex) {
@@ -112,7 +125,6 @@ public class BasicExcelSheet {
     }
     return null;
   }
-
 
   /**
    * Example of getting the value of a merged cell as a String
@@ -160,7 +172,6 @@ public class BasicExcelSheet {
    * @param cell
    * @return
    */
-
   public static String toStringFormulaValue(Cell cell) {
     Workbook book = cell.getSheet().getWorkbook();
     CreationHelper helper = book.getCreationHelper();
@@ -198,7 +209,4 @@ public class BasicExcelSheet {
             ParameterizedStringFormatter.DEFAULT.format("{} is invalid", cell));
     }
   }
-
-
-
 }

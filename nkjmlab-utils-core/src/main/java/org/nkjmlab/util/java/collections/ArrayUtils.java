@@ -6,18 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.lang.ClassUtils;
 
 public class ArrayUtils {
-
-  public static void main(String[] args) {
-    split(3, 1, 2, 3, 4).forEach(a -> System.out.println(Arrays.toString(a)));
-
-    System.out.println(Arrays.toString(addAll(new int[] {1, 2, 3}, new int[] {4, 5, 6})));
-  }
-
-
 
   public static <T> T[] add(T[] array, T elem) {
     final int arrayLength = Array.getLength(array);
@@ -29,8 +22,8 @@ public class ArrayUtils {
     return newArray;
   }
 
-
-  public static <T> T[] addAll(T[] array, @SuppressWarnings("unchecked") T... elems) {
+  @SafeVarargs
+  public static <T> T[] addAll(T[] array, T... elems) {
     final int arrayLength = Array.getLength(array);
     final int elemsLength = Array.getLength(elems);
     @SuppressWarnings("unchecked")
@@ -189,7 +182,6 @@ public class ArrayUtils {
   private ArrayUtils() {}
 
   /**
-   *
    * @param toComponentType
    * @param srcArray
    * @return
@@ -226,9 +218,12 @@ public class ArrayUtils {
 
   public static <T> T[] convertToObjectArray(Class<?> componentType, Object srcArray) {
     final int length = Array.getLength(srcArray);
-    Object destArray = Array.newInstance(
-        componentType.isPrimitive() ? ClassUtils.primitiveToWrapper(componentType) : componentType,
-        length);
+    Object destArray =
+        Array.newInstance(
+            componentType.isPrimitive()
+                ? ClassUtils.primitiveToWrapper(componentType)
+                : componentType,
+            length);
     for (int i = 0; i < length; i++) {
       Object v = Array.get(srcArray, i);
       Array.set(destArray, i, v);
@@ -264,17 +259,16 @@ public class ArrayUtils {
     }
     Object o = Array.get(srcArray, 0);
     final int length = Array.getLength(srcArray);
-    Object destArray = Array.newInstance(
-        Array.newInstance(convertToObjectArray(o).getClass().getComponentType(), 0).getClass(),
-        length);
+    Object destArray =
+        Array.newInstance(
+            Array.newInstance(convertToObjectArray(o).getClass().getComponentType(), 0).getClass(),
+            length);
     for (int i = 0; i < length; i++) {
       Object v = Array.get(srcArray, i);
       Array.set(destArray, i, convertToObjectArray(v));
     }
     return (Object[]) destArray;
   }
-
-
 
   public static String toString(Object array) {
     if (array == null) {
@@ -297,14 +291,18 @@ public class ArrayUtils {
       return "null";
     }
     return "["
-        + String
-            .join(", ",
-                Arrays.stream(parameters)
-                    .map(o -> o == null ? "null"
-                        : (o.getClass().isArray() ? toString(o) : o.toString()) + " ("
-                            + o.getClass().getSimpleName() + ")")
-                    .collect(Collectors.toList()))
+        + String.join(
+            ", ",
+            Arrays.stream(parameters)
+                .map(
+                    o ->
+                        o == null
+                            ? "null"
+                            : (o.getClass().isArray() ? toString(o) : o.toString())
+                                + " ("
+                                + o.getClass().getSimpleName()
+                                + ")")
+                .collect(Collectors.toList()))
         + "]";
   }
-
 }

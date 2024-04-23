@@ -10,11 +10,13 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Properties;
+
 import org.nkjmlab.util.openai.OpenAi4jException;
 import org.nkjmlab.util.openai.chat.model.ChatRequest;
 import org.nkjmlab.util.openai.chat.model.ChatRequest.ChatMessage;
 import org.nkjmlab.util.openai.chat.model.ChatRequest.ChatMessage.Role;
 import org.nkjmlab.util.openai.chat.model.ChatResponse;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -25,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * API</a>
  *
  * @author nkjm
- *
  */
 public class ChatCompletion {
 
@@ -35,23 +36,24 @@ public class ChatCompletion {
   private final ObjectMapper objectMapper;
 
   public static void main(String[] args) {
-    ChatResponse res = ChatCompletion.builder().build()
-        .createCompletion("What do you think would be good for dinner tonight?");
+    ChatResponse res =
+        ChatCompletion.builder()
+            .build()
+            .createCompletion("What do you think would be good for dinner tonight?");
     System.out.println(res);
   }
-
 
   private ChatCompletion(Builder builder) {
     this.authHeader = "Bearer " + builder.apiKey;
     this.apiUrl = builder.apiUrl;
 
-    this.httpClient = HttpClient.newBuilder()
-        .connectTimeout(Duration.of(builder.timeout, ChronoUnit.MILLIS)).build();
+    this.httpClient =
+        HttpClient.newBuilder()
+            .connectTimeout(Duration.of(builder.timeout, ChronoUnit.MILLIS))
+            .build();
 
     this.objectMapper = builder.objectMapper;
   }
-
-
 
   public ChatResponse createCompletion(String text) throws OpenAi4jException {
     return createCompletion(
@@ -71,12 +73,13 @@ public class ChatCompletion {
   }
 
   private HttpRequest createHttpRequest(ChatRequest chatRequest) throws JsonProcessingException {
-    return HttpRequest.newBuilder().uri(apiUrl).header("Authorization", authHeader)
+    return HttpRequest.newBuilder()
+        .uri(apiUrl)
+        .header("Authorization", authHeader)
         .header("Content-Type", "application/json")
         .POST(HttpRequest.BodyPublishers.ofByteArray(objectMapper.writeValueAsBytes(chatRequest)))
         .build();
   }
-
 
   public static Builder builder() {
     return new Builder();
@@ -84,52 +87,40 @@ public class ChatCompletion {
 
   public static class Builder {
 
-    private String apiKey = readApiKey();
+    private String apiKey;
     private long timeout = 2 * 60 * 1000L;
     private URI apiUrl = toURI("https://api.openai.com/v1/chat/completions");
     private ObjectMapper objectMapper =
-        new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-
-    private static String readApiKey() {
-      {
-        String key = readResource("/openai4j.properties");
-        if (key != null) {
-          return key;
-        }
+    public Builder apiKeyFromSystemEnv() {
+      String key = System.getenv("OPENAI4J_SECRET_TOKEN");
+      if (key != null && key.toString().length() > 0) {
+        apiKey(key.toString());
+        return this;
       }
-      {
-        String key = System.getenv("OPENAI4J_SECRET_TOKEN");
-        if (key != null && key.toString().length() > 0) {
-          return key.toString();
-        }
-      }
-      return null;
+      throw new RuntimeException("System env OPENAI4J_SECRET_TOKEN is not found or not valid.");
     }
 
-    private static String readResource(String resourceName) {
+    public Builder apiKeyFromProperties(String resourceName) {
       try (InputStream is = ChatCompletion.class.getResourceAsStream(resourceName)) {
         Properties props = new Properties();
         props.load(is);
         Object key = props.get("secretKey");
         if (key != null && key.toString().length() > 0) {
-          return key.toString();
+          apiKey(key.toString());
+          return this;
         }
-        return null;
+        throw new RuntimeException("/openai4j.properties is invalid.");
       } catch (Exception e) {
-        return null;
+        throw new RuntimeException(e);
       }
-
     }
 
     public Builder apiKey(String apiKey) {
       this.apiKey = apiKey;
-      return this;
-    }
-
-    public Builder apiKeyResource(String resourceName) {
-      this.apiKey = readResource(resourceName);
       return this;
     }
 
@@ -160,8 +151,5 @@ public class ChatCompletion {
         throw new OpenAi4jException(uri + " is invalid", e);
       }
     }
-
-
   }
-
 }

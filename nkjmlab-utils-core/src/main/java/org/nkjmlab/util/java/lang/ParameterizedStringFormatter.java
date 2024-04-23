@@ -33,7 +33,6 @@ public final class ParameterizedStringFormatter {
   private final int maxLength;
 
   /**
-   *
    * @param maxLength of a string of one parameter
    */
   public ParameterizedStringFormatter(int maxLength) {
@@ -41,7 +40,6 @@ public final class ParameterizedStringFormatter {
   }
 
   /**
-   *
    * @param placeholder
    * @param maxLength of a string of one parameter
    */
@@ -81,32 +79,39 @@ public final class ParameterizedStringFormatter {
   }
 
   public String formatParameterWithType(Object... params) {
-    return String.join(", ",
+    return String.join(
+        ", ",
         Stream.of(params).map(p -> parameterToStringWithType(maxLength, p)).toArray(String[]::new));
   }
 
-
   public String formatParameter(Object... params) {
-    return String.join(", ",
-        Stream.of(params).map(p -> parameterToString(maxLength, p)).toArray(String[]::new));
+    return String.join(
+        ", ", Stream.of(params).map(p -> parameterToString(maxLength, p)).toArray(String[]::new));
   }
 
-
+  /**
+   * @param msg
+   * @param placeholder
+   * @param maxLength max length of string for the placeholder
+   * @param params
+   * @return
+   */
   public static String newString(String msg, String placeholder, int maxLength, Object... params) {
     if (params == null || params.length == 0) {
       return msg;
     }
-    return newStringAux(msg, placeholder, params.length,
-        index -> parameterToString(maxLength, params[index]));
+    return newStringAux(
+        msg, placeholder, params.length, index -> parameterToString(maxLength, params[index]));
   }
-
-
 
   private static String trim(String string, int maxLength) {
     return string.length() <= maxLength ? string : (string.substring(0, maxLength) + "...");
   }
 
-  private static String newStringAux(String msg, String placeholder, int numOfParameter,
+  private static String newStringAux(
+      String msg,
+      String placeholder,
+      int numOfParameter,
       Function<Integer, String> parameterReplacer) {
     if (msg == null) {
       return "null";
@@ -133,7 +138,7 @@ public final class ParameterizedStringFormatter {
       return "null";
     } else if (param.getClass().isArray()) {
       String s = Arrays.deepToString(new Object[] {param});
-      return trim(s.substring(1, s.length()), maxLength);
+      return trim(s.substring(1, s.length() - 1), maxLength);
     } else {
       return trim(param.toString(), maxLength);
     }
@@ -144,11 +149,12 @@ public final class ParameterizedStringFormatter {
       return "null";
     } else if (param.getClass().isArray()) {
       String s = Arrays.deepToString(new Object[] {param});
-      return "(" + param.getClass().getSimpleName() + ") "
+      return "("
+          + param.getClass().getSimpleName()
+          + ") "
           + trim(s.substring(1, s.length()), maxLength);
     } else {
       return "(" + param.getClass().getSimpleName() + ") " + trim(param.toString(), maxLength);
     }
   }
-
 }

@@ -9,12 +9,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.SystemFileUtils;
+import org.nkjmlab.util.java.net.UrlUtils;
 
 public class ResourceUtils {
 
@@ -22,8 +25,8 @@ public class ResourceUtils {
     return readAllLinesFromResource(clazz, resourcePath, StandardCharsets.UTF_8);
   }
 
-  public static List<String> readAllLinesFromResource(Class<?> clazz, String resourcePath,
-      Charset cs) {
+  public static List<String> readAllLinesFromResource(
+      Class<?> clazz, String resourcePath, Charset cs) {
     try (InputStream in = clazz.getResourceAsStream(resourcePath);
         InputStreamReader ir = new InputStreamReader(in, cs);
         BufferedReader br = new BufferedReader(ir)) {
@@ -37,7 +40,6 @@ public class ResourceUtils {
       throw Try.rethrow(e);
     }
   }
-
 
   public static File copyResourceToTempDir(Class<?> clazz, String resourcePath) {
     byte[] bytes = readAllByteFromResource(clazz, resourcePath);
@@ -74,8 +76,6 @@ public class ResourceUtils {
     }
   }
 
-
-
   public static File getResourceAsFile(Class<?> clazz, String resourceName) {
     return new File(getResourceAsUri(clazz, resourceName));
   }
@@ -92,8 +92,8 @@ public class ResourceUtils {
     }
   }
 
-  public static URI getResourceAsUri(String file) {
-    return getResourceAsUri(ResourceUtils.class, file);
+  public static URI getResourceAsUri(String resourceName) {
+    return getResourceAsUri(ResourceUtils.class, resourceName);
   }
 
   public static String toResourceName(File file) {
@@ -108,4 +108,25 @@ public class ResourceUtils {
     return getResourceAsFile(ResourceUtils.class, "/");
   }
 
+  /**
+   * @param clazz
+   * @return the end of returned value is /.
+   */
+  public static URL getCodeSourceLocation(Class<?> clazz) {
+    URL rootDir = getRootCodeSourceLocation(clazz);
+    String packageDir = clazz.getPackageName().replace(".", "/");
+    String ret = rootDir + packageDir;
+    return UrlUtils.of(ret + (ret.endsWith("/") ? "" : "/"));
+  }
+
+  /**
+   * @param clazz
+   * @return the end of returned value is /.
+   */
+  public static URL getRootCodeSourceLocation(Class<?> clazz) {
+    String locationUrlString = clazz.getProtectionDomain().getCodeSource().getLocation().toString();
+    String location =
+        locationUrlString.endsWith(".jar") ? "jar:" + locationUrlString + "!/" : locationUrlString;
+    return UrlUtils.of(location);
+  }
 }

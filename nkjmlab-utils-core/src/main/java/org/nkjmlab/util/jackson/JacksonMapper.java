@@ -229,7 +229,9 @@ public class JacksonMapper implements JsonMapper {
 
   @Override
   public <T> T toObject(String json, Class<T> clazz) {
-    return Try.getOrElseThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
+    return json == null
+        ? null
+        : Try.getOrElseThrow(() -> mapper.readValue(json, clazz), e -> Try.rethrow(e));
   }
 
 

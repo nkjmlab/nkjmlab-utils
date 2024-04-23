@@ -1,24 +1,58 @@
 package org.nkjmlab.util.java.concurrent;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.lang.Thread.UncaughtExceptionHandler;
+
 import org.junit.jupiter.api.Test;
 
 class BasicThreadFactoryTest {
 
   @Test
-  void test() {
-    ExecutorService exec2 =
-        Executors.newSingleThreadExecutor(BasicThreadFactory.builder("scn-interp", false).build());
-    exec2.submit(() -> System.out.println(exec2));
+  public void testThreadCreation() {
+    BasicThreadFactory factory =
+        BasicThreadFactory.builder()
+            .setThreadNamePrefix("TestThread")
+            .setDaemon(true)
+            .setPriority(Thread.MAX_PRIORITY)
+            .build();
 
-    ExecutorService exec1 = Executors.newSingleThreadExecutor();
-    exec1.submit(() -> System.out.println(exec1));
+    Runnable r =
+        () -> {
+          try {
+            Thread.sleep(100);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+          }
+        };
 
+    Thread thread = factory.newThread(r);
+    thread.start();
 
-    System.out.println(exec1);
-
-
+    assertTrue(thread.getName().startsWith("TestThread-"));
+    assertTrue(thread.isDaemon());
+    assertEquals(Thread.MAX_PRIORITY, thread.getPriority());
   }
 
+  @Test
+  public void testUncaughtExceptionHandler() {
+    UncaughtExceptionHandler handler =
+        (t, e) -> System.out.println("Caught exception: " + e.getMessage());
+    BasicThreadFactory factory =
+        BasicThreadFactory.builder()
+            .setThreadNamePrefix("ExceptionThread")
+            .setUncaughtExceptionHandler(handler)
+            .build();
+
+    Runnable r =
+        () -> {
+          throw new RuntimeException("This is a test exception");
+        };
+
+    Thread thread = factory.newThread(r);
+    thread.setUncaughtExceptionHandler(
+        (t, e) -> assertEquals("This is a test exception", e.getMessage()));
+    thread.start();
+  }
 }

@@ -7,9 +7,7 @@ import java.util.stream.Stream;
  * *
  *
  * @see <a href=
- *      "https://backpaper0.github.io/ghosts/optimized_tail_call_recursive_fibonacci_in_java.html">optimized_tail_call_recursive_fibonacci_in_java.html</a>
- *
- *
+ *     "https://backpaper0.github.io/ghosts/optimized_tail_call_recursive_fibonacci_in_java.html">optimized_tail_call_recursive_fibonacci_in_java.html</a>
  * @param <T>
  */
 public class FunctionCall<T> {
@@ -23,15 +21,17 @@ public class FunctionCall<T> {
     this.result = result;
   }
 
-
   /**
    * Calls this function and gets a result.
    *
    * @return
    */
   public T call() {
-    return Stream.iterate(this, caller -> caller.functionCall.get()).filter(caller -> caller.done)
-        .map(caller -> caller.result).findFirst().get();
+    return Stream.iterate(this, caller -> caller.functionCall.get())
+        .filter(caller -> caller.done)
+        .map(caller -> caller.result)
+        .findFirst()
+        .get();
   }
 
   /**
@@ -48,7 +48,4 @@ public class FunctionCall<T> {
   public static <T> FunctionCall<T> done(T result) {
     return new FunctionCall<>(() -> null, true, result);
   }
-
-
-
 }
