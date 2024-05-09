@@ -69,11 +69,19 @@ public class JavaSystemProperties {
     private final String propertyName;
 
     JavaSystemProperty() {
-      this.propertyName = name().toLowerCase().replace("_", ".");
+      this.propertyName = convertSeparator(name());
+    }
+
+    private static String convertSeparator(String str) {
+      return str.toLowerCase().replace("_", ".");
     }
 
     public String getPropertyName() {
       return propertyName;
+    }
+
+    public static JavaSystemProperty of(String val) {
+      return valueOf(convertSeparator(val));
     }
   }
 
@@ -87,5 +95,9 @@ public class JavaSystemProperties {
                         p ->
                             Try.getOrElse(
                                 () -> System.getProperty(p.getPropertyName(), ""), "")))));
+  }
+
+  public static boolean isOnNameContainsWindows() {
+    return System.getProperty("os.name").contains("Windows");
   }
 }

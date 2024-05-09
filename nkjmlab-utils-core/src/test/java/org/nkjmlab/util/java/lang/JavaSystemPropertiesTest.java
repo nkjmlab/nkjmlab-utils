@@ -11,5 +11,7 @@ class JavaSystemPropertiesTest {
   void test() {
     JavaSystemProperties props = JavaSystemProperties.create();
     assertThat(props.get(JavaSystemProperty.JAVA_VERSION).length()).isNotEqualTo(0);
+    assertThat(JavaSystemProperties.isOnNameContainsWindows())
+        .isEqualTo(System.getProperty("os.name").contains("Windows"));
   }
 }

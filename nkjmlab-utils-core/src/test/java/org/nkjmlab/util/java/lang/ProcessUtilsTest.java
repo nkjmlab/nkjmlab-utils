@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.nkjmlab.util.java.lang.ProcessUtils.ProcessResult;
 
 class ProcessUtilsTest {
+  @Test
+  void testJps() {
+    ProcessResult ret = ProcessUtils.executeAndGet(new ProcessBuilder("jps", "-lvm"));
+    System.out.println(ret);
+  }
 
   @Test
   void test() {
