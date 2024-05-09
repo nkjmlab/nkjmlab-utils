@@ -32,6 +32,10 @@ public class ProcessUtils {
     }
   }
 
+  public static ProcessResult executeAndGet(String... command) {
+    return executeAndGet(new ProcessBuilder(command));
+  }
+
   /**
    * Executes the process and gets the standard output and the standard error when the process has
    * finished.
