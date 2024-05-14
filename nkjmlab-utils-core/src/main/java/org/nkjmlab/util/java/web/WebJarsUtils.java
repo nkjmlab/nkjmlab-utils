@@ -13,7 +13,7 @@ import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
 public class WebJarsUtils {
 
-  static String findWebJarVersionFromClassPath(String libName) {
+  static String findWebJarVersionFromClasspath(String libName) {
     String regex = "^" + libName + "-(.*).jar";
 
     List<String> versions =
@@ -56,11 +56,11 @@ public class WebJarsUtils {
     }
   }
 
-  public static Map<String, String> findWebJarVersionsFromClassPath(String... libNames) {
+  public static Map<String, String> findWebJarVersionsFromClasspath(String... libNames) {
     return Stream.of(libNames)
         .collect(
             Collectors.toMap(
                 lib -> lib.replace(".", "_").replace("-", "_"),
-                lib -> findWebJarVersionFromClassPath(lib)));
+                lib -> findWebJarVersionFromClasspath(lib)));
   }
 }

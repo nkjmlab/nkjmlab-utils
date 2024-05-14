@@ -26,9 +26,28 @@ public class JavaSystemProperties {
     return properties.toString();
   }
 
+  public static String getProperty(JavaSystemProperty prop) {
+    return System.getProperty(prop.toPropertyName());
+  }
+
+  public static JavaSystemProperties create() {
+    return new JavaSystemProperties(
+        new EnumMap<JavaSystemProperty, String>(
+            Stream.of(JavaSystemProperty.values())
+                .collect(
+                    Collectors.toMap(
+                        p -> p,
+                        p ->
+                            Try.getOrElse(() -> System.getProperty(p.toPropertyName(), ""), "")))));
+  }
+
+  public static boolean isOsNameContainsWindows() {
+    return System.getProperty(JavaSystemProperty.OS_NAME.toPropertyName()).contains("Windows");
+  }
+
   /**
-   * @see
-   *     https://docs.oracle.com/javase/jp/17/docs/api/java.base/java/lang/System.html#getProperties()
+   * @see <a
+   *     href="https://docs.oracle.com/javase/jp/17/docs/api/java.base/java/lang/System.html#getProperties()">System#getProperties()</a>
    */
   public enum JavaSystemProperty {
     JAVA_VERSION,
@@ -68,36 +87,29 @@ public class JavaSystemProperties {
 
     private final String propertyName;
 
-    JavaSystemProperty() {
-      this.propertyName = convertSeparator(name());
+    private JavaSystemProperty() {
+      this.propertyName = convertToPropertyName(this);
     }
 
-    private static String convertSeparator(String str) {
-      return str.toLowerCase().replace("_", ".");
-    }
-
-    public String getPropertyName() {
+    public String toPropertyName() {
       return propertyName;
     }
 
-    public static JavaSystemProperty of(String val) {
-      return valueOf(convertSeparator(val));
+    @Override
+    public String toString() {
+      return propertyName;
     }
-  }
 
-  public static JavaSystemProperties create() {
-    return new JavaSystemProperties(
-        new EnumMap<JavaSystemProperty, String>(
-            Stream.of(JavaSystemProperty.values())
-                .collect(
-                    Collectors.toMap(
-                        p -> p,
-                        p ->
-                            Try.getOrElse(
-                                () -> System.getProperty(p.getPropertyName(), ""), "")))));
-  }
+    private static String convertToPropertyName(JavaSystemProperty prop) {
+      return prop.name().toLowerCase().replace("_", ".");
+    }
 
-  public static boolean isOnNameContainsWindows() {
-    return System.getProperty("os.name").contains("Windows");
+    private static String convert(String propertyName) {
+      return propertyName.toUpperCase().replace(".", "_");
+    }
+
+    public static JavaSystemProperty of(String propertyName) {
+      return valueOf(convert(propertyName));
+    }
   }
 }
