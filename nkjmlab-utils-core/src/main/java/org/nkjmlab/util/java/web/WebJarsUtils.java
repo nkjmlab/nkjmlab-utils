@@ -56,7 +56,7 @@ public class WebJarsUtils {
     }
   }
 
-  public static Map<String, String> findWebJarVersionsFromClasspath(String... libNames) {
+  public static Map<String, String> findWebJarsVersionsFromClasspath(String... libNames) {
     return Stream.of(libNames)
         .collect(
             Collectors.toMap(

@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.nkjmlab.util.java.function.Try;
@@ -26,9 +25,9 @@ public class FileUtils {
     return listFiles(dir, Integer.MAX_VALUE, p -> true);
   }
 
-  public static List<Path> listFiles(Path dir, int maxDepth, Predicate<Path> filter) {
-    try (Stream<Path> stream = Files.walk(dir, maxDepth)) {
-      return stream.filter(p -> filter.test(p)).map(p -> p).collect(Collectors.toList());
+  public static List<Path> listFiles(Path baseDir, int maxDepth, Predicate<Path> filter) {
+    try (Stream<Path> stream = Files.walk(baseDir, maxDepth)) {
+      return stream.filter(p -> filter.test(p)).toList();
     } catch (IOException e) {
       throw Try.rethrow(e);
     }

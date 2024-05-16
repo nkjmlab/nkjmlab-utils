@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.nkjmlab.util.java.function.Try;
 
 public class Log4jConfigurator {
   private static final org.apache.logging.log4j.Logger log =
@@ -31,7 +30,7 @@ public class Log4jConfigurator {
           lineInfo,
           xmlLocation);
     } catch (URISyntaxException e) {
-      Try.rethrow(e);
+      throw new RuntimeException(e);
     }
   }
 
