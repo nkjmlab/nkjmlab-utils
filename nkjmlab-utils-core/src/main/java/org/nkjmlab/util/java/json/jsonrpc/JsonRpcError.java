@@ -1,4 +1,4 @@
-package org.nkjmlab.util.jsonrpc;
+package org.nkjmlab.util.java.json.jsonrpc;
 
 import org.nkjmlab.util.java.lang.ExceptionUtils;
 

@@ -10,9 +10,10 @@ import java.util.zip.InflaterInputStream;
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.ReaderUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
-import org.nkjmlab.util.jsonrpc.JsonRpcCaller;
-import org.nkjmlab.util.jsonrpc.JsonRpcRequest;
-import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
+import org.nkjmlab.util.java.json.jsonrpc.JsonRpcCaller;
+import org.nkjmlab.util.java.json.jsonrpc.JsonRpcRequest;
+import org.nkjmlab.util.java.json.jsonrpc.JsonRpcResponse;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

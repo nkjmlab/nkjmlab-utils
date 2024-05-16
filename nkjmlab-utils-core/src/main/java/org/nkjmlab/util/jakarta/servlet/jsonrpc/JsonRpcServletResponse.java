@@ -1,6 +1,7 @@
 package org.nkjmlab.util.jakarta.servlet.jsonrpc;
 
-import org.nkjmlab.util.jsonrpc.JsonRpcResponse;
+import org.nkjmlab.util.java.json.jsonrpc.JsonRpcResponse;
+
 import jakarta.servlet.http.HttpServletResponse;
 
 public class JsonRpcServletResponse {

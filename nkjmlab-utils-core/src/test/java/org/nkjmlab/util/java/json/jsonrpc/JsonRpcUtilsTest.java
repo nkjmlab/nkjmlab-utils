@@ -1,11 +1,11 @@
-package org.nkjmlab.util.jsonrpc;
+package org.nkjmlab.util.java.json.jsonrpc;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.nkjmlab.util.jackson.JacksonMapper;
 
 class JsonRpcUtilsTest {
-
 
   @Test
   void testCallJsonRpc() {
@@ -27,7 +27,6 @@ class JsonRpcUtilsTest {
         new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
     assertThat(res.getError()).isNotNull();
   }
-
 
   public class StubClass {
     public String getString(String str) {

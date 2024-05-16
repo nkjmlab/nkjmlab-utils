@@ -1,5 +1,4 @@
-
-package org.nkjmlab.util.jsonrpc;
+package org.nkjmlab.util.java.json.jsonrpc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,21 +6,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.ClassUtils;
+
 import org.nkjmlab.util.java.json.JsonMapper;
+import org.nkjmlab.util.java.lang.ClassUtils;
 import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
-
-/**
- *
- * note: This class depends on {@link org.apache.commons.lang3.ClassUtils}.
- *
- */
 public class JsonRpcCaller {
 
   private final Map<String, Method> methodTable = new ConcurrentHashMap<>();
   private final JsonMapper mapper;
-
 
   public JsonRpcCaller(JsonMapper mapper) {
     this.mapper = mapper;
@@ -48,9 +41,17 @@ public class JsonRpcCaller {
 
   private Method findMethod(Object target, JsonRpcRequest req) {
 
-    String key = target.getClass().getName() + "#" + req.getMethod() + "(" + String.join(", ",
-        Stream.of(req.getParams()).map(o -> o.getClass().getCanonicalName()).toArray(String[]::new))
-        + ")";
+    String key =
+        target.getClass().getName()
+            + "#"
+            + req.getMethod()
+            + "("
+            + String.join(
+                ", ",
+                Stream.of(req.getParams())
+                    .map(o -> o.getClass().getCanonicalName())
+                    .toArray(String[]::new))
+            + ")";
 
     return methodTable.computeIfAbsent(key, k -> findMethod(target.getClass(), req));
   }
@@ -62,36 +63,33 @@ public class JsonRpcCaller {
   private Method findMethod(Class<?> clazz, JsonRpcRequest req) {
     String methodName = req.getMethod();
     Object[] params = req.getParams();
-    Optional<Method> om = Stream.of(clazz.getMethods()).filter(m -> {
-      if (!m.getName().equals(methodName)) {
-        return false;
-      }
-      if (m.getParameterCount() != params.length) {
-        return false;
-      }
-      return true;
-      // Class<?>[] formalArgTypes = m.getParameterTypes();
-      // Class<?>[] actualArgTypes = Stream.of(params).map(o -> o.getClass()).toArray(Class[]::new);
-      //
-      // for (int i = 0; i < params.length; i++) {
-      // if (!ClassUtils.isAssignable(actualArgTypes[i], formalArgTypes[i])
-      // && !ClassUtils.isAssignable(actualArgTypes[i], Map.class)
-      // && !ClassUtils.isAssignable(actualArgTypes[i], List.class)) {
-      // return false;
-      // }
-      // }
-      // return true;
-    }).findAny();
+    Optional<Method> om =
+        Stream.of(clazz.getMethods())
+            .filter(
+                m -> {
+                  if (!m.getName().equals(methodName)) {
+                    return false;
+                  }
+                  if (m.getParameterCount() != params.length) {
+                    return false;
+                  }
+                  return true;
+                })
+            .findAny();
 
-    return om.orElseThrow(() -> new IllegalArgumentException(
-        "Method not found => " + "methodName=[" + methodName + "], params=["
-            + ParameterizedStringFormatter.LENGTH_16.formatParameterWithType(params) + "]"));
+    return om.orElseThrow(
+        () ->
+            new IllegalArgumentException(
+                "Method not found => "
+                    + "methodName=["
+                    + methodName
+                    + "], params=["
+                    + ParameterizedStringFormatter.LENGTH_16.formatParameterWithType(params)
+                    + "]"));
   }
 
-
-
-  private static Object invokeMethod(Object instance, Method method, Object[] params,
-      JsonMapper mapper)
+  private static Object invokeMethod(
+      Object instance, Method method, Object[] params, JsonMapper mapper)
       throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
     Class<?>[] formalArgClasses = method.getParameterTypes();
     Object[] actualArgs = new Object[formalArgClasses.length];
@@ -108,6 +106,4 @@ public class JsonRpcCaller {
     }
     return method.invoke(instance, actualArgs);
   }
-
-
 }
