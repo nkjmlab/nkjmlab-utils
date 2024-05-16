@@ -3,11 +3,19 @@ package org.nkjmlab.util.poi;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,8 +29,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.nkjmlab.sorm4j.internal.util.ParameterizedStringFormatter;
-import org.nkjmlab.util.java.stream.StreamUtils;
-import org.nkjmlab.util.java.time.DateTimeUtils;
 
 public class BasicExcelSheet {
 
@@ -96,9 +102,16 @@ public class BasicExcelSheet {
   public List<List<Cell>> readAllCells() {
     return procSheet(
         sheet ->
-            StreamUtils.stream(sheet)
-                .map(row -> StreamUtils.stream(row).collect(Collectors.toList()))
+            stream(sheet)
+                .map(row -> stream(row).collect(Collectors.toList()))
                 .collect(Collectors.toList()));
+  }
+
+  private static <T> Stream<T> stream(Iterable<T> iterable) {
+    Stream<T> stream =
+        StreamSupport.stream(
+            Spliterators.spliteratorUnknownSize(iterable.iterator(), Spliterator.ORDERED), false);
+    return stream;
   }
 
   public Map<String, Integer> readFirstRowAsHeader() {
@@ -152,7 +165,7 @@ public class BasicExcelSheet {
         return cell.getStringCellValue();
       case NUMERIC:
         if (DateUtil.isCellDateFormatted(cell)) {
-          return DateTimeUtils.toTimestamp(cell.getDateCellValue()).toString();
+          return toTimestamp(cell.getDateCellValue()).toString();
         }
         return Double.toString(cell.getNumericCellValue());
       case BOOLEAN:
@@ -164,6 +177,18 @@ public class BasicExcelSheet {
       default:
         return null;
     }
+  }
+
+  private static Timestamp toTimestamp(Date date) {
+    return toTimestamp(toLocalDateTime(date));
+  }
+
+  private static Timestamp toTimestamp(LocalDateTime date) {
+    return Timestamp.valueOf(date);
+  }
+
+  private static LocalDateTime toLocalDateTime(Date date) {
+    return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
   }
 
   /**

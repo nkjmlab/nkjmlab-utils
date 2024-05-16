@@ -7,20 +7,19 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
-import org.nkjmlab.util.java.function.Try;
+import org.nkjmlab.sorm4j.internal.util.Try;
 
 public class CommonsCsvUtils {
 
   /**
-   *
    * @param format
    * @param writer
    * @param csvLines
@@ -31,11 +30,9 @@ public class CommonsCsvUtils {
         printer.printRecord((Object[]) line);
       }
     } catch (IOException e) {
-      Try.rethrow(e);
+      throw new RuntimeException(e);
     }
   }
-
-
 
   /**
    * Example
@@ -49,34 +46,24 @@ public class CommonsCsvUtils {
    * @param append
    * @param csvLines
    */
-  public static void write(CSVFormat format, File outFile, Charset charset, boolean append,
-      List<String[]> csvLines) {
-    try (Writer writer = new FileWriter(outFile, charset, append);
-        CSVPrinter printer = format.print(writer)) {
-      for (String[] line : csvLines) {
-        printer.printRecord((Object[]) line);
-      }
+  public static void write(
+      CSVFormat format, File outFile, Charset charset, boolean append, List<String[]> csvLines) {
+    try (Writer writer = new FileWriter(outFile, charset, append)) {
+      write(format, writer, csvLines);
     } catch (IOException e) {
-      Try.rethrow(e);
+      throw new RuntimeException(e);
     }
   }
 
-  public static void write(CSVFormat format, File outFile, boolean append,
-      List<String[]> csvLines) {
-    write(format, outFile, StandardCharsets.UTF_8, append, csvLines);
-  }
-
-
-
-  public static void readAndConsumeCsvRecord(CSVFormat format, File srcFile, Charset charset,
-      Consumer<CSVRecord> consumer) {
+  public static void readAndConsumeCsvRecord(
+      CSVFormat format, File srcFile, Charset charset, Consumer<CSVRecord> consumer) {
     try (Reader in = new FileReader(srcFile, charset)) {
       Iterable<CSVRecord> records = format.parse(in);
       for (CSVRecord record : records) {
         consumer.accept(record);
       }
     } catch (IOException e) {
-      throw Try.rethrow(e);
+      throw new RuntimeException(e);
     }
   }
 
@@ -101,7 +88,6 @@ public class CommonsCsvUtils {
   }
 
   /**
-   *
    * @param format
    * @param reader
    * @return
@@ -114,6 +100,4 @@ public class CommonsCsvUtils {
       throw Try.rethrow(e);
     }
   }
-
-
 }
