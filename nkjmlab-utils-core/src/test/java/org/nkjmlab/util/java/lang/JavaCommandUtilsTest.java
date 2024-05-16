@@ -29,12 +29,12 @@ class JavaCommandUtilsTest {
 
   @Test
   public void testFindClasspathElements() {
-    List<String> elements = JavaCommandUtils.findClasspathElements(".*h2.*");
+    List<String> elements = JavaCommandUtils.findClasspathElements(".*junit.*");
     assertThat(elements)
         .as("Classpath elements list should not be null or empty")
         .isNotNull()
         .isNotEmpty()
-        .allMatch(elem -> elem.contains("h2"), "All classpath elements should contain 'java'");
+        .allMatch(elem -> elem.contains("junit"), "All classpath elements should contain 'java'");
   }
 
   @Test
