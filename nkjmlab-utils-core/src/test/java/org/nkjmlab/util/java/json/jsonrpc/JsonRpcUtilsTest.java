@@ -11,11 +11,11 @@ class JsonRpcUtilsTest {
   void testCallJsonRpc() {
     Object[] params = {"hoge"};
     JsonRpcRequest req = new JsonRpcRequest("1", "getString", params);
-    assertThat(req.getMethod()).isEqualTo("getString");
-    assertThat(req.getParams()[0]).isEqualTo("hoge");
+    assertThat(req.method()).isEqualTo("getString");
+    assertThat(req.params()[0]).isEqualTo("hoge");
     JsonRpcResponse res =
         new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
-    assertThat(res.getResult()).isEqualTo("hoge");
+    assertThat(res.result()).isEqualTo("hoge");
   }
 
   @Test
@@ -25,7 +25,7 @@ class JsonRpcUtilsTest {
     JsonRpcRequest req = new JsonRpcRequest("2", "getStrin", params);
     JsonRpcResponse res =
         new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
-    assertThat(res.getError()).isNotNull();
+    assertThat(res.error()).isNotNull();
   }
 
   public class StubClass {

@@ -5,65 +5,21 @@ import org.nkjmlab.util.java.lang.ExceptionUtils;
 /**
  * @see <a href="https://www.jsonrpc.org/specification#error_object">JSON-RPC 2.0 Specification</a>
  * @author nkjm
- *
  */
-public class JsonRpcError {
-
-  private int code;
-  private String message;
-  private String data;
-
-  public JsonRpcError() {}
-
-  public JsonRpcError(int code, String message, String data) {
-    this.code = code;
-    this.message = message;
-    this.data = data;
-  }
+public record JsonRpcError(int code, String message, String data) {
 
   public static JsonRpcError create(int faultCode, String faultString, Throwable t) {
     return new JsonRpcError(faultCode, faultString, ExceptionUtils.getMessageWithStackTrace(t));
   }
 
-  public int getCode() {
-    return code;
-  }
-
-  public void setCode(int code) {
-    this.code = code;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public void setData(String data) {
-    this.data = data;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-
-  public String getData() {
-    return data;
-  }
-
-
-  @Override
-  public String toString() {
-    return "JsonRpcError [code=" + code + ", message=" + message + ", data=" + data + "]";
-  }
-
   /**
-   *
    * The JSON sent is not a valid Request object.
    *
+   * @see <a href="https://www.jsonrpc.org/specification#error_object">JSON-RPC 2.0
+   *     Specification</a>
    * @param e
    * @return
    */
-
   public static JsonRpcError createInvalidRequest(Throwable e) {
     return create(-32600, "Invalid Request", e);
   }
@@ -71,6 +27,8 @@ public class JsonRpcError {
   /**
    * The method does not exist / is not available.
    *
+   * @see <a href="https://www.jsonrpc.org/specification#error_object">JSON-RPC 2.0
+   *     Specification</a>
    * @param e
    * @return
    */
@@ -81,6 +39,8 @@ public class JsonRpcError {
   /**
    * Invalid method parameter(s).
    *
+   * @see <a href="https://www.jsonrpc.org/specification#error_object">JSON-RPC 2.0
+   *     Specification</a>
    * @param e
    * @return
    */
@@ -91,6 +51,8 @@ public class JsonRpcError {
   /**
    * Internal JSON-RPC error.
    *
+   * @see <a href="https://www.jsonrpc.org/specification#error_object">JSON-RPC 2.0
+   *     Specification</a>
    * @param e
    * @return
    */
@@ -102,13 +64,12 @@ public class JsonRpcError {
    * Invalid JSON was received by the server. An error occurred on the server while parsing the JSON
    * text.
    *
+   * @see <a href="https://www.jsonrpc.org/specification#error_object">JSON-RPC 2.0
+   *     Specification</a>
    * @param e
    * @return
    */
   public static JsonRpcError createParseError(Exception e) {
     return create(-32700, "Parse error", e);
   }
-
-
-
 }

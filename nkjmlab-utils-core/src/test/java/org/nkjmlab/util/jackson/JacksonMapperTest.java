@@ -1,5 +1,6 @@
 package org.nkjmlab.util.jackson;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,7 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -157,5 +163,159 @@ class JacksonMapperTest {
     String json = mapper.toJson(largeMap);
     assertNotNull(json);
     assertTrue(json.length() > 100000, "JSON string should be large");
+  }
+
+  @Test
+  public void testConvertValue_withClass() {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    Map<String, Object> map = mapper.toObject(json, new TypeReference<Map<String, Object>>() {});
+    Person person = mapper.convertValue(map, Person.class);
+
+    assertThat(person).isNotNull();
+    assertThat(person.getName()).isEqualTo("John");
+    assertThat(person.getAge()).isEqualTo(30);
+  }
+
+  @Test
+  public void testConvertValue_withTypeReference() {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    Map<String, Object> map = mapper.toObject(json, new TypeReference<Map<String, Object>>() {});
+    TypeReference<Person> typeReference = new TypeReference<Person>() {};
+    Person person = mapper.convertValue(map, typeReference);
+
+    assertThat(person).isNotNull();
+    assertThat(person.getName()).isEqualTo("John");
+    assertThat(person.getAge()).isEqualTo(30);
+  }
+
+  @Test
+  public void testToJson1() {
+    Person person = new Person("John", 30);
+    String json = mapper.toJson(person);
+
+    assertThat(json).isEqualTo("{\"name\":\"John\",\"age\":30}");
+  }
+
+  @Test
+  public void testToJsonPrettyPrint() {
+    Person person = new Person("John", 30);
+    String json = mapper.toJson(person, true);
+
+    assertThat(json).containsIgnoringWhitespaces("{\n  \"name\" : \"John\",\n  \"age\" : 30\n}");
+  }
+
+  @Test
+  public void testToJsonAndWrite() throws Exception {
+    Person person = new Person("John", 30);
+    File file = File.createTempFile("test", ".json");
+    file.deleteOnExit();
+
+    mapper.toJsonAndWrite(person, file, false);
+
+    try (FileReader reader = new FileReader(file)) {
+      char[] buffer = new char[256];
+      int length = reader.read(buffer);
+      String json = new String(buffer, 0, length);
+
+      assertThat(json).isEqualTo("{\"name\":\"John\",\"age\":30}");
+    }
+  }
+
+  @Test
+  public void testToList_fromString() {
+    String json = "[{\"name\":\"John\",\"age\":30},{\"name\":\"Jane\",\"age\":25}]";
+    List<Map<String, Object>> list = mapper.toList(json);
+
+    assertThat(list).hasSize(2);
+    assertThat(list.get(0).get("name")).isEqualTo("John");
+    assertThat(list.get(1).get("name")).isEqualTo("Jane");
+  }
+
+  @Test
+  public void testToMap_fromString() {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    Map<String, Object> map = mapper.toMap(json);
+
+    assertThat(map).hasSize(2);
+    assertThat(map.get("name")).isEqualTo("John");
+    assertThat(map.get("age")).isEqualTo(30);
+  }
+
+  @Test
+  public void testToObject_fromString() {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    Person person = mapper.toObject(json, Person.class);
+
+    assertThat(person).isNotNull();
+    assertThat(person.getName()).isEqualTo("John");
+    assertThat(person.getAge()).isEqualTo(30);
+  }
+
+  @Test
+  public void testToObject_fromInputStream() throws Exception {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    InputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+    Person person = mapper.toObject(inputStream, Person.class);
+
+    assertThat(person).isNotNull();
+    assertThat(person.getName()).isEqualTo("John");
+    assertThat(person.getAge()).isEqualTo(30);
+  }
+
+  @Test
+  public void testToObject_fromReader() throws Exception {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    StringReader reader = new StringReader(json);
+    Person person = mapper.toObject(reader, Person.class);
+
+    assertThat(person).isNotNull();
+    assertThat(person.getName()).isEqualTo("John");
+    assertThat(person.getAge()).isEqualTo(30);
+  }
+
+  @Test
+  public void testToObject_fromFile() throws Exception {
+    String json = "{\"name\":\"John\",\"age\":30}";
+    File file = File.createTempFile("test", ".json");
+    file.deleteOnExit();
+
+    try (FileWriter writer = new FileWriter(file)) {
+      writer.write(json);
+    }
+
+    Person person = mapper.toObject(file, Person.class);
+
+    assertThat(person).isNotNull();
+    assertThat(person.getName()).isEqualTo("John");
+    assertThat(person.getAge()).isEqualTo(30);
+  }
+
+  // Sample Person class for testing
+  static class Person {
+    private String name;
+    private int age;
+
+    public Person() {}
+
+    public Person(String name, int age) {
+      this.name = name;
+      this.age = age;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public int getAge() {
+      return age;
+    }
+
+    public void setAge(int age) {
+      this.age = age;
+    }
   }
 }

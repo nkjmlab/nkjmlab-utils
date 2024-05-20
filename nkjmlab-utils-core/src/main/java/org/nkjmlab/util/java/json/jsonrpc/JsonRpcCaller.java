@@ -11,6 +11,11 @@ import org.nkjmlab.util.java.json.JsonMapper;
 import org.nkjmlab.util.java.lang.ClassUtils;
 import org.nkjmlab.util.java.lang.ParameterizedStringFormatter;
 
+/**
+ * The JsonRpcCaller class is responsible for invoking methods on a target object based on JSON-RPC
+ * requests. It uses reflection to find and call the appropriate methods and handles the conversion
+ * of JSON parameters to Java objects.
+ */
 public class JsonRpcCaller {
 
   private final Map<String, Method> methodTable = new ConcurrentHashMap<>();
@@ -20,61 +25,74 @@ public class JsonRpcCaller {
     this.mapper = mapper;
   }
 
-  public JsonRpcResponse callJsonRpc(Object target, JsonRpcRequest request) {
-    Method method = null;
-    try {
-      method = findMethod(target, request);
-    } catch (Exception e) {
-      return new JsonRpcResponse(request.getId(), JsonRpcError.createMethodNotFound(e));
-    }
-    try {
-      Object jres = invokeMethod(target, method, request.getParams(), mapper);
-      return new JsonRpcResponse(request.getId(), jres);
-    } catch (IllegalAccessException | IllegalArgumentException e) {
-      return new JsonRpcResponse(request.getId(), JsonRpcError.createInvalidParams(e));
-    } catch (InvocationTargetException e) {
-      return new JsonRpcResponse(request.getId(), JsonRpcError.createInvalidParams(e.getCause()));
-    } catch (Throwable e) {
-      return new JsonRpcResponse(request.getId(), JsonRpcError.createInternalError(e));
-    }
-  }
-
-  private Method findMethod(Object target, JsonRpcRequest req) {
-
-    String key =
-        target.getClass().getName()
-            + "#"
-            + req.getMethod()
-            + "("
-            + String.join(
-                ", ",
-                Stream.of(req.getParams())
-                    .map(o -> o.getClass().getCanonicalName())
-                    .toArray(String[]::new))
-            + ")";
-
-    return methodTable.computeIfAbsent(key, k -> findMethod(target.getClass(), req));
-  }
-
   public JsonRpcRequest toJsonRpcRequest(String json) {
     return mapper.toObject(json, JsonRpcRequest.class);
   }
 
-  private Method findMethod(Class<?> clazz, JsonRpcRequest req) {
-    String methodName = req.getMethod();
-    Object[] params = req.getParams();
+  /**
+   * Calls the JSON-RPC method on the target object using the given request.
+   *
+   * @param target the target object on which the method is to be called
+   * @param request the JsonRpcRequest containing the method name and parameters
+   * @return the JsonRpcResponse containing the result or error
+   */
+  public JsonRpcResponse callJsonRpc(Object target, JsonRpcRequest request) {
+    String id = request.id();
+    String methodName = request.method();
+    Object[] params = request.params();
+    return callJsonRpc(target, id, methodName, params);
+  }
+
+  private JsonRpcResponse callJsonRpc(
+      Object target, String id, String methodName, Object[] params) {
+    Method method = null;
+    try {
+      method = findMethodWithNameAndArgs(target, methodName, params);
+    } catch (Exception e) {
+      if (findMethodWithName(target, methodName)) {
+        return new JsonRpcResponse(id, JsonRpcError.createInvalidParams(e));
+      } else {
+        return new JsonRpcResponse(id, JsonRpcError.createMethodNotFound(e));
+      }
+    }
+    try {
+      Object jres = invokeMethod(target, method, params, mapper);
+      return new JsonRpcResponse(id, jres);
+    } catch (IllegalAccessException | IllegalArgumentException e) {
+      return new JsonRpcResponse(id, JsonRpcError.createInvalidParams(e));
+    } catch (InvocationTargetException e) {
+      return new JsonRpcResponse(id, JsonRpcError.createInvalidParams(e.getCause()));
+    } catch (Throwable e) {
+      return new JsonRpcResponse(id, JsonRpcError.createInternalError(e));
+    }
+  }
+
+  private boolean findMethodWithName(Object target, String methodName) {
+    return Stream.of(target.getClass().getMethods())
+            .filter(m -> m.getName().equals(methodName))
+            .count()
+        > 0;
+  }
+
+  private Method findMethodWithNameAndArgs(Object target, String methodName, Object[] params) {
+    String key =
+        target.getClass().getName()
+            + "#"
+            + methodName
+            + "("
+            + String.join(
+                ", ",
+                Stream.of(params).map(o -> o.getClass().getCanonicalName()).toArray(String[]::new))
+            + ")";
+
+    return methodTable.computeIfAbsent(
+        key, k -> findMethodWithArgs(target.getClass(), methodName, params));
+  }
+
+  private Method findMethodWithArgs(Class<?> clazz, String methodName, Object[] params) {
     Optional<Method> om =
         Stream.of(clazz.getMethods())
-            .filter(
-                m -> {
-                  if (!m.getName().equals(methodName)) {
-                    return false;
-                  }
-                  if (m.getParameterCount() != params.length) {
-                    return false;
-                  }
-                  return true;
-                })
+            .filter(m -> m.getName().equals(methodName) && m.getParameterCount() == params.length)
             .findAny();
 
     return om.orElseThrow(
@@ -88,6 +106,19 @@ public class JsonRpcCaller {
                     + "]"));
   }
 
+  /**
+   * Invokes the specified method on the given instance with the provided parameters.
+   *
+   * @param instance the target instance
+   * @param method the method to be invoked
+   * @param params the parameters to be passed to the method
+   * @param mapper the JsonMapper to convert parameter values if necessary
+   * @return the result of the method invocation
+   * @throws IllegalAccessException if this Method object is enforcing Java language access control
+   *     and the underlying method is inaccessible
+   * @throws IllegalArgumentException if the method is passed an inappropriate argument
+   * @throws InvocationTargetException if the underlying method throws an exception
+   */
   private static Object invokeMethod(
       Object instance, Method method, Object[] params, JsonMapper mapper)
       throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -101,6 +132,7 @@ public class JsonRpcCaller {
       } else if (ClassUtils.isAssignable(actualArg.getClass(), formalArgClass)) {
         actualArgs[i] = actualArg;
       } else {
+        // forcefully convert using JsonMapper
         actualArgs[i] = mapper.convertValue(actualArg, formalArgClass);
       }
     }

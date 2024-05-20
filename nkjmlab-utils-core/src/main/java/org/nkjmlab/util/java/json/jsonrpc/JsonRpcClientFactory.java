@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
+
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.ReaderUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
@@ -29,9 +30,11 @@ public class JsonRpcClientFactory {
    * @return
    */
   public static <T> T create(JsonMapper mapper, Class<T> interfaceClass, URL url) {
-    return interfaceClass
-        .cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-            new Class<?>[] {interfaceClass}, new JsonRpcInvocationHandler(url, mapper)));
+    return interfaceClass.cast(
+        Proxy.newProxyInstance(
+            Thread.currentThread().getContextClassLoader(),
+            new Class<?>[] {interfaceClass},
+            new JsonRpcInvocationHandler(url, mapper)));
   }
 
   public static class JsonRpcInvocationHandler implements InvocationHandler {
@@ -45,7 +48,6 @@ public class JsonRpcClientFactory {
       this.url = url;
       this.mapper = mapper;
     }
-
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] params) {
@@ -73,10 +75,7 @@ public class JsonRpcClientFactory {
       } catch (IOException e) {
         throw Try.rethrow(e);
       }
-
     }
-
-
 
     private void writeRequest(HttpURLConnection con, final Method method, final Object[] params)
         throws IOException {
@@ -85,7 +84,8 @@ public class JsonRpcClientFactory {
       try (OutputStream os = con.getOutputStream()) {
         mapper.toJsonAndWrite(
             new JsonRpcRequest(String.valueOf(idSeeds.getAndIncrement()), method.getName(), params),
-            os, false);
+            os,
+            false);
         os.flush();
       }
     }
@@ -95,7 +95,7 @@ public class JsonRpcClientFactory {
         InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         String str = ReaderUtils.readAsString(reader);
         JsonRpcResponse ret = mapper.toObject(str, JsonRpcResponse.class);
-        Object result = mapper.convertValue(ret.getResult(), returnType);
+        Object result = mapper.convertValue(ret.result(), returnType);
         return result;
       }
     }
@@ -117,7 +117,6 @@ public class JsonRpcClientFactory {
       return is;
     }
 
-
     private static InputStream getInputStream(HttpURLConnection con) {
       try {
         return con.getInputStream();
@@ -126,5 +125,4 @@ public class JsonRpcClientFactory {
       }
     }
   }
-
 }

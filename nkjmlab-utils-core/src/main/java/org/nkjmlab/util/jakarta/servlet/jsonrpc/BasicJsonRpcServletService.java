@@ -13,11 +13,9 @@ public class BasicJsonRpcServletService extends JsonRpcServletService {
   private static final org.nkjmlab.util.java.logging.SimpleLogger log =
       org.nkjmlab.util.java.logging.LogManager.createLogger();
 
-
   public BasicJsonRpcServletService(JsonMapper mapper) {
     super(mapper);
   }
-
 
   /**
    * Handle request JSON RPC service.
@@ -25,18 +23,22 @@ public class BasicJsonRpcServletService extends JsonRpcServletService {
    * @param ctx
    * @return
    */
-  public JsonRpcServletResponse handle(Object service, HttpServletRequest req,
-      HttpServletResponse res) {
+  public JsonRpcServletResponse handle(
+      Object service, HttpServletRequest req, HttpServletResponse res) {
     JsonRpcRequest jreq = toJsonRpcRequest(req);
     JsonRpcServletResponse jrpcSrvletRes = callHttpJsonRpc(service, jreq, res);
     JsonRpcResponse jres = jrpcSrvletRes.getJsonRpcResponse();
     if (jres.hasError()) {
-      log.warn(ParameterizedStringFormatter.LENGTH_512.format(
-          "[{}#{}], Req: id={}, Error: code={}, msg={}, detail = {}", service.getClass().getName(),
-          jreq.getMethod(), jreq.getId(), jres.getError().getCode(), jres.getError().getMessage(),
-          jres.getError().getData()));
+      log.warn(
+          ParameterizedStringFormatter.LENGTH_512.format(
+              "[{}#{}], Req: id={}, Error: code={}, msg={}, detail = {}",
+              service.getClass().getName(),
+              jreq.method(),
+              jreq.id(),
+              jres.error().code(),
+              jres.error().message(),
+              jres.error().data()));
     }
     return jrpcSrvletRes;
   }
-
 }
