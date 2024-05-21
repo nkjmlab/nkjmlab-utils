@@ -7,10 +7,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
+
 import org.nkjmlab.util.java.function.Try;
 import org.nkjmlab.util.java.io.ReaderUtils;
 import org.nkjmlab.util.java.json.JsonMapper;
 import org.nkjmlab.util.java.json.jsonrpc.JsonRpcCaller;
+import org.nkjmlab.util.java.json.jsonrpc.JsonRpcMethodInvokerWithJsonMapper;
 import org.nkjmlab.util.java.json.jsonrpc.JsonRpcRequest;
 import org.nkjmlab.util.java.json.jsonrpc.JsonRpcResponse;
 
@@ -24,8 +26,13 @@ public class JsonRpcServletService {
   private final Map<String, String> responseHeaders;
 
   private static final Map<String, String> DEFAULT_RESPONSE_HEADERS =
-      Map.of("Access-Control-Allow-Origin", "*", "Access-Control-Allow-Methods", "*",
-          "Access-Control-Allow-Headers", "*");
+      Map.of(
+          "Access-Control-Allow-Origin",
+          "*",
+          "Access-Control-Allow-Methods",
+          "*",
+          "Access-Control-Allow-Headers",
+          "*");
 
   public JsonRpcServletService(JsonMapper mapper) {
     this(mapper, DEFAULT_RESPONSE_HEADERS);
@@ -33,18 +40,17 @@ public class JsonRpcServletService {
 
   public JsonRpcServletService(JsonMapper mapper, Map<String, String> responseHeaders) {
     this.mapper = mapper;
-    this.jsonRpcCaller = new JsonRpcCaller(mapper);
+    this.jsonRpcCaller = new JsonRpcCaller(new JsonRpcMethodInvokerWithJsonMapper(mapper));
     this.responseHeaders = responseHeaders;
   }
 
-
-  public JsonRpcServletResponse callHttpJsonRpc(Object target, HttpServletRequest request,
-      HttpServletResponse response) {
+  public JsonRpcServletResponse callHttpJsonRpc(
+      Object target, HttpServletRequest request, HttpServletResponse response) {
     return callHttpJsonRpc(target, toJsonRpcRequest(request), response);
   }
 
-  public JsonRpcServletResponse callHttpJsonRpc(Object target, JsonRpcRequest jreq,
-      HttpServletResponse response) {
+  public JsonRpcServletResponse callHttpJsonRpc(
+      Object target, JsonRpcRequest jreq, HttpServletResponse response) {
 
     JsonRpcResponse jres = jsonRpcCaller.callJsonRpc(target, jreq);
 
@@ -58,8 +64,6 @@ public class JsonRpcServletService {
 
     return new JsonRpcServletResponse(jres, toJsonString(jres), response);
   }
-
-
 
   private void prepareResponse(HttpServletResponse response) {
     response.setContentType("application/json;charset=UTF-8");
@@ -77,10 +81,9 @@ public class JsonRpcServletService {
     InputStream is = getInputStream(request);
     InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
     String str = ReaderUtils.readAsString(reader);
-    JsonRpcRequest jreq = jsonRpcCaller.toJsonRpcRequest(str);
+    JsonRpcRequest jreq = toJsonRpcRequest(str);
     return jreq;
   }
-
 
   private static InputStream getInputStream(HttpServletRequest request) {
     try {
@@ -99,11 +102,13 @@ public class JsonRpcServletService {
     } catch (IOException e) {
       throw Try.rethrow(e);
     }
-
   }
 
-  public String toJsonString(JsonRpcResponse jres) {
+  private JsonRpcRequest toJsonRpcRequest(String json) {
+    return mapper.toObject(json, JsonRpcRequest.class);
+  }
+
+  private String toJsonString(JsonRpcResponse jres) {
     return mapper.toJson(jres);
   }
-
 }

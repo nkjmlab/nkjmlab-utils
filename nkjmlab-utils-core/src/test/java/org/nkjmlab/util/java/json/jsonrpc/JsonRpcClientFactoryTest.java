@@ -27,7 +27,7 @@ class JsonRpcClientFactoryTest {
     String url = "http://example.com";
     Service client =
         JsonRpcClientFactory.create(
-            JacksonMapper.getDefaultMapper(), Service.class, UrlUtils.of(url));
+            UrlUtils.of(url), JacksonMapper.getDefaultMapper(), Service.class);
 
     assertThat(client).isNotNull();
   }

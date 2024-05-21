@@ -10,7 +10,7 @@ import java.lang.reflect.Proxy;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
 
@@ -21,15 +21,16 @@ import org.nkjmlab.util.java.json.JsonMapper;
 public class JsonRpcClientFactory {
 
   /**
-   * Create a JsonRpc client object.
+   * Creates a JSON-RPC client proxy for the specified interface.
    *
-   * @param <T>
-   * @param mapper
-   * @param interfaceClass
-   * @param url
-   * @return
+   * @param <T> the type of the interface
+   * @param url the URL of the JSON-RPC server
+   * @param mapper the {@link JsonMapper} to use for JSON serialization and deserialization
+   * @param interfaceClass the interface class
+   * @return a proxy instance that implements the specified interface
+   * @throws IllegalArgumentException if the interface class is not an interface
    */
-  public static <T> T create(JsonMapper mapper, Class<T> interfaceClass, URL url) {
+  public static <T> T create(URL url, JsonMapper mapper, Class<T> interfaceClass) {
     return interfaceClass.cast(
         Proxy.newProxyInstance(
             Thread.currentThread().getContextClassLoader(),
@@ -39,10 +40,8 @@ public class JsonRpcClientFactory {
 
   public static class JsonRpcInvocationHandler implements InvocationHandler {
 
-    private static final AtomicInteger idSeeds = new AtomicInteger();
-
-    private final JsonMapper mapper;
     private final URL url;
+    private final JsonMapper mapper;
 
     public JsonRpcInvocationHandler(URL url, JsonMapper mapper) {
       this.url = url;
@@ -51,9 +50,9 @@ public class JsonRpcClientFactory {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] params) {
-
+      HttpURLConnection con = null;
       try {
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con = (HttpURLConnection) url.openConnection();
 
         con.setUseCaches(false);
         con.setDoOutput(true);
@@ -74,6 +73,10 @@ public class JsonRpcClientFactory {
         }
       } catch (IOException e) {
         throw Try.rethrow(e);
+      } finally {
+        if (con != null) {
+          con.disconnect();
+        }
       }
     }
 
@@ -83,16 +86,14 @@ public class JsonRpcClientFactory {
       con.setRequestProperty("Content-type", "application/json-rpc");
       try (OutputStream os = con.getOutputStream()) {
         mapper.toJsonAndWrite(
-            new JsonRpcRequest(String.valueOf(idSeeds.getAndIncrement()), method.getName(), params),
-            os,
-            false);
+            new JsonRpcRequest(UUID.randomUUID().toString(), method.getName(), params), os, false);
         os.flush();
       }
     }
 
     private Object readResponse(HttpURLConnection con, Class<?> returnType) throws IOException {
-      try (InputStream is = getResponseStream(con)) {
-        InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+      try (InputStream is = getResponseStream(con);
+          InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
         String str = ReaderUtils.readAsString(reader);
         JsonRpcResponse ret = mapper.toObject(str, JsonRpcResponse.class);
         Object result = mapper.convertValue(ret.result(), returnType);
@@ -113,8 +114,9 @@ public class JsonRpcClientFactory {
         return new GZIPInputStream(is);
       } else if (ce.equals("deflate")) {
         return new DeflaterInputStream(is);
+      } else {
+        return is;
       }
-      return is;
     }
 
     private static InputStream getInputStream(HttpURLConnection con) {

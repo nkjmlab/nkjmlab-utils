@@ -14,7 +14,8 @@ class JsonRpcUtilsTest {
     assertThat(req.method()).isEqualTo("getString");
     assertThat(req.params()[0]).isEqualTo("hoge");
     JsonRpcResponse res =
-        new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
+        new JsonRpcCaller(new JsonRpcMethodInvokerWithJsonMapper(JacksonMapper.getDefaultMapper()))
+            .callJsonRpc(new StubClass(), req);
     assertThat(res.result()).isEqualTo("hoge");
   }
 
@@ -24,7 +25,8 @@ class JsonRpcUtilsTest {
     Object[] params = {"hogehogehogehogehogehogehogehogehogehogehogehogehogehogehogehoge"};
     JsonRpcRequest req = new JsonRpcRequest("2", "getStrin", params);
     JsonRpcResponse res =
-        new JsonRpcCaller(JacksonMapper.getDefaultMapper()).callJsonRpc(new StubClass(), req);
+        new JsonRpcCaller(new JsonRpcMethodInvokerWithJsonMapper(JacksonMapper.getDefaultMapper()))
+            .callJsonRpc(new StubClass(), req);
     assertThat(res.error()).isNotNull();
   }
 

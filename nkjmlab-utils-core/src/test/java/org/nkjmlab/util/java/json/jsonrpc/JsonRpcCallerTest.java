@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.nkjmlab.util.jackson.JacksonMapper;
 
 class JsonRpcCallerTest {
-  private final JsonRpcCaller caller = new JsonRpcCaller(JacksonMapper.getDefaultMapper());
+  private final JsonRpcCaller caller =
+      new JsonRpcCaller(new JsonRpcMethodInvokerWithJsonMapper(JacksonMapper.getDefaultMapper()));
 
   @Test
   void testCallJsonRpc() {
