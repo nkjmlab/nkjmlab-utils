@@ -12,21 +12,25 @@ import java.util.Map;
 public interface JsonMapper {
 
   /**
-   * Serializing the given value into JSON, and then binding JSON data into value of the given type.
+   * Converts the given value to the specified type.
    *
-   * @param <T>
-   * @param fromValue
-   * @param toValueType
-   * @return
+   * @param <T> the target type
+   * @param fromValue the value to convert
+   * @param toValueType the class of the target type
+   * @return the converted value of the target type, or {@code null} if {@code fromValue} is {@code
+   *     null}
+   * @throws IllegalArgumentException if the conversion fails
    */
   <T> T convertValue(Object fromValue, Class<T> toValueType);
 
   /**
-   * Serializing the given value into JSON, and then binding JSON data into value of the given type.
+   * Converts the given value to the specified type.
    *
-   * @param fromValue
-   * @param toValueType
-   * @return
+   * @param fromValue the value to convert
+   * @param toValueType the target type
+   * @return the converted value of the target type, or {@code null} if {@code fromValue} is {@code
+   *     null}
+   * @throws IllegalArgumentException if the conversion fails
    */
   Type convertValue(Object fromValue, Type toValueType);
 
@@ -82,11 +86,9 @@ public interface JsonMapper {
 
   List<Map<String, Object>> toList(String json);
 
-
   Map<String, Object> toMap(File in);
 
   Map<String, Object> toMap(InputStream in);
-
 
   Map<String, Object> toMap(Reader in);
 
@@ -111,7 +113,6 @@ public interface JsonMapper {
    * @return
    */
   <T> T toObject(byte[] in, Class<T> clazz);
-
 
   /**
    * From JSON InputStream to Object
@@ -160,5 +161,4 @@ public interface JsonMapper {
    * @return
    */
   Object toObject(String json, Type hint);
-
 }

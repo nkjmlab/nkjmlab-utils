@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 class JacksonMapperTest {
@@ -36,6 +39,42 @@ class JacksonMapperTest {
   @BeforeEach
   public void setUp() {
     mapper = JacksonMapper.getDefaultMapper();
+  }
+
+  @Test
+  public void testLocalDateSerialization() throws JsonProcessingException {
+
+    LocalDate date = LocalDate.of(2021, 5, 21);
+    LocalDate json = mapper.toObject(mapper.toJson(date), LocalDate.class);
+
+    assertThat(json).isEqualTo(date);
+  }
+
+  @Test
+  public void testLocalDateDeserialization() throws JsonProcessingException {
+
+    String json = "\"2021-05-21\"";
+    LocalDate date = mapper.toObject(json, LocalDate.class);
+
+    assertThat(date).isEqualTo(LocalDate.of(2021, 5, 21));
+  }
+
+  @Test
+  public void testLocalDateTimeSerialization() throws JsonProcessingException {
+
+    LocalDateTime dateTime = LocalDateTime.of(2021, 5, 21, 15, 30, 0);
+    LocalDateTime json = mapper.toObject(mapper.toJson(dateTime), LocalDateTime.class);
+
+    assertThat(json).isEqualTo(dateTime);
+  }
+
+  @Test
+  public void testLocalDateTimeDeserialization() throws JsonProcessingException {
+
+    String json = "\"2021-05-21T15:30:00\"";
+    LocalDateTime dateTime = mapper.toObject(json, LocalDateTime.class);
+
+    assertThat(dateTime).isEqualTo(LocalDateTime.of(2021, 5, 21, 15, 30, 0));
   }
 
   @Test
