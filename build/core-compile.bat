@@ -1,3 +1,4 @@
 setlocal
 cd /d %~dp0
-mvn-caller.bat "mvn clean compile -f nkjmlab-utils-core"
+call mvn-caller.bat "mvn clean compile -f nkjmlab-utils-core"
+endlocal
