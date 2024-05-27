@@ -1,6 +1,6 @@
+@echo off
 setlocal
 chcp 65001
-@echo off
 set CURRENT_DIR=%~dp0
 cd /d %CURRENT_DIR%
 cd ../
