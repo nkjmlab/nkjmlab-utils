@@ -17,6 +17,13 @@ class JsonRpcCallerTest {
   }
 
   @Test
+  void testCallJsonRpcNull() {
+    JsonRpcResponse response =
+        caller.callJsonRpc(new Service.Impl(), new JsonRpcRequest("1", "getString", null));
+    assertThat(response.result().toString()).isEqualTo("stringVal");
+  }
+
+  @Test
   void testCallJsonRpc2() {
     JsonRpcResponse response =
         caller.callJsonRpc(

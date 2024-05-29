@@ -12,6 +12,7 @@ public class JUnitCallerUtils {
         return;
       }
     } catch (Throwable e) {
+      throw new RuntimeException(e);
     }
     func.run();
   }
@@ -46,7 +47,7 @@ public class JUnitCallerUtils {
    *     environment.
    */
   private static boolean isCalledBySurefire() {
-    return "true".equals(System.getProperty("isTestEnvironment"));
+    return "true".equalsIgnoreCase(System.getProperty("isTestEnvironment"));
   }
 
   private static boolean isCalledByJUnit() {

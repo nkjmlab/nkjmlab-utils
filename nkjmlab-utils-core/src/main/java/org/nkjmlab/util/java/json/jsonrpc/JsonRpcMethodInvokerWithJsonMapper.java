@@ -30,7 +30,7 @@ public class JsonRpcMethodInvokerWithJsonMapper implements JsonRpcMethodInvoker 
 
   @Override
   public Method findMethod(Class<?> clazz, String methodName, Object[] params) {
-    int parameterCount = params.length;
+    int parameterCount = params == null ? 0 : params.length;
     String key = clazz.getName() + "#" + methodName + "(" + parameterCount + " args)";
     return methodsTable.computeIfAbsent(
         key,
@@ -45,7 +45,9 @@ public class JsonRpcMethodInvokerWithJsonMapper implements JsonRpcMethodInvoker 
   @Override
   public Object invokeMethod(Object instance, Method method, Object[] params)
       throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-    Object[] actualArgs = convertParametersIfNeeded(params, method.getParameterTypes());
+    Object[] actualArgs =
+        convertParametersIfNeeded(
+            params == null ? new Object[0] : params, method.getParameterTypes());
     return method.invoke(instance, actualArgs);
   }
 
