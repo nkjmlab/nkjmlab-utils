@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.BiConsumer;
-
-import org.nkjmlab.sorm4j.internal.util.Try;
-
+import org.nkjmlab.sorm4j.util.function.exception.Try;
 import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue.Consumer;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.ContainerProvider;

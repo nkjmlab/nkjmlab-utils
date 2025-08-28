@@ -6,7 +6,7 @@ cd /d %CURRENT_DIR%
 cd ../
 
 set JAVA_HOME=%JAVA_17_HOME%
-set PATH=%JAVA_HOME%/bin;%PATH%
+set PATH=%GnuPG%\bin;%MAVEN_HOME%\bin;%JAVA_HOME%\bin;%PATH%
 
 @echo on
 java -version

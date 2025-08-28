@@ -1,14 +1,12 @@
 package org.nkjmlab.util.poi;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.junit.jupiter.api.Test;
-import org.nkjmlab.sorm4j.internal.util.Try;
+import org.nkjmlab.sorm4j.util.function.exception.Try;
 
 class BasicExcelSheetTest {
   private static BasicExcelSheet excelSheet =

@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Optional;
-
-import org.nkjmlab.sorm4j.internal.util.Try;
-
+import org.nkjmlab.sorm4j.util.function.exception.Try;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.firebase.auth.FirebaseToken;
 

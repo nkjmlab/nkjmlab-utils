@@ -1,14 +1,12 @@
 package org.nkjmlab.util.firebase.auth;
 
 import java.util.Optional;
-
 import org.nkjmlab.sorm4j.Sorm;
-import org.nkjmlab.sorm4j.util.h2.H2BasicTable;
-import org.nkjmlab.sorm4j.util.h2.datasource.H2DataSourceFactory;
-
+import org.nkjmlab.sorm4j.extension.h2.datasource.H2DataSourceFactory;
+import org.nkjmlab.sorm4j.extension.h2.orm.table.definition.H2DefinedTableBase;
 import com.google.firebase.auth.FirebaseToken;
 
-public class FirebaseSigninSessionsTable extends H2BasicTable<FirebaseSigninSession> {
+public class FirebaseSigninSessionsTable extends H2DefinedTableBase<FirebaseSigninSession> {
 
   public FirebaseSigninSessionsTable(Sorm sorm) {
     super(sorm, FirebaseSigninSession.class);

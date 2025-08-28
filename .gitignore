@@ -9,5 +9,17 @@ hs_err_pid*
 /build/core-coveralls.bat
 /build/helper-coveralls.bat
 /build/coverall.bat
-/nkjmlab-utils-core/pom.xml.versionsBackup
-/nkjmlab-utils-helper/pom.xml.versionsBackup
+
+
+# Documents
+*.pptx
+*.ppt
+*.xlsx
+*.xls
+*.docx
+*.doc
+*.pdf
+
+# Bakup
+*.versionsBackup
+*.bak

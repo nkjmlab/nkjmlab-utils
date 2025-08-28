@@ -8,9 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
-import org.nkjmlab.sorm4j.internal.util.Try;
-
+import org.nkjmlab.sorm4j.util.function.exception.Try;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;

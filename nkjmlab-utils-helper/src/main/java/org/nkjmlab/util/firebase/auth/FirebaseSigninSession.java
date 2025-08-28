@@ -1,13 +1,11 @@
 package org.nkjmlab.util.firebase.auth;
 
 import java.time.LocalDateTime;
-import org.nkjmlab.sorm4j.annotation.OrmRecord;
-import org.nkjmlab.sorm4j.util.table_def.annotation.Index;
-import org.nkjmlab.sorm4j.util.table_def.annotation.NotNull;
-import org.nkjmlab.sorm4j.util.table_def.annotation.PrimaryKey;
+import org.nkjmlab.sorm4j.table.definition.annotation.Index;
+import org.nkjmlab.sorm4j.table.definition.annotation.NotNull;
+import org.nkjmlab.sorm4j.table.definition.annotation.PrimaryKey;
 import com.google.firebase.auth.FirebaseToken;
 
-@OrmRecord
 public record FirebaseSigninSession(@PrimaryKey String sessionId, @Index String email,
     String username, @NotNull LocalDateTime loginAt) {
 

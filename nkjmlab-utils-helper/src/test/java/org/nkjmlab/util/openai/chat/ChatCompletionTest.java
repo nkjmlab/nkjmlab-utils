@@ -2,18 +2,17 @@ package org.nkjmlab.util.openai.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
+import java.nio.file.Paths;
+
 import org.nkjmlab.util.openai.chat.model.ChatResponse;
 
 class ChatCompletionTest {
 
-  @Test
-  void test() {
-    ChatResponse res =
-        ChatCompletion.builder()
-            .apiKeyFromProperties("/conf/openai4j.properties")
-            .build()
-            .createCompletion("What do you think would be good for dinner tonight?");
-    assertThat(res.choices().size()).isNotEqualTo(0);
-  }
+	void test() {
+		ChatResponse res = ChatCompletion.builder()
+				.apiKeyFromProperties(
+						Paths.get(System.getProperty("user.home"), ".openai", "openai4j.properties").toString())
+				.build().createCompletion("What do you think would be good for dinner tonight?");
+		assertThat(res.choices().size()).isNotEqualTo(0);
+	}
 }
